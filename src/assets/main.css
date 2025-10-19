@@ -1,0 +1,10 @@
+@import 'tailwindcss';
+@layer base {
+  button:hover {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid theme(colors.red.500);
+    outline-offset: 2px;
+  }
+}
