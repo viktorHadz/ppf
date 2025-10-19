@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue'
+import { useRoute } from 'vue-router'
 import {
     Disclosure,
     DisclosureButton,
@@ -12,22 +13,23 @@ import {
 } from '@heroicons/vue/24/outline'
 import logo from '@/assets/logo.svg'
 
+const route = useRoute()
+
 const navigation = [
-    { name: 'Начало', href: '/', current: true },
+    { name: 'Начало', href: '/' },
     {
         name: 'Услуги',
         href: '/услуги',
-        current: false,
         children: [
-            { name: 'Фолиране', href: '/фолиране', current: false },
-            { name: 'Застраховане', href: '/застраховане', current: false },
-            { name: 'Плотери', href: '/плотери', current: false },
+            { name: 'Фолиране', href: '/фолиране' },
+            { name: 'Застраховане', href: '/застраховане' },
+            { name: 'Плотери', href: '/плотери' },
         ],
     },
-    { name: 'Цени', href: '/цени', current: false },
-    { name: 'Галерия', href: '/галерия', current: false },
-    { name: 'Екипа', href: '/екип', current: false },
-    { name: 'Контакт', href: '/контакт', current: false },
+    { name: 'Цени', href: '/цени' },
+    { name: 'Галерия', href: '/галерия' },
+    { name: 'Екипа', href: '/екип' },
+    { name: 'Контакт', href: '/контакт' },
 ]
 
 const openStates = ref({})
@@ -38,6 +40,12 @@ const toggleDropdown = (name) => {
 
 const setOpen = (name, state) => {
     openStates.value[name] = state
+}
+
+// ✅ Check if a parent item should appear active based on current route
+const isParentActive = (item) => {
+    if (!item.children) return false
+    return item.children.some((child) => route.path.startsWith(child.href))
 }
 </script>
 
@@ -68,12 +76,16 @@ const setOpen = (name, state) => {
                             <div v-if="item.children" class="relative group" @mouseenter="setOpen(item.name, true)"
                                 @mouseleave="setOpen(item.name, false)">
                                 <button @click="toggleDropdown(item.name)"
-                                    class="flex items-center space-x-1.5 px-4 h-20 text-zinc-300 hover:text-white transition-all duration-200 relative border-l border-r border-transparent hover:border-zinc-800/50 hover:bg-zinc-900/30">
+                                    class="flex items-center space-x-1.5 px-4 h-20 text-zinc-300 hover:text-white transition-all duration-200 relative border-l border-r border-transparent hover:border-zinc-800/50 hover:bg-zinc-900/30"
+                                    :class="{
+                                        'text-red-500 border-zinc-800/50': isParentActive(item)
+                                    }">
                                     <span class="text-sm font-medium tracking-wide uppercase">{{ item.name }}</span>
                                     <ChevronDownIcon class="size-3.5 text-zinc-500 transition-transform duration-300"
                                         :class="{ 'rotate-180': openStates[item.name] }" />
                                     <span
-                                        class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+                                        class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent transition-transform duration-300"
+                                        :class="isParentActive(item) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                                 </button>
 
                                 <div class="absolute left-0 right-0 bottom-[-12px] h-[12px]"></div>
@@ -87,7 +99,9 @@ const setOpen = (name, state) => {
                                     <div v-show="openStates[item.name]"
                                         class="absolute left-0 top-full w-56 bg-black border border-zinc-800/50 shadow-2xl">
                                         <RouterLink v-for="child in item.children" :key="child.name" :to="child.href"
-                                            class="block px-5 py-3 text-sm text-zinc-400 hover:text-white hover:bg-zinc-900 border-b border-zinc-800/30 last:border-b-0 transition-all duration-200 tracking-wide uppercase">
+                                            class="block px-5 py-3 text-sm text-zinc-400 hover:text-white hover:bg-zinc-900 border-b border-zinc-800/30 last:border-b-0 transition-all duration-200 tracking-wide uppercase"
+                                            active-class="text-white border-l-2 border-red-600 bg-zinc-900/30"
+                                            exact-active-class="text-white border-l-2 border-red-600 bg-zinc-900/30">
                                             {{ child.name }}
                                         </RouterLink>
                                     </div>
@@ -96,16 +110,14 @@ const setOpen = (name, state) => {
 
                             <!-- ITEMS WITHOUT CHILDREN -->
                             <div v-else class="relative group">
-                                <RouterLink :to="item.href" :class="[
-                                    item.current
-                                        ? 'text-red-500 border-zinc-800/50'
-                                        : 'text-zinc-300 hover:text-white border-transparent hover:border-zinc-800/50',
-                                    'flex items-center px-4 h-20 text-sm font-medium tracking-wide uppercase transition-all duration-200 relative border-l border-r hover:bg-zinc-900/30',
-                                ]">
+                                <RouterLink :to="item.href"
+                                    class="flex items-center px-4 h-20 text-sm font-medium tracking-wide uppercase transition-all duration-200 relative border-l border-r hover:bg-zinc-900/30 text-zinc-300 hover:text-white border-transparent hover:border-zinc-800/50"
+                                    active-class="text-red-500 border-zinc-800/50"
+                                    exact-active-class="text-red-500 border-zinc-800/50">
                                     {{ item.name }}
                                     <span
-                                        class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent transition-transform duration-300"
-                                        :class="item.current ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
+                                        class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent transition-transform duration-300 scale-x-0 group-hover:scale-x-100"
+                                        :class="$route.path === item.href ? 'scale-x-100' : ''"></span>
                                 </RouterLink>
                             </div>
                         </template>
@@ -120,7 +132,8 @@ const setOpen = (name, state) => {
                 <div v-for="item in navigation" :key="item.name">
                     <div v-if="item.children">
                         <button @click="toggleDropdown(item.name)"
-                            class="flex w-full items-center justify-between border-b border-zinc-800/30 px-3 py-3 text-sm font-medium text-zinc-300 hover:text-red-500 transition-all duration-200 tracking-wide uppercase">
+                            class="flex w-full items-center justify-between border-b border-zinc-800/30 px-3 py-3 text-sm font-medium text-zinc-300 hover:text-red-500 transition-all duration-200 tracking-wide uppercase"
+                            :class="{ 'text-red-500': isParentActive(item) }">
                             <span>{{ item.name }}</span>
                             <ChevronDownIcon class="size-4 text-zinc-500 transition-transform duration-300"
                                 :class="{ 'rotate-180': openStates[item.name] }" />
@@ -133,22 +146,21 @@ const setOpen = (name, state) => {
                             leave-from-class="opacity-100 translate-y-0 max-h-40"
                             leave-to-class="opacity-0 -translate-y-2 max-h-0">
                             <div v-show="openStates[item.name]" class="overflow-hidden bg-zinc-900/30">
-                                <a v-for="child in item.children" :key="child.name" :href="child.href"
-                                    class="block px-6 py-2.5 text-sm text-zinc-400 hover:text-white border-l-2 border-transparent hover:border-red-600 transition-all duration-200 tracking-wide uppercase">
+                                <RouterLink v-for="child in item.children" :key="child.name" :to="child.href"
+                                    class="block px-6 py-2.5 text-sm text-zinc-400 hover:text-white border-l-2 border-transparent hover:border-red-600 transition-all duration-200 tracking-wide uppercase"
+                                    active-class="text-white border-red-600 bg-zinc-900/30"
+                                    exact-active-class="text-white border-red-600 bg-zinc-900/30">
                                     {{ child.name }}
-                                </a>
+                                </RouterLink>
                             </div>
                         </transition>
                     </div>
 
-                    <a v-else :href="item.href" :class="[
-                        item.current
-                            ? 'text-red-500 border-b-red-600'
-                            : 'text-zinc-300 hover:text-white border-b-zinc-800/30',
-                        'block px-3 py-3 text-sm font-medium transition-all duration-200 border-b tracking-wide uppercase',
-                    ]" :aria-current="item.current ? 'page' : undefined">
+                    <RouterLink v-else :to="item.href"
+                        class="block px-3 py-3 text-sm font-medium transition-all duration-200 border-b tracking-wide uppercase text-zinc-300 hover:text-white border-b-zinc-800/30 hover:border-b-zinc-700"
+                        active-class="text-red-500 border-b-red-600" exact-active-class="text-red-500 border-b-red-600">
                         {{ item.name }}
-                    </a>
+                    </RouterLink>
                 </div>
             </div>
         </DisclosurePanel>
