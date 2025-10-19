@@ -22,7 +22,7 @@ const navigation = [
         href: '/услуги',
         children: [
             { name: 'Фолиране', href: '/фолиране' },
-            { name: 'Застраховане', href: '/застраховане' },
+            { name: 'Застраховки', href: '/застраховки' },
             { name: 'Плотери', href: '/плотери' },
         ],
     },
@@ -42,7 +42,7 @@ const setOpen = (name, state) => {
     openStates.value[name] = state
 }
 
-// ✅ Check if a parent item should appear active based on current route
+// Checks if a parent item should appear active based on current route
 const isParentActive = (item) => {
     if (!item.children) return false
     return item.children.some((child) => route.path.startsWith(child.href))
@@ -50,11 +50,11 @@ const isParentActive = (item) => {
 </script>
 
 <template>
-    <Disclosure as="nav" class="relative bg-black border-b border-zinc-800/50" v-slot="{ open }">
+    <Disclosure as="nav" class="relative bg-black border-b border-zinc-800/50 z-[100]" v-slot="{ open }">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
             <div class="relative flex h-20 items-center justify-between">
                 <!-- MOBILE MENU BUTTON -->
-                <div class="absolute inset-y-0 right-0 flex items-center sm:hidden">
+                <div class="absolute inset-y-0 right-0 flex items-center md:hidden">
                     <DisclosureButton
                         class="relative inline-flex items-center justify-center p-2.5 text-zinc-400 hover:text-red-500 hover:bg-zinc-900/50 border border-zinc-800 transition-all duration-200">
                         <span class="sr-only">Главно меню</span>
@@ -70,7 +70,7 @@ const isParentActive = (item) => {
                     </div>
 
                     <!-- DESKTOP NAV -->
-                    <div class="hidden sm:flex sm:space-x-1 ml-6 my-auto relative">
+                    <div class="hidden md:flex md:space-x-1 ml-6 my-auto relative">
                         <template v-for="item in navigation" :key="item.name">
                             <!-- ITEMS WITH CHILDREN -->
                             <div v-if="item.children" class="relative group" @mouseenter="setOpen(item.name, true)"
@@ -81,15 +81,15 @@ const isParentActive = (item) => {
                                         'text-red-500 border-zinc-800/50': isParentActive(item)
                                     }">
                                     <span class="text-sm font-medium tracking-wide uppercase">{{ item.name }}</span>
-                                    <ChevronDownIcon class="size-3.5 text-zinc-500 transition-transform duration-300"
+                                    <ChevronDownIcon
+                                        class="size-4 text-zinc-500 transition-transform duration-300 group-hover:text-white"
                                         :class="{ 'rotate-180': openStates[item.name] }" />
                                     <span
-                                        class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent transition-transform duration-300"
+                                        class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-500 to-transparent transition-transform duration-300"
                                         :class="isParentActive(item) ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
                                 </button>
 
                                 <div class="absolute left-0 right-0 bottom-[-12px] h-[12px]"></div>
-
                                 <transition enter-active-class="transition duration-200 ease-out"
                                     enter-from-class="opacity-0 -translate-y-2"
                                     enter-to-class="opacity-100 translate-y-0"
@@ -99,25 +99,35 @@ const isParentActive = (item) => {
                                     <div v-show="openStates[item.name]"
                                         class="absolute left-0 top-full w-56 bg-black border border-zinc-800/50 shadow-2xl">
                                         <RouterLink v-for="child in item.children" :key="child.name" :to="child.href"
-                                            class="block px-5 py-3 text-sm text-zinc-400 hover:text-white hover:bg-zinc-900 border-b border-zinc-800/30 last:border-b-0 transition-all duration-200 tracking-wide uppercase"
-                                            active-class="text-white border-l-2 border-red-600 bg-zinc-900/30"
-                                            exact-active-class="text-white border-l-2 border-red-600 bg-zinc-900/30">
-                                            {{ child.name }}
+                                            custom v-slot="{ href, navigate, isExactActive }">
+                                            <a :href="href" @click="navigate" :class="[
+                                                'block px-5 py-3 text-sm transition-all duration-200 tracking-wide uppercase border-b border-zinc-800/30 last:border-b-0 border-l-2',
+                                                isExactActive
+                                                    ? 'text-white border-l-red-500 bg-zinc-900/30'               // ← left border visible when active
+                                                    : 'text-zinc-400 border-l-transparent hover:text-white hover:bg-zinc-900 hover:border-l-red-500' // ← left border on hover
+                                            ]">
+                                                {{ child.name }}
+                                            </a>
                                         </RouterLink>
                                     </div>
                                 </transition>
+
                             </div>
 
                             <!-- ITEMS WITHOUT CHILDREN -->
                             <div v-else class="relative group">
-                                <RouterLink :to="item.href"
-                                    class="flex items-center px-4 h-20 text-sm font-medium tracking-wide uppercase transition-all duration-200 relative border-l border-r hover:bg-zinc-900/30 text-zinc-300 hover:text-white border-transparent hover:border-zinc-800/50"
-                                    active-class="text-red-500 border-zinc-800/50"
-                                    exact-active-class="text-red-500 border-zinc-800/50">
-                                    {{ item.name }}
-                                    <span
-                                        class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-600 to-transparent transition-transform duration-300 scale-x-0 group-hover:scale-x-100"
-                                        :class="$route.path === item.href ? 'scale-x-100' : ''"></span>
+                                <RouterLink :to="item.href" custom v-slot="{ href, navigate, isExactActive }">
+                                    <a :href="href" @click="navigate" :class="[
+                                        'flex items-center px-4 h-20 text-sm font-medium tracking-wide uppercase transition-all duration-200 relative border-l border-r hover:bg-zinc-900/30',
+                                        isExactActive
+                                            ? 'text-white border-zinc-800/50'
+                                            : 'text-zinc-300 hover:text-white border-transparent hover:border-zinc-800/50'
+                                    ]">
+                                        {{ item.name }}
+                                        <span
+                                            class="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-red-500 to-transparent transition-transform duration-300"
+                                            :class="isExactActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'"></span>
+                                    </a>
                                 </RouterLink>
                             </div>
                         </template>
@@ -127,13 +137,16 @@ const isParentActive = (item) => {
         </div>
 
         <!-- MOBILE MENU -->
-        <DisclosurePanel class="sm:hidden">
+        <DisclosurePanel class="md:hidden">
             <div class="space-y-0 px-4 pt-3 pb-4 border-t border-zinc-800/50 bg-black">
                 <div v-for="item in navigation" :key="item.name">
+                    <!-- MOBILE WITH CHILDREN -->
                     <div v-if="item.children">
                         <button @click="toggleDropdown(item.name)"
-                            class="flex w-full items-center justify-between border-b border-zinc-800/30 px-3 py-3 text-sm font-medium text-zinc-300 hover:text-red-500 transition-all duration-200 tracking-wide uppercase"
-                            :class="{ 'text-red-500': isParentActive(item) }">
+                            class="flex w-full items-center justify-between px-3 py-3 text-sm font-medium uppercase tracking-wide border-b transition-all duration-200"
+                            :class="isParentActive(item)
+                                ? 'text-red-500 border-zinc-800/30'
+                                : 'text-zinc-300 border-zinc-800/30 hover:text-red-500'">
                             <span>{{ item.name }}</span>
                             <ChevronDownIcon class="size-4 text-zinc-500 transition-transform duration-300"
                                 :class="{ 'rotate-180': openStates[item.name] }" />
@@ -147,18 +160,22 @@ const isParentActive = (item) => {
                             leave-to-class="opacity-0 -translate-y-2 max-h-0">
                             <div v-show="openStates[item.name]" class="overflow-hidden bg-zinc-900/30">
                                 <RouterLink v-for="child in item.children" :key="child.name" :to="child.href"
-                                    class="block px-6 py-2.5 text-sm text-zinc-400 hover:text-white border-l-2 border-transparent hover:border-red-600 transition-all duration-200 tracking-wide uppercase"
-                                    active-class="text-white border-red-600 bg-zinc-900/30"
-                                    exact-active-class="text-white border-red-600 bg-zinc-900/30">
+                                    class="block px-6 py-2.5 text-sm uppercase tracking-wide border-l-2 transition-all duration-200"
+                                    :class="route.path === child.href
+                                        ? 'text-white border-red-500 bg-zinc-900/30'
+                                        : 'text-zinc-400 border-transparent hover:text-white hover:border-red-500'">
                                     {{ child.name }}
                                 </RouterLink>
                             </div>
                         </transition>
                     </div>
 
+                    <!-- MOBILE WITHOUT CHILDREN -->
                     <RouterLink v-else :to="item.href"
-                        class="block px-3 py-3 text-sm font-medium transition-all duration-200 border-b tracking-wide uppercase text-zinc-300 hover:text-white border-b-zinc-800/30 hover:border-b-zinc-700"
-                        active-class="text-red-500 border-b-red-600" exact-active-class="text-red-500 border-b-red-600">
+                        class="block px-3 py-3 text-sm font-medium uppercase tracking-wide border-b transition-all duration-200"
+                        :class="route.path === item.href
+                            ? 'text-red-500 border-b-red-500'
+                            : 'text-zinc-300 border-b-zinc-800/30 hover:text-red-500 hover:border-b-zinc-700'">
                         {{ item.name }}
                     </RouterLink>
                 </div>
