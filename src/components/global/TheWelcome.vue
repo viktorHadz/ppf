@@ -7,102 +7,53 @@ defineProps({
 })
 </script>
 
-<style scoped>
-@keyframes drift {
-    0% {
-        transform: translate(-100px, -100px);
-    }
-
-    25% {
-        transform: translate(calc(100vw - 400px), 100px);
-    }
-
-    50% {
-        transform: translate(calc(100vw - 300px), calc(100% - 300px));
-    }
-
-    75% {
-        transform: translate(200px, calc(100% - 200px));
-    }
-
-    100% {
-        transform: translate(-100px, -100px);
-    }
-}
-</style>
-
 <template>
     <div class="relative bg-black overflow-hidden">
-        <!-- Subtle grid pattern overlay -->
-        <div
-            class="absolute inset-0 bg-[linear-gradient(to_right,#18181b_1px,transparent_1px),linear-gradient(to_bottom,#18181b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20">
-        </div>
+        <!-- Grid pattern with radial mask -->
+        <div class="absolute inset-0 grid-el mask-radial-from-40% mask-radial-to-80% mask-radial-at-center"></div>
 
-        <!-- Animated red glow moving across grid -->
-        <div class="absolute inset-0 opacity-30">
-            <div
-                class="absolute w-[500px] h-[500px] bg-red-600/20 rounded-full blur-[100px] animate-[drift_15s_ease-in-out_infinite]">
-            </div>
-        </div>
-
-        <!-- Gradient accent -->
+        <!-- Gradient overlay -->
         <div class="absolute inset-0 bg-gradient-to-b from-zinc-900/50 via-transparent to-black/80"></div>
 
         <div class="relative px-6 pt-14 lg:px-8">
             <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
                 <div class="text-center space-y-8">
-                    <!-- Title -->
-                    <h1 class="text-5xl font-bold tracking-tight text-white sm:text-7xl uppercase">
-                        <slot name="title">
-                            Default Title
-                        </slot>
+                    <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl uppercase">
+                        <slot name="title">Default Title</slot>
                     </h1>
 
-                    <!-- Decorative divider -->
-                    <div class="flex items-center justify-center gap-4">
-                        <div class="h-[2px] w-16 bg-gradient-to-r from-transparent to-red-600"></div>
-                        <div class="h-2 w-2 rotate-45 bg-red-600"></div>
-                        <div class="h-[2px] w-16 bg-gradient-to-l from-transparent to-red-600"></div>
-                    </div>
 
-                    <!-- Subtitle -->
-                    <p class="mt-8 text-lg font-medium text-zinc-400 sm:text-xl tracking-wide">
-                        <slot name="under-title">
-                            Default subtitle text
-                        </slot>
+                    <p class="text-lg font-medium text-zinc-400 sm:text-xl tracking-wide">
+                        <slot name="under-title">Default subtitle text</slot>
                     </p>
 
-                    <!-- Optional CTA Buttons -->
                     <div v-if="showButtons" class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-                        <slot name="primary-button">
-                            <button
-                                class="group relative px-8 py-3.5 bg-red-600 text-white font-medium text-sm uppercase tracking-wider border border-red-600 overflow-hidden transition-all duration-300 hover:bg-red-700 hover:border-red-700">
-                                <span class="relative z-10">Запази Час</span>
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-700">
-                                </div>
-                            </button>
-                        </slot>
+                        <button
+                            class="px-8 py-3.5 bg-red-600 text-white font-medium text-sm uppercase tracking-wider border border-red-600 transition-all duration-300 hover:bg-red-700 rounded hover:scale-105 active:scale-90">
+                            <slot name="primary-button">
+                                Бутон 1
+                            </slot>
+                        </button>
 
-                        <slot name="secondary-button">
-                            <button
-                                class="px-8 py-3.5 bg-transparent text-zinc-300 font-medium text-sm uppercase tracking-wider border border-zinc-700 transition-all duration-300 hover:border-red-600 hover:text-white hover:bg-zinc-900/50">
-                                Научи Повече
-                            </button>
-                        </slot>
+                        <button
+                            class="px-8 py-3.5 bg-transparent text-zinc-300 font-medium text-sm uppercase tracking-wider border border-zinc-700 transition-all duration-300  hover:text-black hover:bg-white rounded hover:scale-105 active:scale-90">
+                            <slot name="secondary-button">
+                                Бутон 2
+                            </slot>
+                        </button>
                     </div>
 
-                    <!-- Custom action slot -->
                     <div v-if="$slots.actions" class="mt-10">
                         <slot name="actions"></slot>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Bottom accent line -->
-        <div
-            class="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-zinc-800 to-transparent">
-        </div>
     </div>
 </template>
+
+<style scoped>
+.grid-el {
+    background-image: url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='29' height='50.115' patternTransform='scale(2) rotate(15)'><rect x='0' y='0' width='100%' height='100%' fill='none'/><path d='M14.498 16.858L0 8.488.002-8.257l14.5-8.374L29-8.26l-.002 16.745zm0 50.06L0 58.548l.002-16.745 14.5-8.373L29 41.8l-.002 16.744zM28.996 41.8l-14.498-8.37.002-16.744L29 8.312l14.498 8.37-.002 16.745zm-29 0l-14.498-8.37.002-16.744L0 8.312l14.498 8.37-.002 16.745z'  stroke-width='0.1' stroke='%23ffffff3d' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(-60,-141.69)' fill='url(%23a)'/></svg>")
+}
+</style>
