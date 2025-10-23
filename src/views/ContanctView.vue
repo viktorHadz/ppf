@@ -1,4 +1,4 @@
 <script setup></script>
 <template>
-    <div>Contact</div>
+  <div class="bg-red-600">Contact</div>
 </template>

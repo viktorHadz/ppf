@@ -1,6 +1,11 @@
 <script setup>
+import { ArrowDownCircleIcon } from '@heroicons/vue/24/outline'
 defineProps({
     showButtons: {
+        type: Boolean,
+        default: false
+    },
+    showScrollDownIcon: {
         type: Boolean,
         default: false
     }
@@ -40,6 +45,12 @@ defineProps({
                             <slot name="secondary-button">
                                 Бутон 2
                             </slot>
+                        </button>
+                    </div>
+                    <div v-if="showScrollDownIcon">
+                        <button class="mt-20">
+                            <ArrowDownCircleIcon
+                                class="size-12  stroke-white transition-all duration-300 hover:stroke-red-600 hover:scale-105 active:scale-90" />
                         </button>
                     </div>
 

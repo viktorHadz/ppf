@@ -3,7 +3,7 @@ import TheWelcome from '@/components/global/TheWelcome.vue'
 </script>
 <template>
   <TheWelcome :show-scroll-down-icon="true">
-    <template #title>ППФ</template>
-    <template #under-title> Професионален детайлинг и сладолед</template>
+    <template #title></template>
+    <template #under-title> Застраховай сладоледта с нас</template>
   </TheWelcome>
 </template>

@@ -1,15 +1,9 @@
+<script setup>
+import TheWelcome from '@/components/global/TheWelcome.vue'
+</script>
 <template>
-  <div class="about">
-    <h1>This is an about the team page</h1>
-  </div>
+  <TheWelcome :show-scroll-down-icon="true">
+    <template #title>Екип</template>
+    <template #under-title> Хората които ще купят сладоледта </template>
+  </TheWelcome>
 </template>
-
-<style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
-</style>
