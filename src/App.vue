@@ -1,7 +1,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
 import TheNav from './components/global/TheNav.vue'
-
+import TheFooter from './components/global/TheFooter.vue'
 </script>
 
 <template>
@@ -10,6 +10,10 @@ import TheNav from './components/global/TheNav.vue'
   </header>
 
   <RouterView />
+
+  <footer>
+    <TheFooter />
+  </footer>
 </template>
 
 <style scoped></style>
