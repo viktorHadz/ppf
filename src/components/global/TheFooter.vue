@@ -101,7 +101,7 @@ const navigation = {
 </script>
 <template>
   <footer class="bg-zinc-950">
-    <div class="mx-auto max-w-7xl px-6 py-16 sm:py-24 lg:px-8 lg:py-32">
+    <div class="mx-auto max-w-7xl px-6 pb-8 sm:pb-12 lg:pb-16 pt-16 sm:pt-24 lg:px-8 lg:pt-32">
       <div class="mx-auto max-w-2xl text-center">
         <hgroup>
           <h2 class="text-base/7 font-semibold text-red-500">Свържи се с нас</h2>

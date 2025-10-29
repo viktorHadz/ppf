@@ -176,21 +176,19 @@ const team = [
           <img
             :src="detailingPurple"
             alt="Luxury car protection film application"
-            class="sm:w-[70%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.03]"
+            class="lg:w-[90%] xl:w-[80%] sm:w-[50%] w-[70%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
           />
         </div>
 
         <!-- Right Text -->
-        <div class="w-full lg:w-1/2 text-center lg:text-right isolate">
-          <h2 class="text-5xl font-semibold tracking-tight text-pretty text-white sm:text-6xl">
-            Нашата мисия
-          </h2>
-          <p class="mt-8 text-pretty sm:max-w-md lg:max-w-none ml-auto text-lg/8 text-gray-400">
+        <div class="w-full lg:w-1/2 text-center lg:text-right isolate text-pretty">
+          <h2 class="text-5xl font-semibold tracking-tight text-white sm:text-6xl">Нашата мисия</h2>
+          <p class="mt-8 sm:max-w-md lg:max-w-none mx-auto text-lg/8 text-gray-400">
             В <span class="text-red-500 font-semibold">ИДО ГРУП</span> вярваме, че автомобилът е
             повече от превозно средство той е отражение на личен стил и характер. Нашата мисия е да
             съхраним това съвършенство чрез технологии от най-висок клас и майсторство.
           </p>
-          <p class="mt-10 text-pretty sm:max-w-md lg:max-w-none ml-auto text-lg/8 text-gray-400">
+          <p class="mt-10 sm:max-w-md lg:max-w-none mx-auto text-lg/8 text-gray-400">
             Всеки наш проект започва с внимателно разбиране на нуждите на клиента и завършва с
             резултат, който вдъхновява доверие. Независимо дали става дума за защита с PPF фолио,
             стъкло-затъмняване, или корекция на лак ние работим с прецизност, етика и страст към
@@ -209,7 +207,7 @@ const team = [
           Хората зад ИДО ГРУП
         </p>
         <p class="mt-6 text-lg text-gray-400 leading-relaxed">
-          Всеки проект е отражение на нашите ценности – внимание към детайла, уважение към клиента и
+          Всеки проект е отражение на нашите ценности внимание към детайла, уважение към клиента и
           стремеж към съвършенство. Екипът на ИДО ГРУП съчетава страст и комбинативно мислене, за да
           предложи решения, които надминават очакванията.
         </p>
@@ -230,7 +228,7 @@ const team = [
             <img
               :src="person.image"
               :alt="person.name"
-              class="w-96 h-96 object-cover rounded shadow-2xl ring-1 ring-zinc-800 transition-transform duration-700 hover:scale-[1.03]"
+              class="w-96 h-96 object-cover rounded shadow-2xl ring-1 ring-zinc-800 transition-transform duration-700 hover:scale-[1.02]"
             />
           </div>
 
