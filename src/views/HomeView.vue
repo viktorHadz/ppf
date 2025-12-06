@@ -61,10 +61,13 @@ const features2 = [
 </script>
 <template>
   <TheWelcome :show-buttons="true">
-    <template #title>ппф експерти</template>
-    <template #under-title>Орлин и Иван да черпят Виктор сладолед</template>
-    <template #primary-button>Запази Час</template>
-    <template #secondary-button>Научи Повече</template>
+    <template #title
+      >Елитна визия <br />
+      премиум защита</template
+    >
+    <template #under-title>сложи клипа като фон със бутон - за максимизиране и звук</template>
+    <template #primary-button>запитване</template>
+    <template #secondary-button>портфолио</template>
   </TheWelcome>
 
   <div class="bg-zinc-900 py-24 sm:py-32">
@@ -135,6 +138,7 @@ const features2 = [
           class="mt-16 grid grid-cols-1 gap-0.5 overflow-hidden rounded text-center sm:grid-cols-2 lg:grid-cols-4"
         >
           <div v-for="stat in stats" :key="stat.id" class="flex flex-col bg-zinc-800 p-8">
+            <p class="text-orange-400">sloji snimka tuk bg image</p>
             <dt class="text-sm/6 font-semibold text-red-500">{{ stat.name }}</dt>
             <dd class="order-first text-3xl font-semibold tracking-tight text-gray-200">
               {{ stat.value }}

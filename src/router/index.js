@@ -7,6 +7,7 @@ const routes = [
   { path: '/екип', name: 'Екипа', component: () => import('@/views/TeamView.vue') },
   { path: '/контакт', name: 'Контакт', component: () => import('@/views/ContanctView.vue') },
   { path: '/фолиране', name: 'Фолиране', component: () => import('@/views/PpfView.vue') },
+  { path: '/детайлинг', name: 'Детайлинг', component: () => import('@/views/DetailingView.vue') },
   { path: '/застраховки', name: 'Застраховки', component: () => import('@/views/InsuranceView.vue') },
   { path: '/плотери', name: 'Плотери', component: () => import('@/views/PloterView.vue') },
   { path: '/затъмняване', name: 'Затъмняване', component: () => import('@/views/GlassDarkeningView.vue') },

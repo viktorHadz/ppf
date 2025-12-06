@@ -13,10 +13,11 @@ const navigation = [
     name: 'Услуги',
     href: '/услуги',
     children: [
-      { name: 'Фолиране', href: '/фолиране' },
-      { name: 'Затъмняване', href: '/затъмняване' },
-      { name: 'Застраховки', href: '/застраховки' },
-      { name: 'Плотери', href: '/плотери' },
+      { name: 'Фолиране на Автомобил', href: '/фолиране' },
+      { name: 'Затъмняване на Стъкла', href: '/затъмняване' },
+      { name: 'Авто Детайлинг', href: '/детайлинг' },
+      { name: 'Авто Застраховки', href: '/застраховки' },
+      { name: 'Консумативи и Плотери', href: '/плотери' },
     ],
   },
   { name: 'Галерия', href: '/галерия' },
@@ -64,6 +65,10 @@ const isParentActive = (item) => {
         <div class="flex flex-1 items-start justify-start sm:items-stretch sm:justify-between">
           <div class="flex shrink-0 items-center">
             <img class="h-14 sm:h-16 w-auto" :src="logo" alt="ИДО ГРУП" />
+            <div class="ml-4">
+              <p class="text-white tracking-widest font-black text-2xl">IDO</p>
+              <p class="text-white tracking-tight text-sm">GROUP</p>
+            </div>
           </div>
 
           <!-- DESKTOP NAV -->
