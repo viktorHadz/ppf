@@ -1,6 +1,20 @@
 <script setup>
 import TheButton from '@/components/global/TheButton.vue'
-import { computed, reactive } from 'vue'
+import { ChevronDownIcon } from '@heroicons/vue/24/outline'
+import { ref, computed, reactive } from 'vue'
+
+const selectClass =
+  'w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 ' +
+  'px-4 py-3 pr-10 text-sm appearance-none ' +
+  'focus:outline-none focus:ring-2 focus:ring-red-500/60'
+
+
+// For chevron animation - focus states (kept explicit on purpose)
+const folioFocused = ref(false)
+const coverageFocused = ref(false)
+const packageFocused = ref(false)
+const windowDarkenFocused = ref(false)
+const detailingFocused = ref(false)
 
 const form = reactive({
   name: '',
@@ -27,7 +41,6 @@ const form = reactive({
   promoCode: '',
   consent: true,
 })
-
 const needsCustomDetails = computed(() => form.package === 'custom')
 
 function submit() {
@@ -38,6 +51,7 @@ function submit() {
   // quick reset (optional)
   // Object.assign(form, { ...defaults })
 }
+
 </script>
 
 <template>
@@ -83,11 +97,12 @@ function submit() {
             placeholder="Напр. BMW 3 Series" />
         </div>
       </div>
+
       <!-- Choose service -->
       <div class="mt-8">
         <h3 class="text-lg font-semibold text-white">Тип на запитване</h3>
         <p class="mt-1 text-sm text-white/60">
-          Изберете услугата която желаете. За специфични нужди или въпроси - моля опишете ги в "Съобщение".
+          Изберете услугата която желаете. За специфични изисквания - моля опишете ги в "Съобщение".
         </p>
         <div class="mt-6 flex items-center justify-around gap-4 w-full">
           <div class="flex flex-col-reverse items-center">
@@ -123,43 +138,61 @@ function submit() {
       <div class="mt-8" v-if="form.selectedService === 'film'">
         <h3 class="text-lg font-semibold text-white">Фолиране</h3>
         <p class="mt-1 text-sm text-white/60">
-          Изберете тип и покритие. Ако имате специфично желание — опишете го в “Собщение”.
+          Изберете тип фолиране и покритие.
         </p>
 
         <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <!-- folio type -->
           <div>
             <label class="block text-sm font-semibold text-white/80">Тип фолио</label>
-            <select v-model="form.folioType" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 text-sm
-                     focus:outline-none focus:ring-2 focus:ring-red-500/60">
-              <option value="" disabled>Изберете...</option>
-              <option value="cveten">Цветен</option>
-              <option value="bezcveten">Безцветен</option>
-            </select>
+
+            <div class="relative mt-2">
+              <select v-model="form.folioType" required :class="selectClass" @focus="folioFocused = true"
+                @blur="folioFocused = false">
+                <option value="" disabled>Изберете...</option>
+                <option value="cveten">Цветен</option>
+                <option value="bezcveten">Безцветен</option>
+              </select>
+
+              <ChevronDownIcon class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2
+                 size-4 text-zinc-500 transition-transform duration-300" :class="{ 'rotate-180': folioFocused }" />
+            </div>
           </div>
 
           <!-- coverage -->
           <div>
             <label class="block text-sm font-semibold text-white/80">Покритие</label>
-            <select v-model="form.coverage" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 text-sm
-                     focus:outline-none focus:ring-2 focus:ring-red-500/60">
-              <option value="" disabled>Изберете...</option>
-              <option value="cqlo">Цялостно</option>
-              <option value="prednica">Предница</option>
-            </select>
+
+            <div class="relative mt-2">
+              <select v-model="form.coverage" required :class="selectClass" @focus="coverageFocused = true"
+                @blur="coverageFocused = false">
+                <option value="" disabled>Изберете...</option>
+                <option value="cqlo">Цялостно</option>
+                <option value="prednica">Предница</option>
+              </select>
+
+              <ChevronDownIcon class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2
+                 size-4 text-zinc-500 transition-transform duration-300" :class="{ 'rotate-180': coverageFocused }" />
+            </div>
           </div>
 
           <!-- packages -->
           <div class="sm:col-span-2">
             <label class="block text-sm font-semibold text-white/80">Пакет</label>
-            <select v-model="form.package" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 text-sm
-                     focus:outline-none focus:ring-2 focus:ring-red-500/60">
-              <option value="" disabled>Изберете...</option>
-              <option value="fenders">Калници (fenders)</option>
-              <option value="hood">Капак (hood)</option>
-              <option value="hood_fenders">Капак + калници (hood & fenders)</option>
-              <option value="custom">Персонално (custom)</option>
-            </select>
+
+            <div class="relative mt-2">
+              <select v-model="form.package" required :class="selectClass" @focus="packageFocused = true"
+                @blur="packageFocused = false">
+                <option value="" disabled>Изберете...</option>
+                <option value="fenders">Калници (fenders)</option>
+                <option value="hood">Капак (hood)</option>
+                <option value="hood_fenders">Капак + калници (hood & fenders)</option>
+                <option value="custom">Персонално (custom)</option>
+              </select>
+
+              <ChevronDownIcon class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2
+                 size-4 text-zinc-500 transition-transform duration-300" :class="{ 'rotate-180': packageFocused }" />
+            </div>
           </div>
 
           <!-- custom text -->
@@ -167,44 +200,59 @@ function submit() {
             <label class="block text-sm font-semibold text-white/80">
               Персонално – опишете зоните/детайлите
             </label>
-            <input v-model.trim="form.customDetails" type="text" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
-                     placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
-              placeholder="Напр. броня + огледала + прагове" />
+            <input v-model.trim="form.customDetails" type="text" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10
+               px-4 py-3 placeholder:text-white/40
+               focus:outline-none focus:ring-2 focus:ring-red-500/60" placeholder="Напр. броня + огледала + прагове" />
           </div>
         </div>
       </div>
 
+
+
       <!-- WindowDarkening block -->
       <div class="mt-8" v-if="form.selectedService === 'darkening'">
-        <div>
-          <label class="block text-sm font-semibold text-white/80">Тип Затъмняване</label>
-          <select v-model="form.windowDarkenType" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 text-sm
-                     focus:outline-none focus:ring-2 focus:ring-red-500/60">
+        <label class="block text-sm font-semibold text-white/80">Тип Затъмняване</label>
+
+        <div class="relative mt-2">
+          <select v-model="form.windowDarkenType" required :class="selectClass" @focus="windowDarkenFocused = true"
+            @blur="windowDarkenFocused = false">
             <option value="" disabled>Изберете...</option>
             <option value="Затъмняване-5%">5% - Най-тъмно</option>
             <option value="Затъмняване-35%">35% - Балансирано затъмняване</option>
             <option value="Затъмняване-50%">50% - Леко затъмняване</option>
             <option value="Затъмняване-70%">70% - UV защита</option>
           </select>
+
+          <ChevronDownIcon class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2
+             size-4 text-zinc-500 transition-transform duration-300" :class="{ 'rotate-180': windowDarkenFocused }" />
         </div>
       </div>
 
+
       <!-- Detailing -->
       <div class="mt-8" v-if="form.selectedService === 'detailing'">
-        <div>
-          <label class="block text-sm font-semibold text-white/80">Тип Детайлинг</label>
-          <select v-model="form.detailingType" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 text-sm
-                     focus:outline-none focus:ring-2 focus:ring-red-500/60">
+        <label class="block text-sm font-semibold text-white/80">Тип Детайлинг</label>
+
+        <div class="relative mt-2">
+          <select v-model="form.detailingType" required :class="selectClass" @focus="detailingFocused = true"
+            @blur="detailingFocused = false">
             <option value="" disabled>Изберете...</option>
-            <option value="Екстериорен детайлинг">Екстериорен детайлинг – измиване, гланц, полиране, защита на боята
+            <option value="Екстериорен детайлинг">
+              Екстериорен детайлинг – измиване, гланц, полиране, защита на боята
             </option>
-            <option value="Интериорен детайлинг">Интериорен детайлинг – почистване на тапицерия, кожа, килими, пластмаси
-              и стъкла</option>
-            <option value="Керамично покритие">Керамично покритие – дълготрайна защита, отблъскваща вода, мръсотия и
-              химикали</option>
+            <option value="Интериорен детайлинг">
+              Интериорен детайлинг – почистване на тапицерия, кожа, килими, пластмаси и стъкла
+            </option>
+            <option value="Керамично покритие">
+              Керамично покритие – дълготрайна защита, отблъскваща вода, мръсотия и химикали
+            </option>
           </select>
+
+          <ChevronDownIcon class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2
+             size-4 text-zinc-500 transition-transform duration-300" :class="{ 'rotate-180': detailingFocused }" />
         </div>
       </div>
+
       <!-- Message -->
       <div class="mt-8">
         <label class="block text-sm font-semibold text-white/80">Съобщение</label>
@@ -225,8 +273,7 @@ function submit() {
 
       <!-- Consent -->
       <div class="mt-6 flex gap-3 items-center">
-        <input id="consent" v-model="form.consent" type="checkbox"
-          class="stop-light" />
+        <input id="consent" v-model="form.consent" type="checkbox" class="stop-light" />
         <label for="consent" class="text-sm text-white/60">
           Съгласен/на съм да бъда потърсен/а по телефон или имейл относно запитването.
         </label>
@@ -236,14 +283,14 @@ function submit() {
       <div class="mt-8 flex flex-col sm:flex-row gap-3">
         <TheButton variant="primary" type="submit">Изпрати запитване</TheButton>
 
-     
+
         <TheButton variant="secondary" type="reset" @click.prevent="
-                  Object.assign(form, {
-                    name: '', phone: '', email: '', carMakeModel: '', message: '',
-                    folioType: '', coverage: '', package: '', customDetails: '',
-                    promoCode: '', consent: true
-                  })
-                  ">
+          Object.assign(form, {
+            name: '', phone: '', email: '', carMakeModel: '', message: '',
+            folioType: '', coverage: '', package: '', customDetails: '',
+            promoCode: '', consent: true
+          })
+          ">
           Изчисти
         </TheButton>
       </div>
