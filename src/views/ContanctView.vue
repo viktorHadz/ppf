@@ -1,4 +1,5 @@
 <script setup>
+import TheButton from '@/components/global/TheButton.vue'
 import { computed, reactive } from 'vue'
 
 const form = reactive({
@@ -7,6 +8,15 @@ const form = reactive({
   email: '',
   carMakeModel: '',
   message: '',
+
+  // Service type
+  selectedService: '',
+
+  // Window Darkening Type 
+  windowDarkenType: '',
+
+  // Detailing Type
+  detailingType: '',
 
   // Folirane
   folioType: '', // 'cveten' | 'bezcveten'
@@ -67,25 +77,60 @@ function submit() {
         </div>
 
         <div class="sm:col-span-1">
-          <label class="block text-sm font-semibold text-white/80">Марка / модел</label>
+          <label class="block text-sm font-semibold text-white/80">Марка / Модел</label>
           <input v-model.trim="form.carMakeModel" type="text" class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
                    placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
             placeholder="Напр. BMW 3 Series" />
         </div>
       </div>
-
-      <!-- Folirane block -->
+      <!-- Choose service -->
       <div class="mt-8">
+        <h3 class="text-lg font-semibold text-white">Тип на запитване</h3>
+        <p class="mt-1 text-sm text-white/60">
+          Изберете услугата която желаете. За специфични нужди или въпроси - моля опишете ги в "Съобщение".
+        </p>
+        <div class="mt-6 flex items-center justify-around gap-4 w-full">
+          <div class="flex flex-col-reverse items-center">
+            <input id="film" v-model="form.selectedService" value="film" type="radio" class="mt-4 stop-light" />
+            <label for="film" class="text-sm text-white/80 font-medium">Фолиране</label>
+          </div>
+
+          <div class="flex flex-col-reverse items-center">
+            <input id="tint" v-model="form.selectedService" value="darkening" type="radio" class="mt-4 stop-light" />
+            <label for="tint" class="text-sm text-white/80 font-medium">Затъмняване</label>
+          </div>
+
+          <div class="flex flex-col-reverse items-center">
+            <input id="detail" v-model="form.selectedService" value="detailing" type="radio" class="mt-4 stop-light" />
+            <label for="detail" class="text-sm text-white/80 font-medium">Детайлинг</label>
+          </div>
+
+          <div class="flex flex-col-reverse items-center">
+            <input id="insurance" v-model="form.selectedService" value="insurance" type="radio"
+              class="mt-4 stop-light" />
+            <label for="insurance" class="text-sm text-white/80 font-medium">Застраховки</label>
+          </div>
+
+          <div class="flex flex-col-reverse items-center">
+            <input id="other" v-model="form.selectedService" value="other" type="radio" class="mt-4 stop-light" />
+            <label for="other" class="text-sm text-white/80 font-medium">Друго</label>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- CarFilm block -->
+      <div class="mt-8" v-if="form.selectedService === 'film'">
         <h3 class="text-lg font-semibold text-white">Фолиране</h3>
         <p class="mt-1 text-sm text-white/60">
-          Изберете тип и покритие. Ако имате специфично желание — опишете го в “Персонално”.
+          Изберете тип и покритие. Ако имате специфично желание — опишете го в “Собщение”.
         </p>
 
         <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <!-- folio type -->
           <div>
             <label class="block text-sm font-semibold text-white/80">Тип фолио</label>
-            <select v-model="form.folioType" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
+            <select v-model="form.folioType" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 text-sm
                      focus:outline-none focus:ring-2 focus:ring-red-500/60">
               <option value="" disabled>Изберете...</option>
               <option value="cveten">Цветен</option>
@@ -96,7 +141,7 @@ function submit() {
           <!-- coverage -->
           <div>
             <label class="block text-sm font-semibold text-white/80">Покритие</label>
-            <select v-model="form.coverage" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
+            <select v-model="form.coverage" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 text-sm
                      focus:outline-none focus:ring-2 focus:ring-red-500/60">
               <option value="" disabled>Изберете...</option>
               <option value="cqlo">Цялостно</option>
@@ -107,7 +152,7 @@ function submit() {
           <!-- packages -->
           <div class="sm:col-span-2">
             <label class="block text-sm font-semibold text-white/80">Пакет</label>
-            <select v-model="form.package" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
+            <select v-model="form.package" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 text-sm
                      focus:outline-none focus:ring-2 focus:ring-red-500/60">
               <option value="" disabled>Изберете...</option>
               <option value="fenders">Калници (fenders)</option>
@@ -129,6 +174,37 @@ function submit() {
         </div>
       </div>
 
+      <!-- WindowDarkening block -->
+      <div class="mt-8" v-if="form.selectedService === 'darkening'">
+        <div>
+          <label class="block text-sm font-semibold text-white/80">Тип Затъмняване</label>
+          <select v-model="form.windowDarkenType" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 text-sm
+                     focus:outline-none focus:ring-2 focus:ring-red-500/60">
+            <option value="" disabled>Изберете...</option>
+            <option value="Затъмняване-5%">5% - Най-тъмно</option>
+            <option value="Затъмняване-35%">35% - Балансирано затъмняване</option>
+            <option value="Затъмняване-50%">50% - Леко затъмняване</option>
+            <option value="Затъмняване-70%">70% - UV защита</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Detailing -->
+      <div class="mt-8" v-if="form.selectedService === 'detailing'">
+        <div>
+          <label class="block text-sm font-semibold text-white/80">Тип Детайлинг</label>
+          <select v-model="form.detailingType" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 text-sm
+                     focus:outline-none focus:ring-2 focus:ring-red-500/60">
+            <option value="" disabled>Изберете...</option>
+            <option value="Екстериорен детайлинг">Екстериорен детайлинг – измиване, гланц, полиране, защита на боята
+            </option>
+            <option value="Интериорен детайлинг">Интериорен детайлинг – почистване на тапицерия, кожа, килими, пластмаси
+              и стъкла</option>
+            <option value="Керамично покритие">Керамично покритие – дълготрайна защита, отблъскваща вода, мръсотия и
+              химикали</option>
+          </select>
+        </div>
+      </div>
       <!-- Message -->
       <div class="mt-8">
         <label class="block text-sm font-semibold text-white/80">Съобщение</label>
@@ -148,9 +224,9 @@ function submit() {
       </div>
 
       <!-- Consent -->
-      <div class="mt-6 flex items-start gap-3">
+      <div class="mt-6 flex gap-3 items-center">
         <input id="consent" v-model="form.consent" type="checkbox"
-          class="mt-1 size-4 rounded border-white/20 bg-zinc-900 text-red-500 focus:ring-red-500/60" />
+          class="stop-light" />
         <label for="consent" class="text-sm text-white/60">
           Съгласен/на съм да бъда потърсен/а по телефон или имейл относно запитването.
         </label>
@@ -158,12 +234,10 @@ function submit() {
 
       <!-- Actions -->
       <div class="mt-8 flex flex-col sm:flex-row gap-3">
-        <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-red-600 px-6 py-3 font-semibold text-white
-                 hover:bg-red-500 active:scale-[0.99] transition">
-          Изпрати запитване
-        </button>
-        <button type="reset" class="inline-flex items-center justify-center rounded-lg bg-white/5 px-6 py-3 font-semibold text-white/80
-                 ring-1 ring-white/10 hover:bg-white/10 active:scale-[0.99] transition" @click.prevent="
+        <TheButton variant="primary" type="submit">Изпрати запитване</TheButton>
+
+     
+        <TheButton variant="secondary" type="reset" @click.prevent="
                   Object.assign(form, {
                     name: '', phone: '', email: '', carMakeModel: '', message: '',
                     folioType: '', coverage: '', package: '', customDetails: '',
@@ -171,8 +245,58 @@ function submit() {
                   })
                   ">
           Изчисти
-        </button>
+        </TheButton>
       </div>
     </form>
   </div>
 </template>
+<style scoped>
+.stop-light {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgb(24, 24, 27);
+  /* zinc-900-ish */
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+/* “LED + glow” layer */
+.stop-light::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+
+  /* center dot + glow */
+  background: radial-gradient(circle at center,
+      rgba(239, 68, 68, 1) 0%,
+      rgba(239, 68, 68, 1) 30%,
+      rgba(239, 68, 68, 0.6) 40%,
+      rgba(239, 68, 68, 0.25) 50%,
+      rgba(239, 68, 68, 0) 65%);
+
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+/* checked = fade in */
+.stop-light:checked::after {
+  opacity: 1;
+}
+
+/* checked glow bloom (around border) */
+.stop-light:checked {
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.45);
+}
+
+/* accessibility */
+.stop-light:focus-visible {
+  outline: 2px solid rgba(239, 68, 68, 0.6);
+  outline-offset: 2px;
+}
+</style>
