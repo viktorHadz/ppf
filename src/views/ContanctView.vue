@@ -67,32 +67,32 @@ function submit() {
         </p>
       </div>
 
-      <!-- Normal inputs -->
+      <!-- Regular inputs -->
       <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <div class="sm:col-span-1">
-          <label class="block text-sm font-semibold text-white/80">Име и фамилия</label>
-          <input v-model.trim="form.name" type="text" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
+          <label for="name" class="block text-sm font-semibold text-white/80">Име и фамилия</label>
+          <input autocomplete="name" id="name" v-model.trim="form.name" type="text" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
                    placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
             placeholder="Напр. Иван Иванов" />
         </div>
 
         <div class="sm:col-span-1">
-          <label class="block text-sm font-semibold text-white/80">Телефон</label>
-          <input v-model.trim="form.phone" type="tel" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
+          <label for="phone" class="block text-sm font-semibold text-white/80">Телефон</label>
+          <input autocomplete="phone" id="phone" v-model.trim="form.phone" type="tel" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
                    placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
             placeholder="Напр. +359 88 123 4567" />
         </div>
 
         <div class="sm:col-span-1">
-          <label class="block text-sm font-semibold text-white/80">Имейл</label>
-          <input v-model.trim="form.email" type="email" class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
+          <label for="email" class="block text-sm font-semibold text-white/80">Имейл</label>
+          <input autocomplete="email" id="email" v-model.trim="form.email" type="email" class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
                    placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
             placeholder="Напр. you@email.com" />
         </div>
 
         <div class="sm:col-span-1">
-          <label class="block text-sm font-semibold text-white/80">Марка / Модел</label>
-          <input v-model.trim="form.carMakeModel" type="text" class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
+          <label for="carMake" class="block text-sm font-semibold text-white/80">Марка / Модел</label>
+          <input id="carMake" v-model.trim="form.carMakeModel" type="text" class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
                    placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
             placeholder="Напр. BMW 3 Series" />
         </div>
@@ -144,10 +144,10 @@ function submit() {
         <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <!-- folio type -->
           <div>
-            <label class="block text-sm font-semibold text-white/80">Тип фолио</label>
+            <label for="foilType" class="block text-sm font-semibold text-white/80">Тип фолио</label>
 
             <div class="relative mt-2">
-              <select v-model="form.folioType" required :class="selectClass" @focus="folioFocused = true"
+              <select id="foilType" v-model="form.folioType" required :class="selectClass" @focus="folioFocused = true"
                 @blur="folioFocused = false">
                 <option value="" disabled>Изберете...</option>
                 <option value="cveten">Цветен</option>
@@ -161,10 +161,10 @@ function submit() {
 
           <!-- coverage -->
           <div>
-            <label class="block text-sm font-semibold text-white/80">Покритие</label>
+            <label for="coverType" class="block text-sm font-semibold text-white/80">Покритие</label>
 
             <div class="relative mt-2">
-              <select v-model="form.coverage" required :class="selectClass" @focus="coverageFocused = true"
+              <select id="coverType" v-model="form.coverage" required :class="selectClass" @focus="coverageFocused = true"
                 @blur="coverageFocused = false">
                 <option value="" disabled>Изберете...</option>
                 <option value="cqlo">Цялостно</option>
@@ -178,10 +178,10 @@ function submit() {
 
           <!-- packages -->
           <div class="sm:col-span-2">
-            <label class="block text-sm font-semibold text-white/80">Пакет</label>
+            <label for="packageType" class="block text-sm font-semibold text-white/80">Пакет</label>
 
             <div class="relative mt-2">
-              <select v-model="form.package" required :class="selectClass" @focus="packageFocused = true"
+              <select id="packageType" v-model="form.package" required :class="selectClass" @focus="packageFocused = true"
                 @blur="packageFocused = false">
                 <option value="" disabled>Изберете...</option>
                 <option value="fenders">Калници (fenders)</option>
@@ -197,10 +197,10 @@ function submit() {
 
           <!-- custom text -->
           <div v-if="needsCustomDetails" class="sm:col-span-2">
-            <label class="block text-sm font-semibold text-white/80">
+            <label for="customDetailType" class="block text-sm font-semibold text-white/80">
               Персонално – опишете зоните/детайлите
             </label>
-            <input v-model.trim="form.customDetails" type="text" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10
+            <input id="customDetailType" v-model.trim="form.customDetails" type="text" required class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10
                px-4 py-3 placeholder:text-white/40
                focus:outline-none focus:ring-2 focus:ring-red-500/60" placeholder="Напр. броня + огледала + прагове" />
           </div>
@@ -211,10 +211,10 @@ function submit() {
 
       <!-- WindowDarkening block -->
       <div class="mt-8" v-if="form.selectedService === 'darkening'">
-        <label class="block text-sm font-semibold text-white/80">Тип Затъмняване</label>
+        <label for="darkeningType" class="block text-sm font-semibold text-white/80">Тип Затъмняване</label>
 
         <div class="relative mt-2">
-          <select v-model="form.windowDarkenType" required :class="selectClass" @focus="windowDarkenFocused = true"
+          <select id="darkeningType" v-model="form.windowDarkenType" required :class="selectClass" @focus="windowDarkenFocused = true"
             @blur="windowDarkenFocused = false">
             <option value="" disabled>Изберете...</option>
             <option value="Затъмняване-5%">5% - Най-тъмно</option>
@@ -231,10 +231,10 @@ function submit() {
 
       <!-- Detailing -->
       <div class="mt-8" v-if="form.selectedService === 'detailing'">
-        <label class="block text-sm font-semibold text-white/80">Тип Детайлинг</label>
+        <label for="detailingType" class="block text-sm font-semibold text-white/80">Тип Детайлинг</label>
 
         <div class="relative mt-2">
-          <select v-model="form.detailingType" required :class="selectClass" @focus="detailingFocused = true"
+          <select id="detailingType" v-model="form.detailingType" required :class="selectClass" @focus="detailingFocused = true"
             @blur="detailingFocused = false">
             <option value="" disabled>Изберете...</option>
             <option value="Екстериорен детайлинг">
@@ -255,18 +255,18 @@ function submit() {
 
       <!-- Message -->
       <div class="mt-8">
-        <label class="block text-sm font-semibold text-white/80">Съобщение</label>
-        <textarea v-model.trim="form.message" rows="5" class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
+        <label for="message" class="block text-sm font-semibold text-white/80">Съобщение</label>
+        <textarea id="message" v-model.trim="form.message" rows="5" class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
                  placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
           placeholder="Опишете кратко какво искате, срок, локация и др." />
       </div>
 
       <!-- Promo code -->
       <div class="mt-6">
-        <label class="block text-sm font-semibold text-white/80">
+        <label for="promoCode" class="block text-sm font-semibold text-white/80">
           Промо код <span class="text-white/40">(по желание)</span>
         </label>
-        <input v-model.trim="form.promoCode" type="text" class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
+        <input id="promoCode" v-model.trim="form.promoCode" type="text" class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3
                  placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
           placeholder="Напр. IDO10" />
       </div>
