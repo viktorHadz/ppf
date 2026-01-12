@@ -106,7 +106,13 @@ const features2 = [
 ]
 </script>
 <template>
-  <TheWelcome :show-buttons="true">
+  <TheWelcome
+    :show-buttons="true"
+    :showGridPattern="false"
+    :showVideo="true"
+    video-mp4="/hero/video/hero-bg-1600k.mp4"
+    poster="/hero/img/home-hero-poster.webp"
+  >
     <template #title
       >Елитна визия <br />
       премиум защита</template
@@ -190,7 +196,7 @@ const features2 = [
 
           <!-- Title -->
           <h2
-            class="pointer-events-none absolute inset-x-0 top-6 sm:top-20 z-20 text-white/90 uppercase text-center font-bold text-2xl sm:text-4xl tracking-wide"
+            class="pointer-events-none absolute inset-x-0 top-6 sm:top-20 z-20 text-red-500 uppercase text-center font-bold text-2xl sm:text-4xl tracking-wide"
           >
             Нива на затъмняване
           </h2>
