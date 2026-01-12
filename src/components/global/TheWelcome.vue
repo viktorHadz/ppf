@@ -19,7 +19,6 @@ defineProps({
   },
 
   videoMp4: { type: String, default: '' },
-  videoWebm: { type: String, default: '' },
   poster: { type: String, default: '' },
 })
 </script>
@@ -29,19 +28,19 @@ defineProps({
     <!-- Video background -->
     <video
       v-if="showVideo"
-      class="absolute inset-0 h-full w-full object-cover"
+      class="absolute inset-0 h-full w-full object-cover saturate-150"
       autoplay
       muted
       loop
       playsinline
+      decoding="async"
       preload="metadata"
       :poster="poster"
       aria-hidden="true"
     >
-      <source v-if="videoWebm" :src="videoWebm" type="video/webm" />
       <source v-if="videoMp4" :src="videoMp4" type="video/mp4" />
     </video>
-
+    <div v-if="showVideo" class="absolute inset-0 bg-black/55"></div>
     <!-- A fallback bg - if video is missing or blocked -->
     <div v-if="showVideo" class="absolute inset-0 bg-black/25"></div>
 

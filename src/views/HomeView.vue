@@ -196,12 +196,12 @@ const features2 = [
 
           <!-- Title -->
           <h2
-            class="pointer-events-none absolute inset-x-0 top-6 sm:top-20 z-20 text-red-500 uppercase text-center font-bold text-2xl sm:text-4xl tracking-wide"
+            class="pointer-events-none absolute inset-x-0 top-6 sm:top-20 z-20 text-white uppercase text-center font-bold text-2xl sm:text-4xl tracking-wide"
           >
             Нива на затъмняване
           </h2>
 
-          <!-- MOBILE CHEVRONS (only on mobile) -->
+          <!-- MOBILE-ONLY: Chevrons -->
           <button
             v-show="canLeft"
             type="button"
@@ -244,29 +244,31 @@ const features2 = [
                 <dd class="order-first text-7xl font-semibold tracking-tight text-white/75">
                   {{ stat.value }}
                 </dd>
-                <dt class="mt-2 text-sm font-semibold text-white/70">
+                <dt class="mt-2 text-sm font-semibold text-red-500">
                   {{ stat.name }}
                 </dt>
               </div>
             </div>
 
-            <!-- DESKTOP: your nice grid -->
+            <!-- DESKTOP: grid -->
             <div class="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4">
               <div
                 v-for="(stat, i) in stats"
                 :key="stat.id"
-                class="relative flex flex-col justify-end p-8 min-h-[520px] text-center"
+                class="group relative flex flex-col justify-end p-8 min-h-[520px] text-center"
                 :class="[
-                  i === 0 && 'bg-black/90',
-                  i === 1 && 'bg-black/80',
-                  i === 2 && 'bg-black/60',
-                  i === 3 && 'bg-black/50',
+                  i === 0 && 'bg-black/95',
+                  i === 1 && 'bg-black/65',
+                  i === 2 && 'bg-black/50',
+                  i === 3 && 'bg-black/30',
                 ]"
               >
-                <dd class="order-first text-7xl font-semibold tracking-tight text-white/70">
+                <dd
+                  class="order-first text-7xl font-semibold tracking-tight text-white/70 group-hover:-translate-y-30 transition-all duration-200 delay-100 group-hover:text-red-500 select-none"
+                >
                   {{ stat.value }}
                 </dd>
-                <dt class="mt-2 text-sm font-semibold text-white/70">
+                <dt class="mt-2 font-semibold text-red-500">
                   {{ stat.name }}
                 </dt>
 
