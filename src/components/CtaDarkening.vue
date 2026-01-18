@@ -1,13 +1,23 @@
 <script setup>
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/solid'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ShieldCheckIcon,
+  SunIcon,
+  SparklesIcon,
+  BeakerIcon,
+  CheckCircleIcon,
+} from '@heroicons/vue/24/solid'
+
 import whiteCarTintElement from '@/assets/whiteCarWhiteBg.webp'
+
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 
+/** --- carousel arrows --- */
 let onResize
 onMounted(async () => {
   await nextTick()
   updateArrows()
-
   onResize = () => updateArrows()
   window.addEventListener('resize', onResize)
 })
@@ -23,64 +33,193 @@ const canRight = ref(false)
 function updateArrows() {
   const el = carouselEl.value
   if (!el) return
-
   const maxScrollLeft = el.scrollWidth - el.clientWidth
   const x = el.scrollLeft
-
-  // Small tolerance because of subpixels
   const eps = 2
   canLeft.value = x > eps
   canRight.value = x < maxScrollLeft - eps
 }
+
 function scrollByCard(dir = 1) {
   const el = carouselEl.value
   if (!el) return
-
-  // One "card" == the viewport width (because each slide is w-full)
   const amount = el.clientWidth
   el.scrollBy({ left: dir * amount, behavior: 'smooth' })
-
-  // update after scroll settles a bit
   window.setTimeout(updateArrows, 250)
 }
-const stats = [
-  { id: 1, name: 'Най-тъмно затъмняване', value: '5%', img: 'src' },
-  { id: 2, name: 'Балансирано затъмняване', value: '35%', img: 'src' },
-  { id: 3, name: 'Леко затъмняване', value: '50%', img: 'src' },
-  { id: 4, name: 'UV защита', value: '70%', img: 'src' },
+
+const benefits = [
+  {
+    name: 'Комфорт и охлаждане',
+    description: 'По-ниска температура в салона и по-леко натоварване на климатика.',
+    icon: BeakerIcon,
+  },
+  {
+    name: 'UV защита до 99%',
+    description: 'Пази кожа/очи и предпазва интериора от избледняване и напукване.',
+    icon: SunIcon,
+  },
+  {
+    name: 'Безопасност',
+    description: 'По-малко заслепяване + фолиото държи стъклото по-стабилно при удар.',
+    icon: ShieldCheckIcon,
+  },
+  {
+    name: 'Стил и дискретност',
+    description: 'Уединение за пътниците и премиум завършек без компромис с видимостта.',
+    icon: SparklesIcon,
+  },
 ]
+
+const stats = [
+  { id: 1, shade: 5, lightAllowed: 6, uvRejected: 99 },
+  { id: 2, shade: 30, lightAllowed: 34, uvRejected: 99 },
+  { id: 3, shade: 50, lightAllowed: 55, uvRejected: 99 },
+  { id: 4, shade: 70, lightAllowed: 69, uvRejected: 99 },
+]
+
+const filmTypes = [
+  {
+    title: 'Гланцово (Стандартно)',
+    desc: 'Класическа визия и базова топлинна защита.',
+  },
+  {
+    title: 'Керамично',
+    desc: 'Висока топлинна и UV защита, без да затруднява видимостта',
+  },
+  {
+    title: 'Карбон',
+    desc: 'Модерен ефект с повишена устойчивост и дълготрайност',
+  },
+]
+
+const whyUs = [
+  'Прецизен монтаж без балончета, прах и дефекти',
+  'Премиум фолиа за дълготрайно и гарантирано качество',
+  'Чиста подготовка и контрол на качеството',
+  'Препоръчваме фолио според модела, видимостта и целта ви',
+]
+
+// function goContactWithTint(stat) {
+//   router.push({
+//     path: '/contact',
+//     query: {
+//       service: 'darkening',
+//       tint: stat.value.replace('%', ''),
+//     },
+//   })
+// }
 </script>
 
 <template>
-  <div class="bg-zinc-900 py-24 sm:py-48 relative overflow-hidden">
-    <!-- Background Layer -->
+  <section class="bg-zinc-900 py-24 sm:py-40 relative overflow-hidden">
     <div class="grid-el-2"></div>
 
-    <!-- Foreground Layer -->
     <div class="relative mx-auto max-w-7xl px-6 lg:px-8 z-10">
-      <div class="mx-auto max-w-2xl lg:max-w-none">
-        <div class="text-center py-12">
-          <h2 class="text-4xl font-semibold tracking-tight text-balance text-gray-200 sm:text-5xl">
-            Премиум затъмняване на стъкла
-          </h2>
-          <p class="mt-6 text-lg/8 text-gray-400">
-            Изберете ниво на прозрачност според стила и комфорта си:
-          </p>
+      <!-- Header -->
+      <div class="mx-auto max-w-2xl text-center">
+        <p class="text-base/7 font-semibold text-red-500 mb-8">Затъмняване на стъклата</p>
+        <h2 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+          Стил, комфорт и защита за вашия автомобил
+        </h2>
+        <p class="mt-8 text-lg/8 text-gray-400">
+          Премиум фолиа, които намаляват топлината, филтрират UV лъчите и дават дискретност – без да
+          пречат на видимостта.
+        </p>
+      </div>
+
+      <!-- What can tinting do for you -->
+      <div class="mx-auto mt-20 max-w-5xl">
+        <h3 class="text-lg font-semibold text-gray-200">Какво ви дава затъмняването</h3>
+        <dl class="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 text-base/7 text-gray-400">
+          <div v-for="b in benefits" :key="b.name" class="relative pl-9">
+            <dt class="font-semibold text-gray-200">
+              <component
+                :is="b.icon"
+                class="absolute left-1 top-1 size-5 text-red-500"
+                aria-hidden="true"
+              />
+              {{ b.name }}
+            </dt>
+            <dd class="mt-2">{{ b.description }}</dd>
+          </div>
+        </dl>
+      </div>
+
+      <!--  Guarantee & Tint Foil Type -->
+      <div class="mx-auto mt-24 max-w-5xl">
+        <div class="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-12 items-stretch">
+          <!-- Guarantee -->
+          <div class="rounded-2xl bg-white/5 ring-1 ring-white/10 p-6 sm:p-8 lg:flex lg:flex-col">
+            <div>
+              <h3 class="text-lg font-semibold text-white">Нашата гаранция</h3>
+              <ul class="mt-6 space-y-4 text-base/7 text-gray-400">
+                <li v-for="item in whyUs" :key="item" class="flex gap-4">
+                  <CheckCircleIcon class="mt-0.5 size-5 text-red-500 shrink-0" aria-hidden="true" />
+                  <span>{{ item }}</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- push CTAs to bottom on desktop -->
+            <div class="mt-8 lg:mt-auto flex flex-col gap-3 sm:flex-row">
+              <a
+                href="/contact?service=darkening"
+                class="inline-flex items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
+              >
+                Научи повече
+              </a>
+            </div>
+          </div>
+
+          <!-- Tint Foil Type -->
+          <div class="rounded-2xl bg-white/5 ring-1 ring-white/10 p-6 sm:p-8 lg:flex lg:flex-col">
+            <div>
+              <div class="flex items-end justify-between gap-8">
+                <div>
+                  <h3 class="text-lg font-semibold text-white">Тип фолиа</h3>
+                  <p class="mt-2 text-sm/6 text-gray-400">
+                    Избор на фолио според вашите цели (топлина / UV / визия).
+                  </p>
+                </div>
+              </div>
+
+              <div class="mt-8 space-y-4 lg:max-h-[320px] lg:overflow-auto lg:pr-1">
+                <div
+                  v-for="t in filmTypes"
+                  :key="t.title"
+                  class="rounded-xl bg-black/30 ring-1 ring-white/10 py-2 px-4"
+                >
+                  <div class="text-base font-semibold text-gray-200">{{ t.title }}</div>
+                  <p class="mt-2 text-sm/6 text-gray-400">{{ t.desc }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <dl class="relative mt-20 overflow-hidden rounded-lg ring-1 ring-white/10">
+      </div>
+
+      <!-- Interactive chart -->
+      <div class="mx-auto mt-20 max-w-5xl">
+        <div class="relative overflow-hidden rounded-2xl ring-1 ring-white/10">
           <!-- bg-image -->
           <div
             class="absolute inset-0 bg-center bg-cover"
             :style="{ backgroundImage: `url(${whiteCarTintElement})` }"
           />
-          <div class="absolute inset-0 bg-black/30" />
+          <div class="absolute inset-0 bg-black/35" />
 
-          <!-- Title -->
-          <h2
-            class="pointer-events-none absolute inset-x-0 top-6 sm:top-20 z-20 text-gray-200 uppercase text-center font-bold text-2xl sm:text-5xl tracking-wide"
-          >
-            Нивo на затъмняване
-          </h2>
+          <!-- Title overlay -->
+          <div class="pointer-events-none absolute inset-x-0 top-6 sm:top-10 z-20 text-center">
+            <div
+              class="inline-flex items-center gap-3 rounded-full bg-black/40 ring-1 ring-white/10 px-5 py-2"
+            >
+              <span class="h-2 w-2 rounded-full bg-red-500"></span>
+              <span class="text-xs sm:text-sm font-semibold tracking-wide text-gray-200 uppercase">
+                Нива на Затъмняване
+              </span>
+            </div>
+          </div>
 
           <!-- MOBILE-ONLY: Chevrons -->
           <button
@@ -103,9 +242,9 @@ const stats = [
             <ChevronRightIcon class="size-6" />
           </button>
 
-          <!-- CONTENT -->
+          <!-- INTERACTIVE CHART -->
           <div class="relative z-10">
-            <!-- MOBILE: swipe carousel -->
+            <!-- MOBILE: swipe carousel  -->
             <div
               ref="carouselEl"
               @scroll="updateArrows"
@@ -114,44 +253,95 @@ const stats = [
               <div
                 v-for="(stat, i) in stats"
                 :key="stat.id"
-                class="snap-start shrink-0 w-full h-[520px] flex flex-col justify-end text-center px-6 pb-10 pt-24"
+                class="snap-start shrink-0 w-full min-h-[540px] px-6 pb-10 pt-28 flex flex-col justify-end text-center"
                 :class="[
                   i === 0 && 'bg-black/90',
                   i === 1 && 'bg-black/80',
-                  i === 2 && 'bg-black/60',
-                  i === 3 && 'bg-black/50',
+                  i === 2 && 'bg-black/65',
+                  i === 3 && 'bg-black/45',
                 ]"
               >
-                <dd class="order-first text-7xl font-semibold tracking-tight text-white/75">
-                  {{ stat.value }}
-                </dd>
-                <dt class="mt-2 text-sm font-semibold text-red-500">
-                  {{ stat.name }}
-                </dt>
+                <!-- Big number -->
+                <div
+                  class="text-[96px] leading-none font-bold tracking-tight text-white/75 select-none"
+                >
+                  {{ stat.shade }}
+                </div>
+
+                <!-- Small stats -->
+                <div class="mt-8 space-y-3 text-sm text-gray-200/85">
+                  <div>
+                    <div class="font-semibold">{{ stat.lightAllowed }}%</div>
+                    <div class="text-xs uppercase tracking-wide text-gray-200/70">
+                      Light Allowed
+                    </div>
+                  </div>
+                  <div>
+                    <div class="font-semibold">{{ stat.uvRejected }}%</div>
+                    <div class="text-xs uppercase tracking-wide text-gray-200/70">
+                      UV Light Rejected
+                    </div>
+                  </div>
+                </div>
+
+                <!-- CTA -->
+                <a
+                  :href="`/contact?service=darkening&tint=${stat.shade}`"
+                  class="group text-base font-semibold text-red-500 inline-flex items-center self-center mt-2"
+                >
+                  запитване
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 transform transition-transform duration-300 translate-x-0 group-hover:translate-x-4"
+                  >
+                    →
+                  </span>
+                </a>
               </div>
             </div>
 
-            <!-- DESKTOP: grid -->
+            <!-- DESKTOP: Chart -->
             <div class="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4">
               <div
                 v-for="(stat, i) in stats"
                 :key="stat.id"
-                class="group relative flex flex-col justify-end p-8 min-h-[520px] text-center"
+                class="relative min-h-[520px] p-10 flex flex-col justify-end text-center"
                 :class="[
                   i === 0 && 'bg-black/95',
-                  i === 1 && 'bg-black/65',
-                  i === 2 && 'bg-black/50',
-                  i === 3 && 'bg-black/30',
+                  i === 1 && 'bg-black/80',
+                  i === 2 && 'bg-black/65',
+                  i === 3 && 'bg-black/45',
                 ]"
               >
-                <dd
-                  class="order-first text-8xl font-bold tracking-tight text-white/70 group-hover:-translate-y-30 transition-all duration-200 delay-100 group-hover:text-red-500 select-none"
+                <div
+                  class="text-[110px] leading-none font-bold tracking-tight text-gray-200/70 select-none"
                 >
-                  {{ stat.value }}
-                </dd>
-                <dt class="mt-2 font-semibold text-red-500">
-                  {{ stat.name }}
-                </dt>
+                  {{ stat.shade }}
+                </div>
+
+                <div class="mt-8 space-y-3 text-xl">
+                  <div>
+                    <div class="font-bold text-gray-200">{{ stat.lightAllowed }}%</div>
+                    <div class="text-sm tracking-wide text-gray-200/70">Светлопропускливост</div>
+                  </div>
+                  <div>
+                    <div class="font-bold text-gray-200">{{ stat.uvRejected }}%</div>
+                    <div class="text-sm tracking-wide text-gray-200/70">UV филтрация</div>
+                  </div>
+                </div>
+
+                <a
+                  :href="`/contact?service=darkening&tint=${stat.shade}`"
+                  class="group text-base font-semibold text-red-500 inline-flex items-center self-center mt-2"
+                >
+                  запитване
+                  <span
+                    aria-hidden="true"
+                    class="ml-1 transform transition-transform duration-300 translate-x-0 group-hover:translate-x-4"
+                  >
+                    →
+                  </span>
+                </a>
 
                 <div
                   v-if="i !== stats.length - 1"
@@ -160,8 +350,8 @@ const stats = [
               </div>
             </div>
           </div>
-        </dl>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
