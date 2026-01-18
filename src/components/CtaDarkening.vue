@@ -13,7 +13,6 @@ import whiteCarTintElement from '@/assets/whiteCarWhiteBg.webp'
 
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 
-/** --- carousel arrows --- */
 let onResize
 onMounted(async () => {
   await nextTick()

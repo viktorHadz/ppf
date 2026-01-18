@@ -48,6 +48,7 @@ const whyUs = [
       <div
         class="mx-auto grid max-w-7xl grid-cols-1 gap-x-16 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2"
       >
+        <!-- Decorative Element -->
         <svg
           class="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
           aria-hidden="true"

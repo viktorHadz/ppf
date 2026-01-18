@@ -1,64 +1,134 @@
+<script setup>
+import { SparklesIcon, ShieldCheckIcon, BeakerIcon } from '@heroicons/vue/20/solid'
+import detailingScrub from '@/assets/detailingScrub.webp'
+
+const benefits = [
+  {
+    name: 'Перфектна визия',
+    description: 'Блясък на боята, чисти детайли и свеж салон.',
+    icon: SparklesIcon,
+  },
+  {
+    name: 'Защита',
+    description: 'Wax / sealant / керамично покритие срещу UV и ежедневни рискове.',
+    icon: ShieldCheckIcon,
+  },
+  {
+    name: 'Хигиена',
+    description: 'Петна, прах и миризми - премахнати професионално.',
+    icon: BeakerIcon,
+  },
+]
+
+const types = [
+  { title: 'Екстериорен', desc: 'Измиване • гланц • защита' },
+  { title: 'Интериорен', desc: 'Тапицерия • кожа • пластмаси' },
+  { title: 'Керамика', desc: 'Дълготрайна защита • хидрофобен ефект' },
+]
+</script>
+
 <template>
-  <div class="overflow-hidden bg-zinc-950 py-32">
-    <div class="mx-auto max-w-7xl px-6 lg:flex lg:px-8">
-      <div
-        class="mx-auto grid max-w-2xl grid-cols-1 gap-x-12 gap-y-16 lg:mx-0 lg:max-w-none lg:min-w-full lg:flex-none lg:gap-y-8"
-      >
-        <div class="lg:col-end-1 lg:w-full lg:max-w-lg lg:pb-8">
-          <h2 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">Детайлинг</h2>
-          <p class="mt-6 text-xl/8 text-gray-600">
-            Quasi est quaerat. Sit molestiae et. Provident ad dolorem occaecati eos iste. Soluta
-            rerum quidem minus ut molestiae velit error quod. Excepturi quidem expedita molestias
-            quas.
+  <section class="bg-zinc-950 py-24 sm:py-32 overflow-hidden relative isolate">
+    <!-- Decorative Element -->
+    <svg
+      class="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
+      aria-hidden="true"
+    >
+      <defs>
+        <pattern
+          id="1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84"
+          width="200"
+          height="200"
+          x="50%"
+          y="-1"
+          patternUnits="userSpaceOnUse"
+        >
+          <path d="M.5 200V.5H200" fill="none" />
+        </pattern>
+      </defs>
+      <svg x="50%" y="-1" class="overflow-visible fill-zinc-800/20">
+        <path
+          d="M-200 0h201v201h-201Z M600 0h201v201h-201Z M-400 600h201v201h-201Z M200 800h201v201h-201Z"
+          stroke-width="0"
+        />
+      </svg>
+      <rect
+        width="100%"
+        height="100%"
+        stroke-width="0"
+        fill="url(#1f932ae7-37de-4c0a-a8b0-a6e3b4d44b84)"
+      />
+    </svg>
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-16 lg:grid-cols-12 lg:gap-16 items-start">
+        <!-- LEFT -->
+        <div class="lg:col-span-6">
+          <p class="text-base/7 font-semibold text-red-500 mb-8">Премиум Детайлинг</p>
+
+          <h2 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+            Автомобилът ви като нов вътре и отвън
+          </h2>
+
+          <p class="mt-10 text-lg/8 text-gray-400">
+            Професионална грижа, която възстановява визията. Не “бърз ефект”, а чист резултат.
           </p>
-          <p class="mt-6 text-base/7 text-gray-600">
-            Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat
-            commodo. Elit sunt amet fugiat veniam occaecat fugiat. Quasi aperiam sit non sit neque
-            reprehenderit.
-          </p>
-          <div class="mt-10 flex">
+
+          <!-- CTAs -->
+          <div class="mt-12 flex flex-col gap-4 sm:flex-row">
             <a
-              href="#"
-              class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >Join our team <span aria-hidden="true">&rarr;</span></a
+              href="/contact?service=detailing"
+              class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
             >
+              Запитване
+            </a>
+            <a
+              href="/services/detailing"
+              class="inline-flex items-center justify-center rounded-xl bg-white/5 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
+            >
+              Виж услугата
+            </a>
           </div>
+
+          <!-- Benefits -->
+          <dl class="mt-16 space-y-8 text-base/7 text-gray-400">
+            <div v-for="b in benefits" :key="b.name" class="relative pl-9">
+              <dt class="font-semibold text-white">
+                <component :is="b.icon" class="absolute left-1 top-1 size-5 text-red-500" />
+                {{ b.name }}
+              </dt>
+              <dd class="mt-1">{{ b.description }}</dd>
+            </div>
+          </dl>
+
+          <!-- Types -->
+          <div class="mt-14">
+            <h3 class="text-sm font-semibold text-white/90 uppercase tracking-wide">Видове</h3>
+            <div class="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+              <div
+                v-for="t in types"
+                :key="t.title"
+                class="rounded-2xl bg-white/5 ring-1 ring-white/10 p-5"
+              >
+                <div class="text-sm font-semibold text-white">{{ t.title }}</div>
+                <div class="mt-2 text-xs text-gray-400">{{ t.desc }}</div>
+              </div>
+            </div>
+          </div>
+
+          <p class="mt-8 text-xs text-gray-500">
+            * Подходящо и преди продажба за по-добър вид и покачване на стойността.
+          </p>
         </div>
-        <div class="flex flex-wrap items-start justify-end gap-6 sm:gap-8 lg:contents">
-          <div class="w-0 flex-auto lg:ml-auto lg:w-auto lg:flex-none lg:self-end">
-            <img
-              src="https://images.unsplash.com/photo-1670272502246-768d249768ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1152&q=80"
-              alt=""
-              class="aspect-7/5 w-[37rem] max-w-none rounded-2xl bg-gray-50 object-cover"
-            />
-          </div>
-          <div
-            class="contents lg:col-span-2 lg:col-end-2 lg:ml-auto lg:flex lg:w-[37rem] lg:items-start lg:justify-end lg:gap-x-8"
-          >
-            <div class="order-first flex w-64 flex-none justify-end self-end lg:w-auto">
-              <img
-                src="https://images.unsplash.com/photo-1605656816944-971cd5c1407f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&h=604&q=80"
-                alt=""
-                class="aspect-4/3 w-[24rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover"
-              />
-            </div>
-            <div class="flex w-96 flex-auto justify-end lg:w-auto lg:flex-none">
-              <img
-                src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1152&h=842&q=80"
-                alt=""
-                class="aspect-7/5 w-[37rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover"
-              />
-            </div>
-            <div class="hidden sm:block sm:w-0 sm:flex-auto lg:w-auto lg:flex-none">
-              <img
-                src="https://images.unsplash.com/photo-1612872087720-bb876e2e67d1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=768&h=604&q=80"
-                alt=""
-                class="aspect-4/3 w-[24rem] max-w-none rounded-2xl bg-gray-50 object-cover"
-              />
-            </div>
-          </div>
+
+        <!-- RIGHT -->
+        <div class="lg:col-span-6">
+          <img
+            :src="detailingScrub"
+            alt="Авто детайлинг"
+            class="w-full rounded-2xl shadow-2xl ring-1 ring-white/10 object-cover"
+          />
         </div>
       </div>
     </div>
-  </div>
+  </section>
 </template>
