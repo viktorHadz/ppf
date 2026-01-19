@@ -48,13 +48,13 @@ const heroFeatures = [
     video-mp4="/hero/video/hero-bg-1600k.mp4"
     poster="/hero/img/home-hero-poster.webp"
   >
-    <template #title
-      >Елитна визия <br />
-      премиум защита</template
-    >
+    <template #title>
+      Елитна визия <br />
+      премиум защита
+    </template>
     <template #under-title>сложи клипа като фон със бутон - за максимизиране и звук</template>
-    <template #primary-button>запитване</template>
-    <template #secondary-button>портфолио</template>
+    <template #primary>запитване</template>
+    <template #secondary>портфолио</template>
   </TheWelcome>
 
   <div class="bg-zinc-900 py-24 sm:py-32">

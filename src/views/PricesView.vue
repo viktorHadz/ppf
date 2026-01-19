@@ -1,4 +1,4 @@
 <script setup></script>
 <template>
-    <div>Prices</div>
+  <div>Prices</div>
 </template>

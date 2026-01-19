@@ -1,4 +1,4 @@
 <script setup></script>
 <template>
-    <div>Services</div>
+  <div>Services</div>
 </template>

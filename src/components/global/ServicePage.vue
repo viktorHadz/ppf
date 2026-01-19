@@ -14,7 +14,6 @@ defineProps({
         <p v-if="page.eyebrow" class="text-base/7 font-semibold text-red-500 mb-8">
           {{ page.eyebrow }}
         </p>
-
         <div class="grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16 items-start">
           <div class="lg:col-span-6">
             <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
@@ -57,9 +56,7 @@ defineProps({
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <h2 class="text-lg font-semibold text-white">{{ page.benefitsTitle || 'Предимства' }}</h2>
 
-        <dl
-          class="mt-10 grid gap-8 text-base/7 text-gray-400 grid-cols-1 sm:[grid-template-columns:repeat(auto-fit,minmax(18rem,1fr))]"
-        >
+        <dl class="mt-10 grid gap-8 text-base/7 text-gray-400 sm:grid-cols-2 grid-cols-1">
           <div
             v-for="b in page.benefits"
             :key="b.title"
@@ -69,8 +66,8 @@ defineProps({
 
             <div v-if="Array.isArray(b.desc)">
               <ul class="mt-6 space-y-4 text-base/7 text-gray-400">
-                <li v-for="item in b.desc" :key="item" class="flex gap-4">
-                  <CheckCircleIcon class="mt-0.5 size-5 text-red-500 shrink-0" aria-hidden="true" />
+                <li v-for="item in b.desc" :key="item" class="flex gap-4 items-center">
+                  <CheckCircleIcon class="size-5 text-red-500 shrink-0" aria-hidden="true" />
                   <span>{{ item }}</span>
                 </li>
               </ul>

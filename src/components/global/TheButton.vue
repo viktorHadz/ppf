@@ -14,12 +14,12 @@ const props = defineProps({
 })
 
 const baseClasses =
-  'px-8 py-3.5 font-medium text-sm uppercase tracking-wider border transition-all duration-300 rounded hover:scale-105 active:scale-90'
+  'px-8 py-3.5 font-medium text-sm uppercase tracking-wider border transition-all duration-300 rounded-xl hover:scale-105 active:scale-95'
 
 // Variant-specific styles
 const variantClasses = {
   primary: 'bg-red-600 text-white border-red-600 hover:bg-red-700',
-  secondary: 'bg-transparent text-zinc-300 border-zinc-700 hover:text-black hover:bg-white',
+  secondary: 'bg-white/10 text-white border-zinc-700 hover:text-black hover:bg-white/80 ',
 }
 
 const buttonClasses = computed(() => `${baseClasses} ${variantClasses[props.variant]}`)

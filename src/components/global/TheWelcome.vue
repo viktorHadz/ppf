@@ -1,5 +1,6 @@
 <script setup>
 import { ArrowDownCircleIcon } from '@heroicons/vue/24/outline'
+import TheButton from './TheButton.vue'
 defineProps({
   showButtons: {
     type: Boolean,
@@ -43,18 +44,15 @@ defineProps({
     <div v-if="showVideo" class="absolute inset-0 bg-black/55"></div>
     <!-- A fallback bg - if video is missing or blocked -->
     <div v-if="showVideo" class="absolute inset-0 bg-black/25"></div>
-
     <!-- Grid pattern with radial mask -->
     <div
       v-if="showGridPattern"
       class="absolute inset-0 grid-el mask-radial-from-40% mask-radial-to-80% mask-radial-at-center"
     ></div>
-
     <!-- Gradient overlay -->
     <div
       class="absolute inset-0 bg-gradient-to-b from-zinc-900/50 via-transparent to-black/80"
     ></div>
-
     <!-- Content -->
     <div class="relative px-6 pt-14 lg:px-8">
       <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
@@ -71,17 +69,12 @@ defineProps({
             v-if="showButtons"
             class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <button
-              class="px-8 py-3.5 bg-red-600 text-white font-medium text-sm uppercase tracking-wider border border-red-600 transition-all duration-300 hover:bg-red-700 rounded hover:scale-105 active:scale-90"
-            >
-              <slot name="primary-button"> Бутон 1 </slot>
-            </button>
-
-            <button
-              class="px-8 py-3.5 bg-transparent text-zinc-300 font-medium text-sm uppercase tracking-wider border border-zinc-700 transition-all duration-300 hover:text-black hover:bg-white rounded hover:scale-105 active:scale-90"
-            >
-              <slot name="secondary-button"> Бутон 2 </slot>
-            </button>
+            <TheButton>
+              <slot name="primary"></slot>
+            </TheButton>
+            <TheButton variant="secondary">
+              <slot name="secondary"></slot>
+            </TheButton>
           </div>
           <div v-if="showScrollDownIcon">
             <button class="mt-20">
