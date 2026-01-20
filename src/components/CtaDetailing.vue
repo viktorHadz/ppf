@@ -29,7 +29,7 @@ const types = [
 
 <template>
   <section class="bg-zinc-950 py-24 sm:py-32 overflow-hidden relative isolate">
-    <!-- Decorative Element -->
+    <!-- Decorative Element Dark -->
     <svg
       class="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
       aria-hidden="true"

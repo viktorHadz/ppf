@@ -57,10 +57,12 @@ const heroFeatures = [
     <template #secondary>портфолио</template>
   </TheWelcome>
 
-  <div class="bg-zinc-900 py-24 sm:py-32">
-    <div class="mx-auto px-6 lg:px-8">
+  <div class="bg-zinc-900 py-24 sm:py-32 relative overflow-hidden">
+    <!-- Decorative Element Light -->
+    <div class="grid-el-2"></div>
+    <div class="mx-auto px-6 lg:px-8 z-10 relative">
       <div class="mx-auto max-w-2xl lg:text-center">
-        <h2 class="text-base/7 font-semibold text-red-500 mb-6">Професионални Авто Услуги</h2>
+        <h2 class="text-base/7 font-semibold text-red-500 mb-8">Професионални Авто Услуги</h2>
         <p
           class="text-4xl font-semibold tracking-tight text-pretty text-white sm:text-5xl lg:text-balance mb-12"
         >

@@ -112,6 +112,7 @@ const whyUs = [
 
 <template>
   <section class="bg-zinc-900 py-24 sm:py-40 relative overflow-hidden">
+    <!-- Decorative Element Light -->
     <div class="grid-el-2"></div>
 
     <div class="relative mx-auto max-w-7xl px-6 lg:px-8 z-10">

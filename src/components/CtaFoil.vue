@@ -48,7 +48,7 @@ const whyUs = [
       <div
         class="mx-auto grid max-w-7xl grid-cols-1 gap-x-16 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2"
       >
-        <!-- Decorative Element -->
+        <!-- Decorative Element Dark -->
         <svg
           class="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
           aria-hidden="true"
@@ -83,7 +83,7 @@ const whyUs = [
         <div class="lg:pt-4 lg:pr-8">
           <div class="lg:max-w-xl mx-auto max-w-2xl">
             <!-- What is foiling -->
-            <p class="text-base/7 font-semibold text-red-500 mb-6">Фолиране</p>
+            <p class="text-base/7 font-semibold text-red-500 mb-8">Фолиране</p>
 
             <h2 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
               Запазете визията <br class="sm:hidden block" />на вашия автомобил

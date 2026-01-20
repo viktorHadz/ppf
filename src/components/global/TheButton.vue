@@ -18,8 +18,8 @@ const baseClasses =
 
 // Variant-specific styles
 const variantClasses = {
-  primary: 'bg-red-600/50 text-white border-red-600 hover:bg-red-700/80',
-  secondary: 'bg-white/10 text-white border-zinc-500 hover:text-black hover:bg-white/80 ',
+  primary: 'bg-red-600/60 text-white border-red-600 hover:bg-red-700/95',
+  secondary: 'bg-white/20 text-white border-zinc-500 hover:text-black hover:bg-white/80 ',
 }
 
 const buttonClasses = computed(() => `${baseClasses} ${variantClasses[props.variant]}`)
