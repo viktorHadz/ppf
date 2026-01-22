@@ -88,9 +88,14 @@ defineProps({
           <h2 class="text-lg font-semibold text-white">{{ page.benefitsTitle || 'Предимства' }}</h2>
           <dl class="mt-12 grid gap-8 text-base/7 text-gray-400 sm:grid-cols-2 grid-cols-1">
             <div
-              v-for="b in page.benefits"
+              v-for="(b, idx) in page.benefits"
               :key="b.title"
-              class="rounded-2xl bg-white/5 ring-1 ring-white/10 p-8"
+              :class="[
+                'rounded-2xl ring-1 p-8 transition',
+                idx === 0
+                  ? 'bg-white/7 ring-red-500/30 shadow-[0_0_0_1px_rgba(239,68,68,0.15)]'
+                  : 'bg-white/5 ring-white/10',
+              ]"
             >
               <div class="text-base font-semibold text-white">{{ b.title }}</div>
               <div v-if="Array.isArray(b.desc)">
@@ -115,7 +120,11 @@ defineProps({
 
       <div class="relative">
         <!-- PACKAGES / TYPES -->
-        <section v-if="page.sections?.length" class="pb-24 sm:pb-32">
+        <section
+          v-if="page.sections?.length"
+          class="pb-24 sm:pb-32"
+          :id="page.sectionsAnchor || 'types'"
+        >
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div v-for="(s, idx) in page.sections" :key="idx" class="mt-16 first:mt-0">
               <h2 class="text-lg font-semibold text-white">{{ s.title }}</h2>
@@ -126,7 +135,16 @@ defineProps({
                   :key="card.title"
                   class="rounded-2xl bg-white/5 ring-1 ring-white/10 p-8"
                 >
-                  <div class="text-base font-semibold text-white">{{ card.title }}</div>
+                  <div class="flex items-start justify-between gap-4">
+                    <div class="text-base font-semibold text-white">{{ card.title }}</div>
+                    <span
+                      v-if="card.badge"
+                      class="inline-flex items-center text-center rounded-full bg-red-500/15 p-2 text-xs/tight font-semibold text-red-200 ring-1 ring-red-500/25"
+                    >
+                      {{ card.badge }}
+                    </span>
+                  </div>
+
                   <p v-if="card.desc" class="mt-4 text-sm/6 text-gray-400">{{ card.desc }}</p>
                   <ul v-if="card.items?.length" class="mt-6 space-y-3 text-sm text-gray-300/90">
                     <li v-for="it in card.items" :key="it" class="flex gap-3">
@@ -134,13 +152,6 @@ defineProps({
                       <span>{{ it }}</span>
                     </li>
                   </ul>
-                  <a
-                    v-if="card.cta"
-                    :href="card.cta.href"
-                    class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-black/30 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-black/40 transition"
-                  >
-                    {{ card.cta.label }}
-                  </a>
                 </div>
               </div>
             </div>
@@ -151,7 +162,7 @@ defineProps({
           <div v-for="why in page.whyUs" :key="why.title" class="mx-auto max-w-7xl px-6 lg:px-8">
             <h2 class="text-lg font-semibold text-white text-center">{{ why.title }}</h2>
 
-            <div class="mt-10 p-8">
+            <div class="mt-10">
               <ul class="grid gap-4 sm:grid-cols-2">
                 <li
                   v-for="(desc, i) in why.items"
@@ -173,8 +184,21 @@ defineProps({
           </div>
         </section>
 
+        <div class="mx-auto max-w-4xl px-6 lg:px-8 pb-10">
+          <p class="text-sm/6 text-gray-400">
+            <span class="text-gray-200 font-semibold">Не сте сигурни кой вариант е подходящ?</span>
+            Свържете се с нас за кратка консултация и ще ви насочим към оптималния тип фолио и
+            процент.
+            <a
+              :href="page.finalCta?.href || '/contact'"
+              class="ml-2 text-red-300 hover:text-red-200 underline underline-offset-4"
+            >
+              Консултация
+            </a>
+          </p>
+        </div>
         <!-- FAQ -->
-        <section v-if="page.faq?.length" class="pb-24 sm:pb-32">
+        <section v-if="page.faq?.length" class="pb-24 sm:pb-12">
           <div class="mx-auto max-w-4xl px-6 lg:px-8">
             <h2 class="text-lg font-semibold text-white">Често задавани въпроси</h2>
             <dl class="mt-16 divide-y divide-white/10">
@@ -201,32 +225,6 @@ defineProps({
                 </DisclosurePanel>
               </Disclosure>
             </dl>
-          </div>
-        </section>
-        <!-- FINAL CTA -->
-        <section class="pb-24 sm:pb-32">
-          <div class="mx-auto max-w-7xl px-6 lg:px-8">
-            <div
-              class="rounded-2xl bg-white/5 ring-1 ring-white/10 p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-8"
-            >
-              <div>
-                <h2 class="text-lg font-semibold text-white">
-                  {{ page.finalCta?.title || 'Готови ли сте?' }}
-                </h2>
-                <p class="mt-2 text-sm/6 text-gray-400">
-                  {{
-                    page.finalCta?.subtitle ||
-                    'Изпратете запитване и ще ви предложим решение според автомобила.'
-                  }}
-                </p>
-              </div>
-              <a
-                :href="page.finalCta?.href || '/contact'"
-                class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
-              >
-                {{ page.finalCta?.label || 'Запитване' }}
-              </a>
-            </div>
           </div>
         </section>
       </div>

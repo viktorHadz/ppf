@@ -65,10 +65,10 @@ const navigation = {
         <hgroup>
           <h2 class="text-base/7 font-semibold text-red-500">Свържи се с нас</h2>
           <p class="mt-6 text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl">
-            Подари на автомобила си грижата, която заслужава
+            Професионално затъмняване, съобразено с вашия автомобил
           </p>
         </hgroup>
-        <p class="mx-auto mt-12 max-w-xl text-lg/8 text-pretty text-gray-200">
+        <p class="mx-auto mt-12 max-w-xl text-lg/8 text-pretty text-gray-400">
           Избери качество, внимание към детайла и професионализъм. Екипът на
           <span class="font-bold text-red-500">ИДО ГРУП</span> е готов да ти помогне с индивидуални
           решения за защита, стил и комфорт на твоя автомобил.

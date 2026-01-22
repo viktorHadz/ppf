@@ -17,7 +17,7 @@ const routes = [
   {
     path: '/затъмняване',
     name: 'Затъмняване',
-    component: () => import('@/views/GlassDarkeningView.vue'),
+    component: () => import('@/views/DarkeningView.vue'),
   },
 ]
 
