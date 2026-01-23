@@ -1,9 +1,7 @@
 <script setup>
-import TheWelcome from '@/components/global/TheWelcome.vue'
+import ServicePage from '@/components/global/ServicePage.vue'
+import page from '@/components/services/detailing.js'
 </script>
 <template>
-  <TheWelcome :show-scroll-down-icon="true">
-    <template #title>Детайлинг</template>
-    <template #under-title> Детайлинг на колата ти. Дай сладоледа бейби</template>
-  </TheWelcome>
+  <ServicePage :page="page" />
 </template>

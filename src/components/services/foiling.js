@@ -3,6 +3,19 @@ export default {
     title: 'Премиум защита и стил за вашия автомобил',
     subtitle:
         'PPF (защитно фолио) е висок клас полиуретаново покритие, което създава изключително устойчив защитен слой върху автомобилната боя. То предпазва от камъчета, драскотини, UV лъчи и химически замърсители, като същевременно позволява промяна на визията чрез прозрачно, матово или цветно изпълнение.',
+    // NEW: hero variant + tile images
+    hero: {
+        variant: 'imageTileStack',
+        // optional extra paragraph under subtitle
+        body:
+            'PPF може да бъде включено към вашето Каско, а при надраскване или удар от камъчета фолиото може да се подмени бързо — без излишно чакане за бояджийски ремонт.',
+        tiles: [
+            { src: 'src/assets/foilingRollsRoyce.webp', alt: 'PPF монтаж – детайл' },
+            { src: 'src/assets/ppfGreenBottleSmall.webp', alt: 'PPF защита – близък план' },
+            { src: 'src/assets/detailingScrub.webp', alt: 'PPF финиш – гланц' },
+            { src: 'src/assets/wet-car.webp', alt: 'PPF обработка – инструмент' },
+        ],
+    },
     heroImage: {
         src: 'src/assets/ppfGreenBottleSmall.webp',
         alt: 'Автомобил с PPF защитно фолио',
@@ -14,6 +27,7 @@ export default {
     },
 
     benefitsTitle: 'Предимства на PPF',
+
     benefits: [
         {
             title: 'Максимална защита',

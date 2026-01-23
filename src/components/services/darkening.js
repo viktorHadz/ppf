@@ -3,9 +3,19 @@ export default {
   title: 'Стил, комфорт и защита за вашия автомобил',
   subtitle:
     'Професионалното затъмняване на стъклата е повече от естетика - това е инвестиция в комфорт, безопасност и защита на интериора. Висококачествените фолиа филтрират UV лъчите, намаляват топлината и осигуряват дискретност, като същевременно подобряват визията на автомобила, без да пречат на видимостта.',
+  // hero variant and tile images
+  hero: {
+    variant: 'imageTileStack',
+    tiles: [
+      { src: 'src/assets/ppfTile1.webp', alt: 'PPF монтаж – детайл' },
+      { src: 'src/assets/ppfTile2.webp', alt: 'PPF защита – близък план' },
+      { src: 'src/assets/ppfTile3.webp', alt: 'PPF финиш – гланц' },
+      { src: 'src/assets/ppfTile4.webp', alt: 'PPF обработка – инструмент' },
+    ],
+  },
   heroImage: {
-    src: 'src/assets/tintingMercBackSideSmall.webp',
-    alt: 'Мерцедес със затъмнени стъкла',
+    src: 'src/assets/ppfGreenBottleSmall.webp',
+    alt: 'Автомобил с PPF защитно фолио',
   },
   cta: {
     primary: { label: 'Консултация', href: '/contact?service=darkening' },
@@ -97,7 +107,6 @@ export default {
       ],
     },
   ],
-
   faq: [
     {
       q: 'Ще се влоши ли видимостта при шофиране?',
@@ -120,7 +129,6 @@ export default {
       a: 'Да. Фолиото блокира до 99% от UV лъчите, което значително намалява избледняването, напукването и стареенето на таблото, кожата и тапицерията.',
     },
   ],
-
   finalCta: {
     title: 'Индивидуална препоръка за вашия автомобил',
     subtitle:

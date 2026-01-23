@@ -10,8 +10,8 @@ defineProps({
 
 <template>
   <main class="bg-zinc-950 relative isolate overflow-hidden">
-    <!-- Decorative Element Dark -->
     <div>
+      <!-- Decorative Element Dark -->
       <svg
         class="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
         aria-hidden="true"
@@ -43,7 +43,90 @@ defineProps({
       </svg>
       <!-- HERO -->
       <section class="py-24 sm:py-32">
-        <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <!-- TODO DETAILING VARIANT - Large hoz image with text underneath -->
+        <!-- Variant 1 - Image Tile Stack -->
+        <div v-if="page.hero?.variant === 'imageTileStack'">
+          <div class="mx-auto max-w-7xl px-6 lg:flex lg:px-8">
+            <div
+              class="mx-auto grid max-w-2xl grid-cols-1 gap-x-12 gap-y-16 lg:mx-0 lg:max-w-none lg:min-w-full lg:flex-none lg:gap-y-8"
+            >
+              <div class="lg:col-end-1 lg:w-full lg:max-w-lg lg:pb-8">
+                <p v-if="page.eyebrow" class="text-base/7 font-semibold text-red-500 mb-8">
+                  {{ page.eyebrow }}
+                </p>
+
+                <h1 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
+                  {{ page.title }}
+                </h1>
+
+                <p v-if="page.subtitle" class="mt-6 text-lg/8 text-gray-400">
+                  {{ page.subtitle }}
+                </p>
+
+                <p v-if="page.hero?.body" class="mt-6 text-sm/7 text-gray-400">
+                  {{ page.hero.body }}
+                </p>
+
+                <div v-if="page.cta" class="mt-10 flex flex-col gap-4 sm:flex-row">
+                  <a
+                    :href="page.cta.primary.href"
+                    class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
+                  >
+                    {{ page.cta.primary.label }}
+                  </a>
+
+                  <a
+                    v-if="page.cta.secondary"
+                    :href="page.cta.secondary.href"
+                    class="inline-flex items-center justify-center rounded-xl bg-white/5 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
+                  >
+                    {{ page.cta.secondary.label }}
+                  </a>
+                </div>
+              </div>
+
+              <div class="flex flex-wrap items-start justify-end gap-6 sm:gap-8 lg:contents">
+                <div class="w-0 flex-auto lg:ml-auto lg:w-auto lg:flex-none lg:self-end">
+                  <img
+                    :src="page.hero?.tiles?.[0]?.src"
+                    :alt="page.hero?.tiles?.[0]?.alt || ''"
+                    class="aspect-7/5 w-[37rem] max-w-none rounded-2xl bg-gray-50 object-cover"
+                  />
+                </div>
+
+                <div
+                  class="contents lg:col-span-2 lg:col-end-2 lg:ml-auto lg:flex lg:w-[37rem] lg:items-start lg:justify-end lg:gap-x-8"
+                >
+                  <div class="order-first flex w-64 flex-none justify-end self-end lg:w-auto">
+                    <img
+                      :src="page.hero?.tiles?.[1]?.src"
+                      :alt="page.hero?.tiles?.[1]?.alt || ''"
+                      class="aspect-4/3 w-[24rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover"
+                    />
+                  </div>
+
+                  <div class="flex w-96 flex-auto justify-end lg:w-auto lg:flex-none">
+                    <img
+                      :src="page.hero?.tiles?.[2]?.src"
+                      :alt="page.hero?.tiles?.[2]?.alt || ''"
+                      class="aspect-7/5 w-[37rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover"
+                    />
+                  </div>
+
+                  <div class="hidden sm:block sm:w-0 sm:flex-auto lg:w-auto lg:flex-none">
+                    <img
+                      :src="page.hero?.tiles?.[3]?.src"
+                      :alt="page.hero?.tiles?.[3]?.alt || ''"
+                      class="aspect-4/3 w-[24rem] max-w-none rounded-2xl bg-gray-50 object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Variant 2 - Text Left / Image right -->
+        <div v-else class="mx-auto max-w-7xl px-6 lg:px-8">
           <p v-if="page.eyebrow" class="text-base/7 font-semibold text-red-500 mb-8">
             {{ page.eyebrow }}
           </p>
@@ -86,7 +169,10 @@ defineProps({
       <section v-if="page.benefits?.length" class="pb-24 sm:pb-32 bg-zinc-950">
         <div class="mx-auto max-w-7xl px-6 lg:px-8">
           <h2 class="text-lg font-semibold text-white">{{ page.benefitsTitle || 'Предимства' }}</h2>
-          <dl class="mt-12 grid gap-8 text-base/7 text-gray-400 sm:grid-cols-2 grid-cols-1">
+          <p v-if="page.benefitsSubtitle" class="text-gray-400 mt-8 text-pretty text-lg/8">
+            {{ page.benefitsSubtitle }}
+          </p>
+          <dl class="mt-16 grid gap-8 text-base/7 text-gray-400 sm:grid-cols-2 grid-cols-1">
             <div
               v-for="(b, idx) in page.benefits"
               :key="b.title"
@@ -128,7 +214,7 @@ defineProps({
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <div v-for="(s, idx) in page.sections" :key="idx" class="mt-16 first:mt-0">
               <h2 class="text-lg font-semibold text-white">{{ s.title }}</h2>
-              <p v-if="s.subtitle" class="mt-2 text-sm/6 text-gray-400">{{ s.subtitle }}</p>
+              <p v-if="s.subtitle" class="mt-2 text-gray-400">{{ s.subtitle }}</p>
               <div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
                 <div
                   v-for="card in s.cards"

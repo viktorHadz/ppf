@@ -1,9 +1,7 @@
 <script setup>
-import TheWelcome from '@/components/global/TheWelcome.vue'
+import ServicePage from '@/components/global/ServicePage.vue'
+import page from '@/components/services/insurance.js'
 </script>
 <template>
-  <TheWelcome :show-scroll-down-icon="true">
-    <template #title>Застраховки</template>
-    <template #under-title> Застраховай сладоледта с нас</template>
-  </TheWelcome>
+  <ServicePage :page="page" />
 </template>
