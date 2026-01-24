@@ -1,7 +1,6 @@
 <script setup>
 import { SparklesIcon, ShieldCheckIcon, BeakerIcon } from '@heroicons/vue/20/solid'
-import detailingScrub from '@/assets/detailingScrub.webp'
-
+import detailingRollsRoyce from '@/assets/detailingRollsRoyce.webp'
 const benefits = [
   {
     name: 'Перфектна визия',
@@ -123,7 +122,7 @@ const types = [
         <!-- RIGHT -->
         <div class="lg:col-span-6">
           <img
-            :src="detailingScrub"
+            :src="detailingRollsRoyce"
             alt="Авто детайлинг"
             class="w-full rounded-2xl shadow-2xl ring-1 ring-white/10 object-cover"
           />

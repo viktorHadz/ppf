@@ -3,7 +3,7 @@ import TheWelcome from '@/components/global/TheWelcome.vue'
 import towelGreen from '@/assets/car-towel-green.webp'
 import handToolPpf from '@/assets/hand-tool-ppf.webp'
 import wetCar from '@/assets/wet-car.webp'
-import tintedWindows from '@/assets/tinted-windows-green-glow.webp'
+import tintedWindows from '@/assets/darkeningGreenGlow.webp'
 import towelWrapping from '@/assets/carWrappingRedTowel.webp'
 import detailingPurple from '@/assets/detailingPurpl.webp'
 

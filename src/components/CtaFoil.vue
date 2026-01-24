@@ -8,9 +8,9 @@ import {
 } from '@heroicons/vue/20/solid'
 
 import foilingBmw from '@/assets/foilingBmw.webp'
-import foilingMachine from '@/assets/foilingMachine.webp'
-import foilingMerc from '@/assets/foilingMerc.webp'
-import foilingMercSide from '@/assets/foilingMercSide.webp'
+import foilingTaykan from '@/assets/foilingPorscheTaykan.webp'
+import foilingRR from '@/assets/decorRollsRoyceSmall.webp'
+import foilingRRFront from '@/assets/foilingRollsRoyceFront.webp'
 
 const benefits = [
   {
@@ -150,12 +150,12 @@ const whyUs = [
           </div>
           <div class="relative flex gap-x-8 mb-24">
             <img
-              :src="foilingMerc"
+              :src="foilingTaykan"
               alt="Фолиран Мерцедес"
               class="w-[70%] sm:w-[70%] lg:w-[70%] xl:w-[80%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
             />
             <img
-              :src="foilingMachine"
+              :src="foilingRR"
               alt="Фолираща машина"
               class="w-[50%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
             />
@@ -163,7 +163,7 @@ const whyUs = [
 
           <div class="relative -right-0 sm:-right-28">
             <img
-              :src="foilingMercSide"
+              :src="foilingRRFront"
               alt="Странична снимка на фолиран мерцедес"
               class="w-[100%] sm:w-[80%] lg:w-[90%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
             />

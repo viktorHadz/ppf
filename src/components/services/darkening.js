@@ -4,17 +4,9 @@ export default {
   subtitle:
     'Професионалното затъмняване на стъклата е повече от естетика - това е инвестиция в комфорт, безопасност и защита на интериора. Висококачествените фолиа филтрират UV лъчите, намаляват топлината и осигуряват дискретност, като същевременно подобряват визията на автомобила, без да пречат на видимостта.',
   // hero variant and tile images
-  hero: {
-    variant: 'imageTileStack',
-    tiles: [
-      { src: 'src/assets/ppfTile1.webp', alt: 'PPF монтаж – детайл' },
-      { src: 'src/assets/ppfTile2.webp', alt: 'PPF защита – близък план' },
-      { src: 'src/assets/ppfTile3.webp', alt: 'PPF финиш – гланц' },
-      { src: 'src/assets/ppfTile4.webp', alt: 'PPF обработка – инструмент' },
-    ],
-  },
+
   heroImage: {
-    src: 'src/assets/ppfGreenBottleSmall.webp',
+    src: 'src/assets/tintingDoorVertSmall.webp',
     alt: 'Автомобил с PPF защитно фолио',
   },
   cta: {
@@ -96,7 +88,9 @@ export default {
   whyUs: [
     {
       title: 'Защо да изберете професионално затъмняване?',
-      image: 'src/assets/tintingCombiBack.webp',
+      subtitle: 'Предлагаме професионално затъмняване, съобразено с вашите изисквания и нуждите на автомобила. Комбинираме комфорт, защита и дискретен стил с безупречна изработка.',
+
+      image: 'src/assets/tintingDoorHoz.webp',
       imageAlt: 'Комби автомобил със затъмнени стъкла',
       items: [
         'Оптимална защита от топлина и UV лъчи',
