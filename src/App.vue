@@ -6,7 +6,7 @@ import TheFooter from './components/global/TheFooter.vue'
 
 const menuOpen = ref(false)
 const isHidden = ref(false)
-let lastScrollY = window.scrollY
+let lastScrollY = 0
 
 // Nav show/hide controller
 const onScroll = () => {

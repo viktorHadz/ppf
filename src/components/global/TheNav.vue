@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, watch } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
@@ -13,25 +13,26 @@ const navigation = [
     name: 'Услуги',
     href: '/услуги',
     children: [
-      { name: 'Фолиране на Автомобил', href: '/фолиране' },
-      { name: 'Затъмняване на Стъкла', href: '/затъмняване' },
-      { name: 'Авто Детайлинг', href: '/детайлинг' },
-      { name: 'Авто Застраховки', href: '/застраховки' },
-      { name: 'Консумативи и Плотери', href: '/плотери' },
+      { name: 'Фолиране на Автомобил', href: '/ppf' },
+      { name: 'Затъмняване на Стъкла', href: '/tinting' },
+      { name: 'Авто Детайлинг', href: '/detailing' },
+      { name: 'Авто Застраховки', href: '/insurance' },
+      // { name: 'Консумативи и Плотери', href: '/плотери' }, // To release in the future
     ],
   },
-  { name: 'Галерия', href: '/галерия' },
-  { name: 'Екипа', href: '/екип' },
-  { name: 'Контакт', href: '/контакт' },
+  { name: 'Галерия', href: '/gallery' },
+  { name: 'Портфолио', href: '/portfolio' },
+  { name: 'Контакт', href: '/contact' },
 ]
-const openStates = ref({})
 
+const openStates = ref({})
 // Emits for menu opening. Communicated to App.vue for scroll hide show behavior
 const emit = defineEmits(['update:navOpen'])
-const mobileOpen = ref(false)
 const desktopOpen = computed(() => Object.values(openStates.value).some(Boolean))
-const navOpen = computed(() => mobileOpen.value || desktopOpen.value)
-watch(navOpen, (val) => emit('update:navOpen', val), { immediate: true })
+
+const notifyNavOpen = (mobileOpen) => {
+  emit('update:navOpen', mobileOpen || desktopOpen.value)
+}
 
 const toggleDropdown = (name) => {
   openStates.value[name] = !openStates.value[name]
@@ -46,6 +47,16 @@ const isParentActive = (item) => {
   if (!item.children) return false
   return item.children.some((child) => route.path.startsWith(child.href))
 }
+let mq
+onMounted(() => {
+  mq = window.matchMedia('(min-width: 768px)') // tailwind md
+  const handler = () => {
+    openStates.value = {} // close dropdown/accordions
+    emit('update:navOpen', false) // force unlock header
+  }
+  mq.addEventListener('change', handler)
+  onUnmounted(() => mq.removeEventListener('change', handler))
+})
 </script>
 
 <template>
@@ -57,7 +68,7 @@ const isParentActive = (item) => {
           <DisclosureButton
             class="relative inline-flex items-center justify-center p-2.5 text-zinc-400 hover:text-red-500 hover:bg-zinc-900/50 border border-zinc-800 transition-all duration-200 rounded-xl"
           >
-            <span class="sr-only">Главно меню {{ mobileOpen = open }}</span>
+            <span class="sr-only">{{ notifyNavOpen(open || desktopOpen) }}</span>
             <Bars3Icon v-if="!open" class="block size-6" aria-hidden="true" />
             <XMarkIcon v-else class="block size-6" aria-hidden="true" />
           </DisclosureButton>
@@ -127,7 +138,7 @@ const isParentActive = (item) => {
                     >
                       <a
                         :href="href"
-                        @click="navigate"
+                        @click="navigate($event)"
                         :class="[
                           'block px-5 py-3 text-sm transition-all duration-200 tracking-wide uppercase border-b border-zinc-800/30 last:border-b-0 border-l-2',
                           isExactActive
@@ -147,7 +158,7 @@ const isParentActive = (item) => {
                 <RouterLink :to="item.href" custom v-slot="{ href, navigate, isExactActive }">
                   <a
                     :href="href"
-                    @click="navigate"
+                    @click="navigate($event)"
                     :class="[
                       'flex items-center px-4 h-20 text-sm font-medium tracking-wide uppercase transition-all duration-200 relative border-l border-r hover:bg-zinc-900/30',
                       isExactActive
