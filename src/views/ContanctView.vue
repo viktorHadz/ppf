@@ -54,7 +54,7 @@ function submit() {
 </script>
 
 <template>
-  <div class="bg-zinc-950 py-16 sm:py-24">
+  <div class="relative bg-zinc-950 py-14 sm:py-20 overflow-hidden">
     <div
       class="pointer-events-none absolute inset-0 [mask-image:radial-gradient(40rem_40rem_at_center,white,transparent)]"
       aria-hidden="true"
@@ -83,7 +83,7 @@ function submit() {
           </p>
 
           <div
-            class="relative overflow-hidden rounded-[2rem] bg-white/5 ring-1 ring-white/10 shadow-2xl mt-10"
+            class="relative overflow-hidden rounded-2xl sm:rounded-[2rem] bg-white/5 ring-1 ring-white/10 shadow-2xl mt-10"
           >
             <img :src="mercEQS" alt="Броня на мерцедес" class="w-full aspect-[4/5] object-cover" />
 

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/vue/24/outline'
@@ -24,8 +24,14 @@ const navigation = [
   { name: 'Екипа', href: '/екип' },
   { name: 'Контакт', href: '/контакт' },
 ]
-
 const openStates = ref({})
+
+// Emits for menu opening. Communicated to App.vue for scroll hide show behavior
+const emit = defineEmits(['update:navOpen'])
+const mobileOpen = ref(false)
+const desktopOpen = computed(() => Object.values(openStates.value).some(Boolean))
+const navOpen = computed(() => mobileOpen.value || desktopOpen.value)
+watch(navOpen, (val) => emit('update:navOpen', val), { immediate: true })
 
 const toggleDropdown = (name) => {
   openStates.value[name] = !openStates.value[name]
@@ -43,19 +49,15 @@ const isParentActive = (item) => {
 </script>
 
 <template>
-  <Disclosure
-    as="nav"
-    class="relative bg-black border-b border-zinc-800/50 z-[100]"
-    v-slot="{ open }"
-  >
+  <Disclosure as="nav" class="relative bg-zinc-950 border-b border-zinc-800/50" v-slot="{ open }">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative">
       <div class="relative flex h-20 items-center justify-between">
         <!-- MOBILE MENU BUTTON -->
         <div class="absolute inset-y-0 right-0 flex items-center md:hidden">
           <DisclosureButton
-            class="relative inline-flex items-center justify-center p-2.5 text-zinc-400 hover:text-red-500 hover:bg-zinc-900/50 border border-zinc-800 transition-all duration-200"
+            class="relative inline-flex items-center justify-center p-2.5 text-zinc-400 hover:text-red-500 hover:bg-zinc-900/50 border border-zinc-800 transition-all duration-200 rounded-xl"
           >
-            <span class="sr-only">Главно меню</span>
+            <span class="sr-only">Главно меню {{ mobileOpen = open }}</span>
             <Bars3Icon v-if="!open" class="block size-6" aria-hidden="true" />
             <XMarkIcon v-else class="block size-6" aria-hidden="true" />
           </DisclosureButton>
@@ -63,13 +65,15 @@ const isParentActive = (item) => {
 
         <!-- LOGO -->
         <div class="flex flex-1 items-start justify-start sm:items-stretch sm:justify-between">
-          <div class="flex shrink-0 items-center">
+          <RouterLink to="/" class="flex shrink-0 items-center">
             <img class="h-14 sm:h-16 w-auto" :src="logo" alt="ИДО ГРУП" />
             <div class="ml-4">
-              <p class="text-white tracking-widest font-black text-2xl">IDO</p>
-              <p class="text-white tracking-tight text-sm">GROUP</p>
+              <p class="text-white tracking-widest text-lg/tight font-serif uppercase">ido elite</p>
+              <p class="text-white tracking-tighter text-lg/tight font-serif uppercase">
+                protection
+              </p>
             </div>
-          </div>
+          </RouterLink>
 
           <!-- DESKTOP NAV -->
           <div class="hidden md:flex md:space-x-1 ml-6 my-auto relative">
@@ -112,7 +116,7 @@ const isParentActive = (item) => {
                 >
                   <div
                     v-show="openStates[item.name]"
-                    class="absolute left-0 top-full w-56 bg-black border border-zinc-800/50 shadow-2xl"
+                    class="absolute left-0 top-full w-56 bg-zinc-950 border border-zinc-800/50 shadow-2xl"
                   >
                     <RouterLink
                       v-for="child in item.children"
@@ -167,7 +171,7 @@ const isParentActive = (item) => {
 
     <!-- MOBILE MENU -->
     <DisclosurePanel class="md:hidden">
-      <div class="space-y-0 px-4 pt-3 pb-4 border-t border-zinc-800/50 bg-black">
+      <div class="space-y-0 px-4 pt-3 pb-4 border-t border-zinc-800/50 bg-zinc-950">
         <div v-for="item in navigation" :key="item.name">
           <!-- MOBILE WITH CHILDREN -->
           <div v-if="item.children">

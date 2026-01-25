@@ -161,7 +161,7 @@ defineProps({
           </div>
 
           <!-- Image -->
-          <div class="relative mt-16">
+          <div class="relative mt-16 -z-10">
             <!-- glow -->
             <div
               class="absolute inset-x-0 -top-24 h-64 bg-linear-to-tr from-red-500/20 via-white/5 to-transparent blur-3xl"

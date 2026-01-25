@@ -143,7 +143,7 @@ const whyUs = [
         <div class="relative py-8 sm:py-4">
           <div class="relative -right-0 sm:-right-28 mb-24">
             <img
-              :src="foilingBmw"
+              :src="foilingRRFront"
               alt="Фолирано БМВ"
               class="w-[100%] sm:w-[80%] lg:w-[90%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
             />
@@ -163,7 +163,7 @@ const whyUs = [
 
           <div class="relative -right-0 sm:-right-28">
             <img
-              :src="foilingRRFront"
+              :src="foilingBmw"
               alt="Странична снимка на фолиран мерцедес"
               class="w-[100%] sm:w-[80%] lg:w-[90%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
             />
