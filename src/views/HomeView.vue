@@ -8,34 +8,35 @@ import IconInsurance from '@/components/icons/IconInsurance.vue'
 import CtaDarkening from '@/components/CtaDarkening.vue'
 import CtaFoil from '@/components/CtaFoil.vue'
 import CtaDetailing from '@/components/CtaDetailing.vue'
+import DecorDiagSheen from '@/components/global/DecorDiagSheen.vue'
 
 const heroFeatures = [
   {
     name: 'Премиум Автофолиране',
     description:
       'Използваме висококачествени фолия и технологии за постигане на перфектно покритие и дълготрайна защита. Всеки детайл се обработва с внимание и прецизност.',
-    href: '#',
+    href: 'ppf',
     icon: IconFoil,
   },
   {
     name: 'Затъмняване на Автостъкла',
     description:
       'Професионално поставяне на фолио за стъкла с оптимален баланс между стил, безопасност и защита от UV лъчи. Сертифицирани материали и безкомпромисно качество.',
-    href: '#',
+    href: 'tinting',
     icon: IconDarkening,
   },
   {
     name: 'Авто Детайлинг',
     description:
       'Дълбочинно почистване и възстановяване на екстериора и интериора – полиране, деконтаминация, защита на лак, кожа и пластмаси. Фокус върху детайла, не върху бързия ефект.',
-    href: '#',
+    href: 'detailing',
     icon: IconDetailing,
   },
   {
     name: 'Застраховане и Консултация',
     description:
       'Осигуряваме съдействие при избор на подходяща застраховка и пълна консултация за защита на вашия автомобил. Работим с утвърдени партньори и прозрачни условия.',
-    href: '#',
+    href: 'insurance',
     icon: IconInsurance,
   },
 ]
@@ -52,7 +53,6 @@ const heroFeatures = [
       Елитна визия <br />
       премиум защита
     </template>
-    <template #under-title>сложи клипа като фон със бутон - за максимизиране и звук</template>
     <template #primary>запитване</template>
     <template #secondary>портфолио</template>
   </TheWelcome>
@@ -60,6 +60,9 @@ const heroFeatures = [
   <div class="bg-zinc-900 py-24 sm:py-32 relative overflow-hidden">
     <!-- Decorative Element Light -->
     <div class="grid-el-2"></div>
+    <!-- Decorative Element Dividers and Sheen -->
+    <DecorDiagSheen />
+
     <div class="mx-auto px-6 lg:px-8 z-10 relative">
       <div class="mx-auto max-w-2xl lg:text-center">
         <h2 class="text-base/7 font-semibold text-red-500 mb-8">Професионални Авто Услуги</h2>
@@ -88,8 +91,8 @@ const heroFeatures = [
             <dd class="mt-4 flex flex-auto flex-col text-base/7 text-gray-400">
               <p class="flex-auto">{{ feature.description }}</p>
               <p class="mt-6">
-                <a
-                  :href="feature.href"
+                <RouterLink
+                  :to="feature.href"
                   class="group text-sm/6 font-semibold text-red-500 inline-flex items-center"
                 >
                   Научи повече
@@ -99,7 +102,7 @@ const heroFeatures = [
                   >
                     →
                   </span>
-                </a>
+                </RouterLink>
               </p>
             </dd>
           </div>

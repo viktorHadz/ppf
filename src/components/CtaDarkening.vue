@@ -12,6 +12,7 @@ import {
 import whiteCarTintElement from '@/assets/whiteCarWhiteBg.webp'
 
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
+import DecorDiagSheen from './global/DecorDiagSheen.vue'
 
 let onResize
 onMounted(async () => {
@@ -98,20 +99,12 @@ const whyUs = [
   'Чиста подготовка и контрол на качеството',
   'Препоръчваме фолио според модела, видимостта и целта ви',
 ]
-
-// function goContactWithTint(stat) {
-//   router.push({
-//     path: '/contact',
-//     query: {
-//       service: 'darkening',
-//       tint: stat.value.replace('%', ''),
-//     },
-//   })
-// }
 </script>
 
 <template>
   <section class="bg-zinc-900 py-24 sm:py-40 relative overflow-hidden">
+    <!-- Decorative Element Dividers and Sheen -->
+    <DecorDiagSheen />
     <!-- Decorative Element Light -->
     <div class="grid-el-2"></div>
 
@@ -130,7 +123,7 @@ const whyUs = [
 
       <!-- What can tinting do for you -->
       <div class="mx-auto mt-20 max-w-5xl">
-        <h3 class="text-lg font-semibold text-gray-200">Какво ви дава затъмняването</h3>
+        <h3 class="text-lg font-semibold text-gray-200">Какво предлага затъмняването</h3>
         <dl class="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 text-base/7 text-gray-400">
           <div v-for="b in benefits" :key="b.name" class="relative pl-9">
             <dt class="font-semibold text-gray-200">
@@ -161,14 +154,13 @@ const whyUs = [
               </ul>
             </div>
 
-            <!-- push CTAs to bottom on desktop -->
             <div class="mt-8 lg:mt-auto flex flex-col gap-3 sm:flex-row">
-              <a
-                href="/contact?service=darkening"
+              <RouterLink
+                to="/tinting"
                 class="inline-flex items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
               >
                 Научи повече
-              </a>
+              </RouterLink>
             </div>
           </div>
 

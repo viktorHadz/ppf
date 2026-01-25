@@ -58,11 +58,11 @@ defineProps({
       <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
         <div class="text-center space-y-8">
           <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl uppercase">
-            <slot name="title">Default Title</slot>
+            <slot name="title"></slot>
           </h1>
 
           <p class="text-lg font-medium text-zinc-400 sm:text-xl tracking-wide">
-            <slot name="under-title">Default subtitle text</slot>
+            <slot name="under-title"></slot>
           </p>
 
           <div

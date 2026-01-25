@@ -26,3 +26,32 @@
   inset: 0;
   z-index: 0;
 }
+.corner-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  filter: blur(32px);
+
+  background:
+    radial-gradient(440px 440px at 0% 0%, rgba(239, 68, 68, 0.12), transparent 70%),
+    radial-gradient(440px 440px at 100% 0%, rgba(239, 68, 68, 0.12), transparent 70%),
+    radial-gradient(440px 440px at 0% 100%, rgba(239, 68, 68, 0.1), transparent 70%),
+    radial-gradient(440px 440px at 100% 100%, rgba(239, 68, 68, 0.1), transparent 70%);
+}
+.image-spotlight {
+  background: radial-gradient(700px 520px at 65% 25%, rgba(239, 68, 68, 0.12), transparent 68%);
+
+  /* contains it so it feels premium, not washed */
+  mask-image: radial-gradient(70% 70% at 50% 40%, white, transparent);
+}
+
+.tint-corners {
+  filter: blur(28px);
+  opacity: 0.9;
+  background:
+    radial-gradient(340px 340px at 0% 0%, rgba(239, 68, 68, 0.08), transparent 70%),
+    radial-gradient(340px 340px at 100% 0%, rgba(239, 68, 68, 0.08), transparent 70%),
+    radial-gradient(340px 340px at 0% 100%, rgba(239, 68, 68, 0.05), transparent 70%),
+    radial-gradient(340px 340px at 100% 100%, rgba(239, 68, 68, 0.05), transparent 70%);
+  mask-image: radial-gradient(85% 85% at 50% 50%, white, transparent);
+}

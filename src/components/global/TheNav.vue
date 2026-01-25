@@ -20,8 +20,8 @@ const navigation = [
       // { name: 'Консумативи и Плотери', href: '/плотери' }, // To release in the future
     ],
   },
-  { name: 'Галерия', href: '/gallery' },
   { name: 'Портфолио', href: '/portfolio' },
+  { name: 'Екип', href: '/about' },
   { name: 'Контакт', href: '/contact' },
 ]
 

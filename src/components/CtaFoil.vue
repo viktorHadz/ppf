@@ -44,7 +44,7 @@ const whyUs = [
 
 <template>
   <section class="relative isolate overflow-hidden bg-zinc-950 py-32 sm:py-36">
-    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8 relative z-10">
       <div
         class="mx-auto grid max-w-7xl grid-cols-1 gap-x-16 gap-y-16 sm:gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-2"
       >
@@ -123,50 +123,60 @@ const whyUs = [
 
             <!-- CTA -->
             <div class="mt-12 flex flex-col gap-4 sm:flex-row">
-              <a
-                href="/services/ppf"
+              <RouterLink
+                to="ppf"
                 class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
               >
                 Виж пакети
-              </a>
-              <a
-                href="/contact"
+              </RouterLink>
+              <RouterLink
+                to="contact"
                 class="inline-flex items-center justify-center rounded-xl bg-white/5 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
               >
                 Запитване
-              </a>
+              </RouterLink>
             </div>
           </div>
         </div>
 
         <!-- RIGHT: image stack -->
         <div class="relative py-8 sm:py-4">
-          <div class="relative -right-0 sm:-right-28 mb-24">
-            <img
-              :src="foilingRRFront"
-              alt="Фолирано БМВ"
-              class="w-[100%] sm:w-[80%] lg:w-[90%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
-            />
-          </div>
-          <div class="relative flex gap-x-8 mb-24">
-            <img
-              :src="foilingTaykan"
-              alt="Фолиран Мерцедес"
-              class="w-[70%] sm:w-[70%] lg:w-[70%] xl:w-[80%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
-            />
-            <img
-              :src="foilingRR"
-              alt="Фолираща машина"
-              class="w-[50%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
-            />
-          </div>
+          <!-- Decor - Behind-Image Red Spotlight -->
+          <div
+            class="image-spotlight absolute pointer-events-none z-0 -inset-[25%] sm:-inset-[18%] lg:-inset-[14%] opacity-60 sm:opacity-80 lg:opacity-90 blur-[28px] sm:blur-[40px] lg:blur-[56px]"
+            aria-hidden="true"
+          ></div>
 
-          <div class="relative -right-0 sm:-right-28">
-            <img
-              :src="foilingBmw"
-              alt="Странична снимка на фолиран мерцедес"
-              class="w-[100%] sm:w-[80%] lg:w-[90%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
-            />
+          <!-- Images above spotlight -->
+          <div class="relative z-10">
+            <div class="relative -right-0 sm:-right-28 mb-24">
+              <img
+                :src="foilingRRFront"
+                alt="Фолирано БМВ"
+                class="w-[100%] sm:w-[80%] lg:w-[90%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
+              />
+            </div>
+
+            <div class="relative flex gap-x-8 mb-24">
+              <img
+                :src="foilingTaykan"
+                alt="Фолиран Мерцедес"
+                class="w-[70%] sm:w-[70%] lg:w-[70%] xl:w-[80%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
+              />
+              <img
+                :src="foilingRR"
+                alt="Фолираща машина"
+                class="w-[50%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
+              />
+            </div>
+
+            <div class="relative -right-0 sm:-right-28">
+              <img
+                :src="foilingBmw"
+                alt="Странична снимка на фолиран мерцедес"
+                class="w-[100%] sm:w-[80%] lg:w-[90%] rounded object-cover shadow-2xl ring-1 ring-zinc-800 transition-all duration-700 hover:scale-[1.02]"
+              />
+            </div>
           </div>
         </div>
       </div>
