@@ -156,7 +156,7 @@ const whyUs = [
 
             <div class="mt-8 lg:mt-auto flex flex-col gap-3 sm:flex-row">
               <RouterLink
-                to="/tinting"
+                to="/tinting#tinting-brow"
                 class="inline-flex items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
               >
                 Научи повече
@@ -278,7 +278,7 @@ const whyUs = [
 
                 <!-- CTA -->
                 <a
-                  :href="`/contact?service=darkening&tint=${stat.shade}`"
+                  :href="`/contact?selectedService=darkening&tint=${stat.shade}`"
                   class="group text-base font-semibold text-red-500 inline-flex items-center self-center mt-2"
                 >
                   запитване
@@ -323,7 +323,7 @@ const whyUs = [
                 </div>
 
                 <a
-                  :href="`/contact?service=darkening&tint=${stat.shade}`"
+                  :href="`/contact?selectedService=darkening&tint=${stat.shade}`"
                   class="group text-base font-semibold text-red-500 inline-flex items-center self-center mt-2"
                 >
                   запитване

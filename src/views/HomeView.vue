@@ -46,6 +46,8 @@ const heroFeatures = [
     :show-buttons="true"
     :showGridPattern="false"
     :showVideo="true"
+    redirect-to-prim="contact"
+    redirect-to-sec="portfolio"
     video-mp4="/hero/video/hero-bg-1600k.mp4"
     poster="/hero/img/home-hero-poster.webp"
   >
@@ -92,7 +94,7 @@ const heroFeatures = [
               <p class="flex-auto">{{ feature.description }}</p>
               <p class="mt-6">
                 <RouterLink
-                  :to="feature.href"
+                  :to="`/${feature.href}#${feature.href}-brow`"
                   class="group text-sm/6 font-semibold text-red-500 inline-flex items-center"
                 >
                   Научи повече

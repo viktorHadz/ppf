@@ -75,13 +75,13 @@ const types = [
           <!-- CTAs -->
           <div class="mt-12 flex flex-col gap-4 sm:flex-row">
             <RouterLink
-              to="/contact?service=detailing"
+              to="/contact?selectedService=detailing"
               class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
             >
               Запитване
             </RouterLink>
             <RouterLink
-              to="/detailing"
+              to="/detailing#detailing-brow"
               class="inline-flex items-center justify-center rounded-xl bg-white/5 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
             >
               Виж услугата

@@ -74,7 +74,9 @@ const navigation = {
           решения за защита, стил и комфорт на твоя автомобил.
         </p>
         <div class="mt-12 flex justify-center">
-          <TheButton variant="primary">Свържи се с нас</TheButton>
+          <RouterLink to="/contact">
+            <TheButton variant="primary">Консултация</TheButton>
+          </RouterLink>
         </div>
       </div>
 

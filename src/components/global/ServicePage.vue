@@ -42,7 +42,7 @@ defineProps({
         />
       </svg>
       <!-- HERO -->
-      <section class="py-24 sm:py-32">
+      <section class="py-24 sm:py-32" :id="page.anchors.eyebrow">
         <!-- Variant 1 - Image Tile Stack -->
         <div v-if="page.hero?.variant === 'imageTileStack'">
           <div class="mx-auto max-w-7xl px-6 lg:flex lg:px-8">
@@ -364,11 +364,7 @@ defineProps({
         </section>
 
         <!-- PACKAGES / TYPES -->
-        <section
-          v-if="page.sections?.length"
-          class="pb-24 sm:pb-32"
-          :id="page.sectionsAnchor || 'types'"
-        >
+        <section v-if="page.sections?.length" class="pb-24 sm:pb-32" :id="page.anchors.types">
           <div class="mx-auto max-w-7xl px-6 lg:px-8">
             <!-- section header -->
             <div class="max-w-3xl">
@@ -393,7 +389,7 @@ defineProps({
                   </p>
                 </div>
 
-                <!-- optional anchor jump -->
+                <!-- anchor jump -->
                 <a
                   v-if="page.cta?.primary"
                   :href="page.cta.primary.href"

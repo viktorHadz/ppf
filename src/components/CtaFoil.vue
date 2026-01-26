@@ -124,13 +124,13 @@ const whyUs = [
             <!-- CTA -->
             <div class="mt-12 flex flex-col gap-4 sm:flex-row">
               <RouterLink
-                to="ppf"
+                to="ppf#ppf-types"
                 class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
               >
                 Виж пакети
               </RouterLink>
               <RouterLink
-                to="contact"
+                to="/contact?selectedService=ppf"
                 class="inline-flex items-center justify-center rounded-xl bg-white/5 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
               >
                 Запитване

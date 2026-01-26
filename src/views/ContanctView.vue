@@ -1,7 +1,7 @@
 <script setup>
 import TheButton from '@/components/global/TheButton.vue'
 import { ChevronDownIcon } from '@heroicons/vue/24/outline'
-import { ref, computed, reactive } from 'vue'
+import { ref, computed, reactive, onMounted } from 'vue'
 import mercEQS from '@/assets/detailingMercEqs.webp'
 
 const selectClass =
@@ -51,6 +51,10 @@ function submit() {
   // quick reset (optional)
   // Object.assign(form, { ...defaults })
 }
+onMounted(() => {
+  // check if the url contains anything on page load
+  // if it does then fill the form values if it corresponds to it
+})
 </script>
 
 <template>
@@ -115,12 +119,6 @@ function submit() {
             @submit.prevent="submit"
             class="mx-auto max-w-2xl rounded-2xl bg-zinc-950/80 ring-1 ring-white/10 p-6 sm:p-10"
           >
-            <!-- <div class="mb-8">
-              <h2 class="text-3xl font-semibold tracking-tight text-white">Контактна форма</h2>
-              <p class="mt-2 text-sm text-white/60">
-                Изпратете запитване и ще се свържем с вас възможно най-скоро.
-              </p>
-            </div> -->
             <!-- Regular inputs -->
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div class="sm:col-span-1">
@@ -183,13 +181,13 @@ function submit() {
               <div class="mt-6 flex items-center justify-around gap-4 w-full">
                 <div class="flex flex-col-reverse items-center">
                   <input
-                    id="film"
+                    id="ppf"
                     v-model="form.selectedService"
-                    value="film"
+                    value="ppf"
                     type="radio"
                     class="mt-4 stop-light"
                   />
-                  <label for="film" class="text-sm text-white/80 font-medium">Фолиране</label>
+                  <label for="ppf" class="text-sm text-white/80 font-medium">Фолиране</label>
                 </div>
                 <div class="flex flex-col-reverse items-center">
                   <input
@@ -235,8 +233,8 @@ function submit() {
                 </div>
               </div>
             </div>
-            <!-- CarFilm block -->
-            <div class="mt-8" v-if="form.selectedService === 'film'">
+            <!-- PPF block -->
+            <div class="mt-8" v-if="form.selectedService === 'ppf'">
               <h3 class="text-lg font-semibold text-white">Фолиране</h3>
               <p class="mt-1 text-sm text-white/60">Изберете тип фолиране и покритие.</p>
               <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">

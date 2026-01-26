@@ -1,9 +1,10 @@
 export default {
   eyebrow: 'PPF Защитно фолио',
+  eyebrowAnchor: 'ppf-brow',
   title: 'Премиум защита и стил за вашия автомобил',
   subtitle:
     'PPF (защитно фолио) е висок клас полиуретаново покритие, което създава изключително устойчив защитен слой върху автомобилната боя. То предпазва от камъчета, драскотини, UV лъчи и химически замърсители, като същевременно позволява промяна на визията чрез прозрачно, матово или цветно изпълнение.',
-  // NEW: hero variant + tile images
+  // hero variant + tile images
   hero: {
     variant: 'imageTileStack',
     // optional extra paragraph under subtitle
@@ -19,9 +20,13 @@ export default {
     src: 'src/assets/ppfGreenBottleSmall.webp',
     alt: 'Автомобил с PPF защитно фолио',
   },
-  sectionsAnchor: 'types',
+  anchors: {
+    eyebrow: 'ppf-brow',
+    types: 'ppf-types',
+  },
+
   cta: {
-    primary: { label: 'Консултация', href: '/contact?service=darkening' },
+    primary: { label: 'Консултация', href: '/contact?selectedService=ppf' },
     secondary: { label: 'Видове фолиа', href: '#types' },
   },
 
@@ -138,7 +143,7 @@ export default {
     title: 'Индивидуално решение за PPF защита',
     subtitle:
       'Свържете се с нас и ще препоръчаме най-подходящия тип PPF според автомобила, зоните за защита и желания ефект.',
-    href: '/contact?service=ppf',
+    href: '/contact?selectedService=ppf',
     label: 'Консултация',
   },
 }

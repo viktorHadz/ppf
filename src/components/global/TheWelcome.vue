@@ -18,7 +18,14 @@ defineProps({
     type: Boolean,
     default: false,
   },
-
+  redirectToPrim: {
+    type: String,
+    default: '/',
+  },
+  redirectToSec: {
+    type: String,
+    default: '/',
+  },
   videoMp4: { type: String, default: '' },
   poster: { type: String, default: '' },
 })
@@ -69,12 +76,16 @@ defineProps({
             v-if="showButtons"
             class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
           >
-            <TheButton>
-              <slot name="primary"></slot>
-            </TheButton>
-            <TheButton variant="secondary">
-              <slot name="secondary"></slot>
-            </TheButton>
+            <RouterLink :to="redirectToPrim">
+              <TheButton>
+                <slot name="primary"></slot>
+              </TheButton>
+            </RouterLink>
+            <RouterLink :to="redirectToSec">
+              <TheButton variant="secondary">
+                <slot name="secondary"></slot>
+              </TheButton>
+            </RouterLink>
           </div>
           <div v-if="showScrollDownIcon">
             <button class="mt-20">

@@ -3,14 +3,16 @@ export default {
   title: 'Стил, комфорт и защита за вашия автомобил',
   subtitle:
     'Професионалното затъмняване на стъклата е повече от естетика - това е инвестиция в комфорт, безопасност и защита на интериора. Висококачествените фолиа филтрират UV лъчите, намаляват топлината и осигуряват дискретност, като същевременно подобряват визията на автомобила, без да пречат на видимостта.',
-  // hero variant and tile images
-
+  anchors: {
+    eyebrow: 'tinting-brow',
+    types: 'tinting-types',
+  },
   heroImage: {
     src: 'src/assets/tintingDoorVertSmall.webp',
     alt: 'Автомобил с PPF защитно фолио',
   },
   cta: {
-    primary: { label: 'Консултация', href: '/contact?service=darkening' },
+    primary: { label: 'Консултация', href: '/contact?selectedService=darkening' },
     secondary: { label: 'Видове фолиа', href: '#types' },
   },
   benefits: [
@@ -128,7 +130,7 @@ export default {
     title: 'Индивидуална препоръка за вашия автомобил',
     subtitle:
       'Свържете се с нас и ще ви предложим най-подходящото фолио според модела, годината и начина на използване.',
-    href: '/contact?service=darkening',
+    href: '/contact?selectedService=darkening',
     label: 'Запитване',
   },
 }

@@ -1,5 +1,6 @@
 export default {
   eyebrow: 'Застраховки и Каско',
+  eyebrowAnchor: 'insurance-brow',
   title: 'Сигурност и спокойствие за вашия автомобил',
   subtitle:
     'Пълното застраховане на автомобила е повече от формалност — това е инвестиция в спокойствието, защитата на автомобила и вашата финансова сигурност. Професионалните решения за Каско и Гражданска отговорност гарантират защита при всякакви ситуации — от дребни инциденти до сериозни увреждания.',
@@ -7,13 +8,14 @@ export default {
     src: 'src/assets/insuranceHero.webp',
     alt: 'Автомобил и застрахователна защита',
   },
-
+  anchors: {
+    eyebrow: 'insurance-brow',
+    types: 'insurance-types',
+  },
   cta: {
-    primary: { label: 'Консултация', href: '/contact?service=insurance' },
+    primary: { label: 'Консултация', href: '/contact?selectedService=insurance' },
     secondary: { label: 'Видове застраховки', href: '#types' },
   },
-  sectionsAnchor: 'types',
-
   benefitsTitle: 'Предимства на професионалното застраховане',
   benefitsSubtitle:
     'Професионално подбраната застраховка осигурява пълно покритие, яснота при условията и спокойствие, че автомобилът ви е защитен във всяка ситуация.',
@@ -128,7 +130,7 @@ export default {
     title: 'Застраховка, съобразена с вашия автомобил',
     subtitle:
       'Свържете се с нас и ще ви предложим най-подходящото застрахователно решение според автомобила, начина на използване и бюджета.',
-    href: '/contact?service=insurance',
+    href: '/contact?selectedService=insurance',
     label: 'Консултация',
   },
 }

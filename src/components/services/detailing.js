@@ -10,10 +10,12 @@ export default {
     src: 'src/assets/detailingTaykanMachine.webp',
     alt: 'Премиум автомобилен детайлинг',
   },
-
-  sectionsAnchor: 'types',
+  anchors: {
+    eyebrow: 'detailing-brow',
+    types: 'detailing-types',
+  },
   cta: {
-    primary: { label: 'Консултация', href: '/contact?service=detailing' },
+    primary: { label: 'Консултация', href: '/contact?selectedService=detailing' },
     secondary: { label: 'Видове детайлинг', href: '#types' },
   },
 
@@ -58,6 +60,7 @@ export default {
   sections: [
     {
       title: 'Видове премиум детайлинг',
+      anchorPackages: 'anchorPackageDetailing',
       subtitle:
         'Изберете според нуждите: освежаване на екстериора, дълбоко почистване на интериора или дълготрайна защита с керамично покритие. Ще ви насочим към най-подходящия пакет за вашия автомобил.',
       cards: [
@@ -137,7 +140,7 @@ export default {
     title: 'Детайлинг, съобразен с вашия автомобил',
     subtitle:
       'Свържете се с нас и ще препоръчаме най-подходящия пакет според състоянието на автомобила и желания резултат — визия, защита или пълно освежаване.',
-    href: '/contact?service=detailing',
+    href: '/contact?selectedService=detailing',
     label: 'Консултация',
   },
 }
