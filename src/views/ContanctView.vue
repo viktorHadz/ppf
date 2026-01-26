@@ -1,11 +1,12 @@
 <script setup>
 import TheButton from '@/components/global/TheButton.vue'
 import { ChevronDownIcon } from '@heroicons/vue/24/outline'
-import { ref, computed, reactive, onMounted } from 'vue'
+import { ref, computed, reactive, onMounted, watch } from 'vue'
 import mercEQS from '@/assets/detailingMercEqs.webp'
+import { useRoute } from 'vue-router'
 
 const selectClass =
-  'w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 ' +
+  'w-full rounded-lg bg-zinc-900/70 text-white/80 ring-1 ring-white/10 ' +
   'px-4 py-3 pr-10 text-sm appearance-none ' +
   'focus:outline-none focus:ring-2 focus:ring-red-500/60'
 
@@ -27,7 +28,7 @@ const form = reactive({
   selectedService: '',
 
   // Window Darkening Type
-  windowDarkenType: '',
+  tint: '',
 
   // Detailing Type
   detailingType: '',
@@ -51,10 +52,24 @@ function submit() {
   // quick reset (optional)
   // Object.assign(form, { ...defaults })
 }
+
+const route = useRoute()
+
+function setFromQuery() {
+  const q = route.query
+  console.log('RQ: ', route.query)
+  console.log(form)
+  if (q.selectedService) form.selectedService = q.selectedService
+  if (q.tint) form.tint = q.tint
+}
 onMounted(() => {
-  // check if the url contains anything on page load
-  // if it does then fill the form values if it corresponds to it
+  setFromQuery()
 })
+watch(
+  () => route.query,
+  () => setFromQuery(),
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -336,17 +351,17 @@ onMounted(() => {
               <div class="relative mt-2">
                 <select
                   id="darkeningType"
-                  v-model="form.windowDarkenType"
+                  v-model="form.tint"
                   required
                   :class="selectClass"
                   @focus="windowDarkenFocused = true"
                   @blur="windowDarkenFocused = false"
                 >
                   <option value="" disabled>Изберете...</option>
-                  <option value="Затъмняване-5%">5% - Най-тъмно</option>
-                  <option value="Затъмняване-35%">35% - Балансирано затъмняване</option>
-                  <option value="Затъмняване-50%">50% - Леко затъмняване</option>
-                  <option value="Затъмняване-70%">70% - UV защита</option>
+                  <option value="5">5% Светлопропускливост - Най-тъмно</option>
+                  <option value="30">30% Светлопропускливост - Балансирано</option>
+                  <option value="50">50% Светлопропускливост - Леко</option>
+                  <option value="70">70% Светлопропускливост- UV защита</option>
                 </select>
                 <ChevronDownIcon
                   class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500 transition-transform duration-300"

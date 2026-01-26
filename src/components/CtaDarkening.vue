@@ -72,10 +72,10 @@ const benefits = [
 ]
 
 const stats = [
-  { id: 1, shade: 5, lightAllowed: 6, uvRejected: 99 },
-  { id: 2, shade: 30, lightAllowed: 34, uvRejected: 99 },
-  { id: 3, shade: 50, lightAllowed: 55, uvRejected: 99 },
-  { id: 4, shade: 70, lightAllowed: 69, uvRejected: 99 },
+  { id: 1, shade: 5, lightAllowed: 5 },
+  { id: 2, shade: 30, lightAllowed: 30 },
+  { id: 3, shade: 50, lightAllowed: 50 },
+  { id: 4, shade: 70, lightAllowed: 70 },
 ]
 
 const filmTypes = [
@@ -277,8 +277,14 @@ const whyUs = [
                 </div>
 
                 <!-- CTA -->
-                <a
-                  :href="`/contact?selectedService=darkening&tint=${stat.shade}`"
+                <RouterLink
+                  :to="{
+                    path: '/contact',
+                    query: {
+                      selectedService: 'darkening',
+                      tint: stat.shade,
+                    },
+                  }"
                   class="group text-base font-semibold text-red-500 inline-flex items-center self-center mt-2"
                 >
                   запитване
@@ -288,7 +294,7 @@ const whyUs = [
                   >
                     →
                   </span>
-                </a>
+                </RouterLink>
               </div>
             </div>
 
@@ -316,14 +322,16 @@ const whyUs = [
                     <div class="font-bold text-gray-200">{{ stat.lightAllowed }}%</div>
                     <div class="text-sm tracking-wide text-gray-200/70">Светлопропускливост</div>
                   </div>
-                  <div>
-                    <div class="font-bold text-gray-200">{{ stat.uvRejected }}%</div>
-                    <div class="text-sm tracking-wide text-gray-200/70">UV филтрация</div>
-                  </div>
                 </div>
 
-                <a
-                  :href="`/contact?selectedService=darkening&tint=${stat.shade}`"
+                <RouterLink
+                  :to="{
+                    path: '/contact',
+                    query: {
+                      selectedService: 'darkening',
+                      tint: stat.shade,
+                    },
+                  }"
                   class="group text-base font-semibold text-red-500 inline-flex items-center self-center mt-2"
                 >
                   запитване
@@ -333,7 +341,7 @@ const whyUs = [
                   >
                     →
                   </span>
-                </a>
+                </RouterLink>
 
                 <div
                   v-if="i !== stats.length - 1"

@@ -75,7 +75,12 @@ const types = [
           <!-- CTAs -->
           <div class="mt-12 flex flex-col gap-4 sm:flex-row">
             <RouterLink
-              to="/contact?selectedService=detailing"
+              :to="{
+                path: '/contact',
+                query: {
+                  selectedService: 'detailing',
+                },
+              }"
               class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
             >
               Запитване
