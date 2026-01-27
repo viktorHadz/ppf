@@ -55,3 +55,8 @@
     radial-gradient(340px 340px at 100% 100%, rgba(239, 68, 68, 0.05), transparent 70%);
   mask-image: radial-gradient(85% 85% at 50% 50%, white, transparent);
 }
+
+.hexagon {
+  aspect-ratio: cos(30deg);
+  clip-path: polygon(-50% 50%, 50% 100%, 150% 50%, 50% 0);
+}
