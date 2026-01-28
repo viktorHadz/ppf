@@ -57,8 +57,6 @@ const route = useRoute()
 
 function setFromQuery() {
   const q = route.query
-  console.log('RQ: ', route.query)
-  console.log(form)
   if (q.selectedService) form.selectedService = q.selectedService
   if (q.tint) form.tint = q.tint
 }

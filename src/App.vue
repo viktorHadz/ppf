@@ -34,7 +34,7 @@ onUnmounted(() => {
 <template>
   <header
     class="sticky top-0 z-[200] transition-transform duration-300"
-    :class="isHidden ? '-translate-y-full' : 'translate-y-0'"
+    :class="isHidden ? '-translate-y-[105%]' : 'translate-y-0'"
   >
     <TheNav v-model:navOpen="menuOpen" />
   </header>

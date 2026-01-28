@@ -77,10 +77,12 @@ onMounted(() => {
         <!-- LOGO -->
         <div class="flex flex-1 items-start justify-start sm:items-stretch sm:justify-between">
           <RouterLink to="/" class="flex shrink-0 items-center">
-            <img class="h-14 sm:h-16 w-auto" :src="logo" alt="ИДО ГРУП" />
+            <img class="h-14 w-auto" :src="logo" alt="ИДО ГРУП" />
             <div class="ml-4">
-              <p class="text-white tracking-widest text-lg/tight font-serif uppercase">ido elite</p>
-              <p class="text-white tracking-tighter text-lg/tight font-serif uppercase">
+              <p class="text-white tracking-widest text-base/tight font-serif uppercase">
+                ido elite
+              </p>
+              <p class="text-white tracking-tighter text-base/tight font-serif uppercase">
                 protection
               </p>
             </div>
