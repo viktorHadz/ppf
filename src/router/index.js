@@ -18,6 +18,11 @@ const routes = [
     name: 'Затъмняване',
     component: () => import('@/views/DarkeningView.vue'),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/NotFoundView.vue'),
+  }
 ]
 
 const router = createRouter({

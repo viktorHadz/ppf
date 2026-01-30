@@ -18,7 +18,7 @@ const team = [
 </script>
 
 <template>
-  <TheWelcome :show-scroll-down-icon="true">
+  <TheWelcome>
     <template #title>Екип</template>
     <template #under-title>Хора, които превръщат идеите в реалност</template>
   </TheWelcome>
