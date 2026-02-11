@@ -1,3 +1,6 @@
+const detTaykanMech = new URL('../../assets/detailingTaykanMachine.webp', import.meta.url).href
+const foilManPolSm = new URL('../../assets/foilingManPolishSmall.webp', import.meta.url).href
+
 export default {
   eyebrow: 'Автомобилен детайлинг',
   title: 'Перфектният вид и защита за вашия автомобил',
@@ -7,7 +10,7 @@ export default {
     variant: 'lgHozImage',
   },
   heroImage: {
-    src: 'src/assets/detailingTaykanMachine.webp',
+    src: detTaykanMech,
     alt: 'Премиум автомобилен детайлинг',
   },
   anchors: {
@@ -101,7 +104,7 @@ export default {
       title: 'Защо да изберете професионален детайлинг?',
       subtitle:
         'Подхождаме към всеки автомобил с внимание към детайла и реалното му състояние. Целта ни е не просто почистване, а възстановяване, защита и усещане за „нов автомобил“.',
-      image: 'src/assets/foilingManPolishSmall.webp',
+      image: foilManPolSm,
       imageAlt: 'Детайлинг процес върху автомобил',
       items: [
         'Възстановява и поддържа автомобила като нов',

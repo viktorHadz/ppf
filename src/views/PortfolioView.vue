@@ -5,13 +5,6 @@ import { XMarkIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/
 import { RouterLink } from 'vue-router'
 
 import DecorDiagSheen from '@/components/global/DecorDiagSheen.vue'
-
-// import rollsRoyce from '@/assets/small/rollsRoyceFrontCentral.webp'
-// import mercEqs from '@/assets/small/mercEqsFrontFace.webp'
-// import mercSClass from '@/assets/small/mercSClassFrontSide.webp'
-// import pKayenne from '@/assets/small/pKayenneFrontSide.webp'
-// import pTaykan from '@/assets/small/pTaykanHoodUp.webp'
-// import bwmX7 from '@/assets/small/bmwX7.webp'
 import bmwX5 from '@/assets/portfolio/bmwX5'
 import bmwX7 from '@/assets/portfolio/bmwX7'
 import mercSClass from '@/assets/portfolio/mercSClass'
@@ -269,12 +262,8 @@ watch(open, (v) => {
             :key="p.id"
             type="button"
             @click="openProject(p, 0)"
-            class="group relative overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 hover:bg-white/6 transition text-left"
+            class="group relative flex w-full flex-col overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 hover:bg-white/6 transition text-left"
           >
-            <div
-              class="absolute -top-20 -right-20 h-56 w-56 rounded-full bg-red-500/15 blur-3xl"
-              aria-hidden="true"
-            />
             <div class="relative">
               <img :src="p.cover" :alt="p.title" class="h-56 w-full object-cover" />
               <div
@@ -323,7 +312,7 @@ watch(open, (v) => {
             :key="p.id"
             type="button"
             @click="openProject(p, 0)"
-            class="group relative overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 hover:bg-white/6 transition text-left"
+            class="group relative flex w-full flex-col overflow-hidden rounded-2xl bg-white/5 ring-1 ring-white/10 hover:bg-white/6 transition text-left"
           >
             <div class="relative">
               <img :src="p.cover" :alt="p.title" class="h-60 w-full object-cover" />
@@ -378,7 +367,7 @@ watch(open, (v) => {
       </div>
     </section>
 
-    <!-- Lightbox / Project Viewer -->
+    <!-- Project Viewer -->
     <TransitionRoot as="template" :show="open">
       <Dialog as="div" class="relative z-50" @close="closeProject">
         <TransitionChild
@@ -396,7 +385,6 @@ watch(open, (v) => {
         <div class="fixed inset-0 overflow-y-auto">
           <div class="flex min-h-full items-center justify-center p-4 sm:p-8">
             <TransitionChild
-              as="template"
               enter="ease-out duration-200"
               enter-from="opacity-0 translate-y-2 scale-[0.98]"
               enter-to="opacity-100 translate-y-0 scale-100"
@@ -404,108 +392,114 @@ watch(open, (v) => {
               leave-from="opacity-100 translate-y-0 scale-100"
               leave-to="opacity-0 translate-y-2 scale-[0.98]"
             >
-              <DialogPanel
-                class="w-full max-w-5xl overflow-hidden rounded-2xl bg-zinc-950 ring-1 ring-white/10 shadow-2xl"
-              >
-                <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
-                  <div>
-                    <DialogTitle class="text-base font-semibold text-white">
-                      {{ activeProject?.title }}
-                    </DialogTitle>
-                    <p class="mt-1 text-sm text-gray-400">{{ activeProject?.service }}</p>
-                  </div>
-
-                  <button
-                    type="button"
-                    @click="closeProject"
-                    class="inline-flex items-center justify-center rounded-xl bg-white/5 p-2 ring-1 ring-white/10 hover:bg-white/10 transition"
-                  >
-                    <XMarkIcon class="size-5 text-white" />
-                  </button>
-                </div>
-
-                <div class="grid grid-cols-1 lg:grid-cols-12">
-                  <!-- Main image -->
-                  <div class="lg:col-span-8 relative place-self-center">
-                    <div class="relative">
-                      <img
-                        v-if="activeProject"
-                        :src="activeProject.images[activeImageIndex]"
-                        :alt="activeProject.title"
-                        class="w-full aspect-[16/11] object-cover"
-                      />
-                      <div
-                        class="absolute inset-0 bg-linear-to-t from-zinc-950/60 via-transparent to-transparent"
-                      />
+              <div class="w-full max-w-5xl transform-gpu will-change-transform">
+                <DialogPanel
+                  class="w-full overflow-hidden rounded-2xl bg-zinc-950 ring-1 ring-white/10 shadow-2xl"
+                >
+                  <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
+                    <div>
+                      <DialogTitle class="text-base font-semibold text-white">
+                        {{ activeProject?.title }}
+                      </DialogTitle>
+                      <p class="mt-1 text-sm text-gray-400">{{ activeProject?.service }}</p>
                     </div>
 
                     <button
                       type="button"
-                      @click="prevImage"
-                      class="absolute left-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-xl bg-black/40 p-2 ring-1 ring-white/10 hover:bg-black/55 transition"
+                      @click="closeProject"
+                      class="inline-flex items-center justify-center rounded-xl bg-white/5 p-2 ring-1 ring-white/10 hover:bg-white/10 transition"
                     >
-                      <ChevronLeftIcon class="size-5 text-white" />
-                    </button>
-
-                    <button
-                      type="button"
-                      @click="nextImage"
-                      class="absolute right-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-xl bg-black/40 p-2 ring-1 ring-white/10 hover:bg-black/55 transition"
-                    >
-                      <ChevronRightIcon class="size-5 text-white" />
+                      <XMarkIcon class="size-5 text-white" />
                     </button>
                   </div>
 
-                  <!-- Details -->
-                  <div class="lg:col-span-4 p-6">
-                    <div class="flex flex-wrap gap-2">
-                      <span
-                        class="inline-flex items-center rounded-full bg-red-500/15 px-3 py-1 text-xs font-semibold text-red-200 ring-1 ring-red-500/25"
-                      >
-                        {{ categories.find((x) => x.key === activeProject?.category)?.label }}
-                      </span>
-                    </div>
-                    <h3 class="mt-6 text-sm font-semibold text-white">Ключови акценти</h3>
-
-                    <ul class="mt-4 space-y-3 text-sm text-gray-200/90">
-                      <li v-for="h in activeProject?.highlights || []" :key="h" class="flex gap-3">
-                        <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
-                        <span>{{ h }}</span>
-                      </li>
-                    </ul>
-
-                    <h3 class="mt-8 text-sm font-semibold text-white">Снимки</h3>
-                    <div class="mt-4 grid grid-cols-3 gap-3">
-                      <button
-                        v-for="(img, idx) in activeProject?.images || []"
-                        :key="img + idx"
-                        type="button"
-                        @click="activeImageIndex = idx"
-                        class="relative overflow-hidden rounded-xl ring-1 transition"
-                        :class="
-                          idx === activeImageIndex
-                            ? 'ring-red-500/40'
-                            : 'ring-white/10 hover:ring-white/20'
-                        "
-                      >
-                        <img :src="img" alt="" class="h-20 w-full object-cover" />
-                        <div
-                          v-if="idx === activeImageIndex"
-                          class="absolute inset-0 bg-red-500/10"
-                          aria-hidden="true"
+                  <div class="grid grid-cols-1 lg:grid-cols-12">
+                    <!-- Main image -->
+                    <div class="lg:col-span-8 relative place-self-center">
+                      <div class="relative">
+                        <img
+                          v-if="activeProject"
+                          :src="activeProject.images[activeImageIndex]"
+                          :alt="activeProject.title"
+                          class="w-full aspect-[16/11] object-cover"
                         />
+                        <div
+                          class="absolute inset-0 bg-linear-to-t from-zinc-950/60 via-transparent to-transparent"
+                        />
+                      </div>
+
+                      <button
+                        type="button"
+                        @click="prevImage"
+                        class="absolute left-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-xl bg-black/40 p-2 ring-1 ring-white/10 hover:bg-black/55 transition"
+                      >
+                        <ChevronLeftIcon class="size-5 text-white" />
+                      </button>
+
+                      <button
+                        type="button"
+                        @click="nextImage"
+                        class="absolute right-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-xl bg-black/40 p-2 ring-1 ring-white/10 hover:bg-black/55 transition"
+                      >
+                        <ChevronRightIcon class="size-5 text-white" />
                       </button>
                     </div>
 
-                    <RouterLink
-                      to="/contact"
-                      class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
-                    >
-                      Консултация
-                    </RouterLink>
+                    <!-- Details -->
+                    <div class="lg:col-span-4 p-6">
+                      <div class="flex flex-wrap gap-2">
+                        <span
+                          class="inline-flex items-center rounded-full bg-red-500/15 px-3 py-1 text-xs font-semibold text-red-200 ring-1 ring-red-500/25"
+                        >
+                          {{ categories.find((x) => x.key === activeProject?.category)?.label }}
+                        </span>
+                      </div>
+                      <h3 class="mt-6 text-sm font-semibold text-white">Ключови акценти</h3>
+
+                      <ul class="mt-4 space-y-3 text-sm text-gray-200/90">
+                        <li
+                          v-for="h in activeProject?.highlights || []"
+                          :key="h"
+                          class="flex gap-3"
+                        >
+                          <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
+                          <span>{{ h }}</span>
+                        </li>
+                      </ul>
+
+                      <h3 class="mt-8 text-sm font-semibold text-white">Снимки</h3>
+                      <div class="mt-4 grid grid-cols-3 gap-3">
+                        <button
+                          v-for="(img, idx) in activeProject?.images || []"
+                          :key="img + idx"
+                          type="button"
+                          @click="activeImageIndex = idx"
+                          class="relative overflow-hidden rounded-xl ring-1 transition"
+                          :class="
+                            idx === activeImageIndex
+                              ? 'ring-red-500/40'
+                              : 'ring-white/10 hover:ring-white/20'
+                          "
+                        >
+                          <img :src="img" alt="" class="h-20 w-full object-cover" />
+                          <div
+                            v-if="idx === activeImageIndex"
+                            class="absolute inset-0 bg-red-500/10"
+                            aria-hidden="true"
+                          />
+                        </button>
+                      </div>
+
+                      <RouterLink
+                        to="/contact"
+                        class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
+                      >
+                        Консултация
+                      </RouterLink>
+                    </div>
                   </div>
-                </div>
-              </DialogPanel>
+                </DialogPanel>
+              </div>
             </TransitionChild>
           </div>
         </div>

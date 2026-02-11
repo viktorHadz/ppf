@@ -1,3 +1,6 @@
+const tintDoorVertSmall = new URL('../../assets/tintingDoorVertSmall.webp', import.meta.url).href
+const tintDoorHoz = new URL('../../assets/tintingDoorHoz.webp', import.meta.url).href
+
 export default {
   eyebrow: 'Затъмняване на стъклата',
   title: 'Стил, комфорт и защита за вашия автомобил',
@@ -8,7 +11,7 @@ export default {
     types: 'tinting-types',
   },
   heroImage: {
-    src: 'src/assets/tintingDoorVertSmall.webp',
+    src: tintDoorVertSmall,
     alt: 'Автомобил с PPF защитно фолио',
   },
   cta: {
@@ -93,7 +96,7 @@ export default {
       subtitle:
         'Предлагаме професионално затъмняване, съобразено с вашите изисквания и нуждите на автомобила. Комбинираме комфорт, защита и дискретен стил с безупречна изработка.',
 
-      image: 'src/assets/tintingDoorHoz.webp',
+      image: tintDoorHoz,
       imageAlt: 'Комби автомобил със затъмнени стъкла',
       items: [
         'Оптимална защита от топлина и UV лъчи',

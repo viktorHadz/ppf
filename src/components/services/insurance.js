@@ -1,3 +1,6 @@
+const insuranceHero = new URL('../../assets/insuranceHero.webp', import.meta.url).href
+const insuranceBrokenWin = new URL('../../assets/insuranceBrokenWindow.webp', import.meta.url).href
+
 export default {
   eyebrow: 'Застраховки и Каско',
   eyebrowAnchor: 'insurance-brow',
@@ -5,7 +8,7 @@ export default {
   subtitle:
     'Пълното застраховане на автомобила е повече от формалност — това е инвестиция в спокойствието, защитата на автомобила и вашата финансова сигурност. Професионалните решения за Каско и Гражданска отговорност гарантират защита при всякакви ситуации — от дребни инциденти до сериозни увреждания.',
   heroImage: {
-    src: 'src/assets/insuranceHero.webp',
+    src: insuranceHero,
     alt: 'Автомобил и застрахователна защита',
   },
   anchors: {
@@ -91,7 +94,7 @@ export default {
       title: 'Защо да изберете професионални застраховки и Каско?',
       subtitle:
         'Осигуряваме професионална консултация и персонализирани застрахователни решения за пълно спокойствие. Нашият фокус е бърза реакция, яснота и защита без излишни усложнения.',
-      image: 'src/assets/insuranceBrokenWindow.webp',
+      image: insuranceBrokenWin,
       imageAlt: 'Застрахователно обслужване и автомобил',
       items: [
         'Защита на автомобила при всички рискове',

@@ -146,7 +146,7 @@ export async function onRequestPost({ request, env }) {
         const from = 'IDO Elite Protection <onboarding@resend.dev>' // swap after domain verification
         const ownerTo = 'ivanhinkov@idogroupbg.com'
 
-        // Build a clear service summary (only relevant fields will exist)
+        // Build a service summary 
         const serviceLines = []
         serviceLines.push(`<p><b>Service:</b> ${escapeHtml(formData.selectedService)}</p>`)
 
@@ -170,32 +170,221 @@ export async function onRequestPost({ request, env }) {
             from,
             to: ownerTo,
             reply_to: formData.email,
-            subject: `New enquiry — ${formData.name}`,
+            subject: `New enquiry - ${formData.name}`,
             html: `
-        <h2>New enquiry</h2>
-        <p><b>Name:</b> ${escapeHtml(formData.name)}</p>
-        <p><b>Phone:</b> ${escapeHtml(formData.phone)}</p>
-        <p><b>Email:</b> ${escapeHtml(formData.email)}</p>
-        <p><b>Car:</b> ${escapeHtml(formData.carMake || '-')}</p>
-        ${serviceLines.join('\n')}
-        <p><b>Message:</b></p>
-        <pre>${escapeHtml(formData.message || '')}</pre>
-      `,
+<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:0;background:#f5f5f5;">
+<table width="100%" cellpadding="0" cellspacing="0" style="padding:24px 0;font-family:Arial,Helvetica,sans-serif;">
+<tr>
+<td align="center">
+
+<table width="520" cellpadding="0" cellspacing="0" style="max-width:520px;background:#ffffff;border-radius:10px;border:1px solid #e5e7eb;overflow:hidden;">
+
+<!-- Header -->
+<tr>
+<td style="padding:18px 22px;border-bottom:1px solid #e5e7eb;">
+<div style="font-size:15px;font-weight:700;color:#111827;">
+Ново запитване от сайта
+</div>
+<div style="font-size:12px;color:#6b7280;margin-top:4px;">
+IDO Elite Protection
+</div>
+</td>
+</tr>
+
+<!-- Contact block -->
+<tr>
+<td style="padding:20px 22px;">
+<table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;line-height:1.7;color:#111827;">
+<tr>
+<td style="width:120px;color:#6b7280;">Име</td>
+<td><strong>${escapeHtml(formData.name)}</strong></td>
+</tr>
+
+<tr>
+<td style="color:#6b7280;">Телефон</td>
+<td style="font-size:16px;">
+<strong>
+<a href="tel:${escapeHtml(formData.phone)}" style="color:#dc2626;text-decoration:none;">
+${escapeHtml(formData.phone)}
+</a>
+</strong>
+</td>
+</tr>
+
+<tr>
+<td style="color:#6b7280;">Имейл</td>
+<td>
+<a href="mailto:${escapeHtml(formData.email)}" style="color:#111827;text-decoration:none;">
+${escapeHtml(formData.email)}
+</a>
+</td>
+</tr>
+
+<tr>
+<td style="color:#6b7280;">Автомобил</td>
+<td>${escapeHtml(formData.carMake || '—')}</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- Message -->
+<tr>
+<td style="padding:0 22px 20px 22px;">
+<div style="font-size:13px;color:#6b7280;margin-bottom:6px;">СЪОБЩЕНИЕ</div>
+<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px;font-size:14px;white-space:pre-line;">
+${escapeHtml(formData.message || '—')}
+</div>
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td style="padding:14px 22px;border-top:1px solid #e5e7eb;font-size:12px;color:#6b7280;">
+Отговорете директно на този имейл, за да пишете на клиента.
+<p> П.С. Поздрави от бай Вик :–)</p>
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+</body>
+</html>
+`,
         })
 
         // 2) auto-reply to customer
         await resendSend(apiKey, {
             from,
-            to: formData.email,
+            // to: formData.email, // TODO: Replace in prod 
+            to: 'ivanhinkov@idogroupbg.com',
             subject: 'Получихме вашето запитване',
             html: `
-        <p>Здравейте, ${escapeHtml(formData.name)},</p>
-        <p>Благодарим ви! Получихме вашето запитване и ще се свържем с вас възможно най-скоро.</p>
-        <p><b>Тип услуга:</b> ${escapeHtml(formData.selectedService)}</p>
-        <p><b>Вашето съобщение:</b></p>
-        <pre>${escapeHtml(formData.message || '')}</pre>
-        <p>— IDO Elite Protection</p>
-      `,
+<!DOCTYPE html>
+<html>
+<body style="margin:0;padding:0;background:#0b0c10;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#0b0c10;padding:40px 0;">
+<tr>
+<td align="center">
+
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#111318;border-radius:12px;overflow:hidden;font-family:Arial,Helvetica,sans-serif;color:#e5e7eb;">
+
+<!-- Header -->
+<tr>
+<td style="padding:28px 32px;border-bottom:1px solid #1f2937;">
+<div style="font-size:18px;font-weight:700;letter-spacing:1px;color:#ffffff;">
+IDO ELITE PROTECTION
+</div>
+<div style="font-size:12px;color:#9ca3af;margin-top:4px;">
+Елитна визия премиум защита
+</div>
+</td>
+</tr>
+
+<!-- Hero message -->
+<tr>
+<td style="padding:36px 32px 8px 32px;">
+<div style="font-size:22px;font-weight:700;color:#ffffff;">
+Благодарим ви, ${escapeHtml(formData.name)}.
+</div>
+</td>
+</tr>
+
+<tr>
+<td style="padding:0 32px 24px 32px;">
+<div style="font-size:15px;line-height:1.7;color:#cbd5e1;">
+Получихме вашето запитване и вече е при нашия екип.
+<br><br>
+Ще се свържем с вас в рамките на работния ден, за да обсъдим автомобила, възможностите и най-подходящото решение за защита.
+</div>
+</td>
+</tr>
+
+<!-- Divider -->
+<tr>
+<td style="padding:8px 32px;">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td style="height:1px;background:#1f2937;"></td>
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- Summary box -->
+<tr>
+<td style="padding:24px 32px;">
+<div style="font-size:13px;color:#9ca3af;margin-bottom:12px;">
+РЕЗЮМЕ НА ЗАПИТВАНЕТО
+</div>
+
+<table width="100%" cellpadding="0" cellspacing="0" style="font-size:14px;line-height:1.6;">
+<tr>
+<td style="color:#9ca3af;width:110px;">Име:</td>
+<td style="color:#ffffff;">${escapeHtml(formData.name)}</td>
+</tr>
+<tr>
+<td style="color:#9ca3af;">Телефон:</td>
+<td style="color:#ffffff;">${escapeHtml(formData.phone)}</td>
+</tr>
+<tr>
+<td style="color:#9ca3af;">Имейл:</td>
+<td style="color:#ffffff;">${escapeHtml(formData.email)}</td>
+</tr>
+<tr>
+<td style="color:#9ca3af;">Автомобил:</td>
+<td style="color:#ffffff;">${escapeHtml(formData.carMake || '')}</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- Message -->
+<tr>
+<td style="padding:0 32px 28px 32px;">
+<div style="font-size:13px;color:#9ca3af;margin-bottom:8px;">ВАШЕТО СЪОБЩЕНИЕ</div>
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+<td style="background:#0b0c10;border:1px solid #1f2937;border-radius:8px;padding:14px;font-size:14px;color:#e5e7eb;white-space:pre-line;">
+${escapeHtml(formData.message || '—')}
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<!-- CTA -->
+<tr>
+<td align="center" style="padding:10px 32px 36px 32px;">
+<a href="https://idogroupbg.com"
+style="display:inline-block;background:#dc2626;color:#ffffff;text-decoration:none;padding:14px 26px;border-radius:8px;font-size:14px;font-weight:700;letter-spacing:0.5px;">
+ПОСЕТЕТЕ НАШИЯ САЙТ
+</a>
+</td>
+</tr>
+
+<!-- Footer -->
+<tr>
+<td style="background:#0b0c10;padding:24px 32px;text-align:center;font-size:12px;color:#6b7280;">
+IDO Elite Protection<br>
+PPF фолио • Детайлинг • Затъмняване • Застраховки <br><br>
+Това е автоматично съобщение. Не е необходимо да отговаряте на него.
+</td>
+</tr>
+
+</table>
+
+</td>
+</tr>
+</table>
+</body>
+</html>
+`,
         })
 
         return json({ ok: true })

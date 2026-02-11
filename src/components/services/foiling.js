@@ -1,3 +1,10 @@
+const foilRR = new URL('../../assets/foilingRollsRoyce.webp', import.meta.url).href
+const ppfGreenBtlSm = new URL('../../assets/ppfGreenBottleSmall.webp', import.meta.url).href
+const detScrub = new URL('../../assets/detailingScrub.webp', import.meta.url).href
+const wetCar = new URL('../../assets/wet-car.webp', import.meta.url).href
+const detTaykanMech = new URL('../../assets/foilingTaykanHands.webp', import.meta.url).href
+
+
 export default {
   eyebrow: 'PPF Защитно фолио',
   eyebrowAnchor: 'ppf-brow',
@@ -10,14 +17,14 @@ export default {
     // optional extra paragraph under subtitle
     body: 'PPF може да бъде включено към вашето Каско, а при надраскване или удар от камъчета фолиото може да се подмени бързо — без излишно чакане за бояджийски ремонт.',
     tiles: [
-      { src: 'src/assets/foilingRollsRoyce.webp', alt: 'PPF монтаж – детайл' },
-      { src: 'src/assets/ppfGreenBottleSmall.webp', alt: 'PPF защита – близък план' },
-      { src: 'src/assets/detailingScrub.webp', alt: 'PPF финиш – гланц' },
-      { src: 'src/assets/wet-car.webp', alt: 'PPF обработка – инструмент' },
+      { src: foilRR, alt: 'PPF монтаж – детайл' },
+      { src: ppfGreenBtlSm, alt: 'PPF защита – близък план' },
+      { src: detScrub, alt: 'PPF финиш – гланц' },
+      { src: wetCar, alt: 'PPF обработка – инструмент' },
     ],
   },
   heroImage: {
-    src: 'src/assets/ppfGreenBottleSmall.webp',
+    src: 'ppfGreenBtlSm',
     alt: 'Автомобил с PPF защитно фолио',
   },
   anchors: {
@@ -103,7 +110,7 @@ export default {
       title: 'Защо да изберете защитно фолио?',
       subtitle:
         'Работим с висококачествени PPF фолиа и прецизен монтаж, за да осигурим максимална защита без компромис с визията. Всеки автомобил се обработва индивидуално за дълготраен и безупречен резултат.',
-      image: 'src/assets/foilingTaykanHands.webp',
+      image: detTaykanMech,
       imageAlt: 'PPF защита върху автомобил',
       items: [
         'Запазва оригиналната боя в перфектно състояние',
