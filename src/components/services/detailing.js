@@ -16,7 +16,7 @@ export default {
   },
   cta: {
     primary: { label: 'Консултация', href: '/contact?selectedService=detailing' },
-    secondary: { label: 'Видове детайлинг', href: '#types' },
+    secondary: { label: 'Видове детайлинг', href: '#detailing-types' },
   },
 
   benefitsTitle: 'Предимства на детайлинга',

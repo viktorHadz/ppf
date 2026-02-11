@@ -13,7 +13,7 @@ export default {
   },
   cta: {
     primary: { label: 'Консултация', href: '/contact?selectedService=darkening' },
-    secondary: { label: 'Видове фолиа', href: '#types' },
+    secondary: { label: 'Видове фолиа', href: '#tinting-types' },
   },
   benefits: [
     {

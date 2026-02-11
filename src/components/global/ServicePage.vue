@@ -67,20 +67,19 @@ defineProps({
                 </p>
 
                 <div v-if="page.cta" class="mt-10 flex flex-col gap-4 sm:flex-row">
-                  <a
-                    :href="page.cta.primary.href"
+                  <RouterLink
+                    :to="page.cta.primary.href"
                     class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
                   >
                     {{ page.cta.primary.label }}
-                  </a>
-
-                  <a
+                  </RouterLink>
+                  <RouterLink
+                    :to="page.cta.secondary.href"
                     v-if="page.cta.secondary"
-                    :href="page.cta.secondary.href"
                     class="inline-flex items-center justify-center rounded-xl bg-white/5 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
                   >
-                    {{ page.cta.secondary.label }}
-                  </a>
+                    {{ page.cta.secondary.label }}</RouterLink
+                  >
                 </div>
               </div>
 
@@ -143,20 +142,20 @@ defineProps({
             </p>
 
             <div v-if="page.cta" class="mt-10 flex justify-center gap-4 flex-wrap">
-              <a
-                :href="page.cta.primary.href"
+              <RouterLink
+                :to="page.cta.primary.href"
                 class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
               >
                 {{ page.cta.primary.label }}
-              </a>
+              </RouterLink>
 
-              <a
+              <RouterLink
                 v-if="page.cta.secondary"
-                :href="page.cta.secondary.href"
+                :to="page.cta.secondary.href"
                 class="inline-flex items-center justify-center rounded-xl bg-white/5 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
               >
                 {{ page.cta.secondary.label }}
-              </a>
+              </RouterLink>
             </div>
           </div>
 
@@ -208,20 +207,20 @@ defineProps({
               </p>
 
               <div v-if="page.cta" class="mt-10 flex flex-col gap-4 sm:flex-row">
-                <a
-                  :href="page.cta.primary.href"
+                <RouterLink
+                  :to="page.cta.primary.href"
                   class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
                 >
                   {{ page.cta.primary.label }}
-                </a>
+                </RouterLink>
 
-                <a
+                <RouterLink
                   v-if="page.cta.secondary"
-                  :href="page.cta.secondary.href"
+                  :to="page.cta.secondary.href"
                   class="inline-flex items-center justify-center rounded-xl bg-white/5 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
                 >
                   {{ page.cta.secondary.label }}
-                </a>
+                </RouterLink>
               </div>
             </div>
 
@@ -390,13 +389,13 @@ defineProps({
                 </div>
 
                 <!-- anchor jump -->
-                <a
+                <RouterLink
                   v-if="page.cta?.primary"
-                  :href="page.cta.primary.href"
+                  :to="page.cta.primary.href"
                   class="inline-flex items-center justify-center rounded-xl bg-white/5 px-5 py-2.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
                 >
                   {{ page.cta.primary.label }}
-                </a>
+                </RouterLink>
               </div>
 
               <div class="mt-10 grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -455,12 +454,12 @@ defineProps({
                   според вашия автомобил.
                 </p>
 
-                <a
-                  :href="page.finalCta?.href || '/contact'"
+                <RouterLink
+                  :to="page.finalCta?.href || '/contact'"
                   class="inline-flex items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
                 >
                   {{ page.finalCta?.label || 'Консултация' }}
-                </a>
+                </RouterLink>
               </div>
             </div>
           </div>

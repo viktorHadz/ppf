@@ -4,13 +4,17 @@ import { ChevronDownIcon } from '@heroicons/vue/24/outline'
 import { ref, computed, reactive, onMounted, watch } from 'vue'
 import mercEQS from '@/assets/detailingMercEqs.webp'
 import { useRoute } from 'vue-router'
+import { useContactValidation } from '@/composables/useContactValidation'
+
+// TODO: FIX MOBILE RESPONSIVENESS OF FORM = type of enquiry, t&c agreement
+// TODO: FIX SUBMIT FORM BUTTON OBJECT.ASSIGN
 
 const selectClass =
   'w-full rounded-lg bg-zinc-900/70 text-white/80 ring-1 ring-white/10 ' +
   'px-4 py-3 pr-10 text-sm appearance-none ' +
   'focus:outline-none focus:ring-2 focus:ring-red-500/60'
 
-// For chevron animation - focus states (kept explicit on purpose)
+// For chevron animation focus states
 const folioFocused = ref(false)
 const coverageFocused = ref(false)
 const packageFocused = ref(false)
@@ -21,7 +25,7 @@ const form = reactive({
   name: '',
   phone: '',
   email: '',
-  carMakeModel: '',
+  carMake: '',
   message: '',
 
   // Service type
@@ -40,25 +44,46 @@ const form = reactive({
   customDetails: '',
 
   promoCode: '',
-  consent: true,
+  // consent: true,
+  w: '',
 })
 const needsCustomDetails = computed(() => form.package === 'custom')
+const { errors, validateAll, onBlur, onInput, setService, resetForm } = useContactValidation(form)
 
-function submit() {
-  // Replace with your API call or email service
-  // Example: emit event / fetch / supabase / resend etc.
-  console.log('Submit form:', JSON.parse(JSON.stringify(form)))
+async function submit() {
+  if (!validateAll()) return
 
-  // quick reset (optional)
-  // Object.assign(form, { ...defaults })
+  const res = await fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(form),
+  })
+
+  const data = await res.json().catch(() => ({}))
+
+  if (!res.ok) {
+    console.error('Contact submit failed:', data)
+    // TODO: show UI error here
+    return
+  }
+
+  console.log('Sent:', data)
+  // TODO: show UI success here
 }
 
 const route = useRoute()
 
 function setFromQuery() {
   const q = route.query
-  if (q.selectedService) form.selectedService = q.selectedService
-  if (q.tint) form.tint = q.tint
+
+  if (q.selectedService && typeof q.selectedService === 'string') {
+    setService(q.selectedService)
+  }
+
+  if (q.tint && typeof q.tint === 'string') {
+    // only apply tint if service is darkening
+    if (form.selectedService === 'darkening') form.tint = q.tint
+  }
 }
 onMounted(() => {
   setFromQuery()
@@ -67,6 +92,14 @@ watch(
   () => route.query,
   () => setFromQuery(),
   { immediate: true },
+)
+
+watch(
+  () => form.package,
+  (p) => {
+    if (p !== 'custom') form.customDetails = ''
+    onBlur('customDetails')
+  },
 )
 </script>
 
@@ -127,14 +160,20 @@ watch(
             </li>
           </ul>
         </aside>
+        <!-- RIGHT: form -->
         <div class="lg:col-span-7">
           <form
             @submit.prevent="submit"
             class="mx-auto max-w-2xl rounded-2xl bg-zinc-950/80 ring-1 ring-white/10 p-6 sm:p-10"
           >
-            <!-- Regular inputs -->
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <div class="sm:col-span-1">
+            <!-- Contact Info -->
+            <h3 class="text-lg font-semibold text-white">Лична информация</h3>
+            <p class="mt-1 text-sm text-white/60">Предоставете данни за контакт</p>
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-8">
+              <div class="sm:col-span-1 relative">
+                <div class="hidden" tabindex="-1">
+                  <input type="text" name="w" v-model="form.w" tabindex="-1" autocomplete="off" />
+                </div>
                 <label for="name" class="block text-sm font-semibold text-white/80"
                   >Име и фамилия</label
                 >
@@ -142,11 +181,17 @@ watch(
                   autocomplete="name"
                   id="name"
                   v-model.trim="form.name"
+                  @blur="onBlur('name')"
+                  @input="onInput('name')"
                   type="text"
-                  required
                   class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
                   placeholder="Напр. Иван Иванов"
                 />
+                <div class="absolute">
+                  <p v-if="errors.name" class="text-red-400 text-xs mt-1">
+                    {{ errors.name }}
+                  </p>
+                </div>
               </div>
               <div class="sm:col-span-1">
                 <label for="phone" class="block text-sm font-semibold text-white/80">Телефон</label>
@@ -154,81 +199,104 @@ watch(
                   autocomplete="phone"
                   id="phone"
                   v-model.trim="form.phone"
+                  @blur="onBlur('phone')"
+                  @input="onInput('phone')"
                   type="tel"
-                  required
                   class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
-                  placeholder="Напр. +359 88 123 4567"
+                  placeholder="Напр. 088 629 9593"
                 />
+                <div class="absolute">
+                  <p v-if="errors.phone" class="text-red-400 text-xs mt-1">
+                    {{ errors.phone }}
+                  </p>
+                </div>
               </div>
-              <div class="sm:col-span-1">
+              <div class="sm:col-span-1 mt-6">
                 <label for="email" class="block text-sm font-semibold text-white/80">Имейл</label>
+
                 <input
                   autocomplete="email"
                   id="email"
                   v-model.trim="form.email"
+                  @blur="onBlur('email')"
+                  @input="onInput('email')"
                   type="email"
                   class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
                   placeholder="Напр. you@email.com"
                 />
+                <p v-if="errors.email" class="text-red-400 text-xs mt-1">
+                  {{ errors.email }}
+                </p>
               </div>
-              <div class="sm:col-span-1">
+              <div class="sm:col-span-1 mt-6">
                 <label for="carMake" class="block text-sm font-semibold text-white/80"
                   >Марка / Модел</label
                 >
                 <input
                   id="carMake"
-                  v-model.trim="form.carMakeModel"
+                  v-model.trim="form.carMake"
+                  @blur="onBlur('carMake')"
+                  @input="onInput('carMake')"
                   type="text"
                   class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
                   placeholder="Напр. BMW 3 Series"
                 />
+                <p v-if="errors.carMake" class="text-red-400 text-xs mt-1">
+                  {{ errors.carMake }}
+                </p>
               </div>
             </div>
-            <!-- Choose service -->
-            <div class="mt-8">
+            <!-- Service Types -->
+            <div class="mt-10">
               <h3 class="text-lg font-semibold text-white">Тип на запитване</h3>
               <p class="mt-1 text-sm text-white/60">
-                Изберете услугата която желаете. За специфични изисквания - моля опишете ги в
-                "Съобщение".
+                Опишете допълнителни изисквания в "Съобщение"
               </p>
-              <div class="mt-6 flex items-center justify-around gap-4 w-full">
+              <p v-if="errors.selectedService" class="text-red-400 text-xs mt-2">
+                {{ errors.selectedService }}
+              </p>
+              <div class="mt-8 flex justify-between gap-4 w-full">
                 <div class="flex flex-col-reverse items-center">
                   <input
                     id="ppf"
-                    v-model="form.selectedService"
-                    value="ppf"
+                    name="selectedService"
                     type="radio"
                     class="mt-4 stop-light"
+                    :checked="form.selectedService === 'ppf'"
+                    @change="setService('ppf')"
                   />
                   <label for="ppf" class="text-sm text-white/80 font-medium">Фолиране</label>
                 </div>
                 <div class="flex flex-col-reverse items-center">
                   <input
                     id="tint"
-                    v-model="form.selectedService"
-                    value="darkening"
+                    name="selectedService"
                     type="radio"
                     class="mt-4 stop-light"
+                    @change="setService('darkening')"
+                    :checked="form.selectedService === 'darkening'"
                   />
                   <label for="tint" class="text-sm text-white/80 font-medium">Затъмняване</label>
                 </div>
                 <div class="flex flex-col-reverse items-center">
                   <input
                     id="detail"
-                    v-model="form.selectedService"
-                    value="detailing"
+                    name="selectedService"
                     type="radio"
                     class="mt-4 stop-light"
+                    @change="setService('detailing')"
+                    :checked="form.selectedService === 'detailing'"
                   />
                   <label for="detail" class="text-sm text-white/80 font-medium">Детайлинг</label>
                 </div>
                 <div class="flex flex-col-reverse items-center">
                   <input
                     id="insurance"
-                    v-model="form.selectedService"
-                    value="insurance"
+                    name="selectedService"
                     type="radio"
                     class="mt-4 stop-light"
+                    @change="setService('insurance')"
+                    :checked="form.selectedService === 'insurance'"
                   />
                   <label for="insurance" class="text-sm text-white/80 font-medium"
                     >Застраховки</label
@@ -237,10 +305,11 @@ watch(
                 <div class="flex flex-col-reverse items-center">
                   <input
                     id="other"
-                    v-model="form.selectedService"
-                    value="other"
+                    name="selectedService"
                     type="radio"
                     class="mt-4 stop-light"
+                    @change="setService('other')"
+                    :checked="form.selectedService === 'other'"
                   />
                   <label for="other" class="text-sm text-white/80 font-medium">Друго</label>
                 </div>
@@ -250,8 +319,8 @@ watch(
             <div class="mt-8" v-if="form.selectedService === 'ppf'">
               <h3 class="text-lg font-semibold text-white">Фолиране</h3>
               <p class="mt-1 text-sm text-white/60">Изберете тип фолиране и покритие.</p>
-              <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <!-- folio type -->
+              <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <!-- Folio type -->
                 <div>
                   <label for="foilType" class="block text-sm font-semibold text-white/80"
                     >Тип фолио</label
@@ -260,10 +329,10 @@ watch(
                     <select
                       id="foilType"
                       v-model="form.folioType"
-                      required
                       :class="selectClass"
-                      @focus="folioFocused = true"
+                      @change="onBlur('folioType')"
                       @blur="folioFocused = false"
+                      @focus="folioFocused = true"
                     >
                       <option value="" disabled>Изберете...</option>
                       <option value="cveten">Цветен</option>
@@ -273,6 +342,11 @@ watch(
                       class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500 transition-transform duration-300"
                       :class="{ 'rotate-180': folioFocused }"
                     />
+                  </div>
+                  <div class="absolute">
+                    <p v-if="errors.folioType" class="text-red-400 text-xs mt-1">
+                      {{ errors.folioType }}
+                    </p>
                   </div>
                 </div>
                 <!-- coverage -->
@@ -284,8 +358,8 @@ watch(
                     <select
                       id="coverType"
                       v-model="form.coverage"
-                      required
                       :class="selectClass"
+                      @change="onBlur('coverage')"
                       @focus="coverageFocused = true"
                       @blur="coverageFocused = false"
                     >
@@ -298,9 +372,14 @@ watch(
                       :class="{ 'rotate-180': coverageFocused }"
                     />
                   </div>
+                  <div class="absolute">
+                    <p v-if="errors.coverage" class="text-red-400 text-xs mt-1">
+                      {{ errors.coverage }}
+                    </p>
+                  </div>
                 </div>
                 <!-- packages -->
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-2 mt-4">
                   <label for="packageType" class="block text-sm font-semibold text-white/80"
                     >Пакет</label
                   >
@@ -308,21 +387,26 @@ watch(
                     <select
                       id="packageType"
                       v-model="form.package"
-                      required
                       :class="selectClass"
+                      @change="onBlur('package')"
                       @focus="packageFocused = true"
                       @blur="packageFocused = false"
                     >
                       <option value="" disabled>Изберете...</option>
-                      <option value="fenders">Калници (fenders)</option>
-                      <option value="hood">Капак (hood)</option>
-                      <option value="hood_fenders">Капак + калници (hood & fenders)</option>
-                      <option value="custom">Персонално (custom)</option>
+                      <option value="fenders">Калници</option>
+                      <option value="hood">Капак</option>
+                      <option value="hood_fenders">Капак и Калници</option>
+                      <option value="custom">Персонално</option>
                     </select>
                     <ChevronDownIcon
                       class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500 transition-transform duration-300"
                       :class="{ 'rotate-180': packageFocused }"
                     />
+                  </div>
+                  <div class="absolute">
+                    <p v-if="errors.package" class="text-red-400 text-xs mt-1">
+                      {{ errors.package }}
+                    </p>
                   </div>
                 </div>
                 <!-- custom text -->
@@ -334,10 +418,14 @@ watch(
                     id="customDetailType"
                     v-model.trim="form.customDetails"
                     type="text"
-                    required
+                    @blur="onBlur('customDetails')"
+                    @input="onInput('customDetails')"
                     class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
                     placeholder="Напр. броня + огледала + прагове"
                   />
+                  <p v-if="errors.customDetails" class="text-red-400 text-xs mt-1">
+                    {{ errors.customDetails }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -350,21 +438,26 @@ watch(
                 <select
                   id="darkeningType"
                   v-model="form.tint"
-                  required
                   :class="selectClass"
+                  @change="onBlur('tint')"
                   @focus="windowDarkenFocused = true"
                   @blur="windowDarkenFocused = false"
                 >
                   <option value="" disabled>Изберете...</option>
-                  <option value="5">5% Светлопропускливост - Най-тъмно</option>
-                  <option value="30">30% Светлопропускливост - Балансирано</option>
-                  <option value="50">50% Светлопропускливост - Леко</option>
-                  <option value="70">70% Светлопропускливост- UV защита</option>
+                  <option value="5">5% - Най-тъмно</option>
+                  <option value="30">30% - Балансирано</option>
+                  <option value="50">50% - Леко</option>
+                  <option value="70">70%- UV защита</option>
                 </select>
                 <ChevronDownIcon
                   class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500 transition-transform duration-300"
                   :class="{ 'rotate-180': windowDarkenFocused }"
                 />
+              </div>
+              <div class="absolute">
+                <p v-if="errors.tint" class="text-red-400 text-xs mt-1">
+                  {{ errors.tint }}
+                </p>
               </div>
             </div>
             <!-- Detailing -->
@@ -376,83 +469,65 @@ watch(
                 <select
                   id="detailingType"
                   v-model="form.detailingType"
-                  required
                   :class="selectClass"
+                  @change="onBlur('detailingType')"
                   @focus="detailingFocused = true"
                   @blur="detailingFocused = false"
                 >
                   <option value="" disabled>Изберете...</option>
-                  <option value="Екстериорен детайлинг">
-                    Екстериорен детайлинг – измиване, гланц, полиране, защита на боята
-                  </option>
-                  <option value="Интериорен детайлинг">
-                    Интериорен детайлинг – почистване на тапицерия, кожа, килими, пластмаси и стъкла
-                  </option>
-                  <option value="Керамично покритие">
-                    Керамично покритие – дълготрайна защита, отблъскваща вода, мръсотия и химикали
-                  </option>
+                  <option value="Екстериорен детайлинг">Екстериорен детайлинг</option>
+                  <option value="Интериорен детайлинг">Интериорен детайлинг</option>
+                  <option value="Керамично покритие">Керамично покритие</option>
                 </select>
                 <ChevronDownIcon
                   class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500 transition-transform duration-300"
                   :class="{ 'rotate-180': detailingFocused }"
                 />
               </div>
+              <p v-if="errors.detailingType" class="text-red-400 text-xs mt-1">
+                {{ errors.detailingType }}
+              </p>
             </div>
             <!-- Message -->
-            <div class="mt-8">
-              <label for="message" class="block text-sm font-semibold text-white/80"
-                >Съобщение</label
-              >
+            <div class="mt-12">
+              <h3 class="text-lg font-semibold text-white">Съобщение</h3>
+              <p class="mt-1 text-sm text-white/60">
+                Опишете кратко какво искате, срок, локация и др
+              </p>
               <textarea
                 id="message"
                 v-model.trim="form.message"
+                @blur="onBlur('message')"
+                @input="onInput('message')"
                 rows="5"
                 class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
-                placeholder="Опишете кратко какво искате, срок, локация и др."
+                placeholder="Напр. затъмняване само на предно стъкло"
               />
+              <p v-if="errors.message" class="text-red-400 text-xs">
+                {{ errors.message }}
+              </p>
             </div>
             <!-- Promo code -->
-            <div class="mt-6">
-              <label for="promoCode" class="block text-sm font-semibold text-white/80">
-                Промо код <span class="text-white/40">(по желание)</span>
-              </label>
+            <div class="mt-10">
+              <h3 for="promoCode" class="text-lg font-semibold text-white">Промо код</h3>
               <input
                 id="promoCode"
                 v-model.trim="form.promoCode"
+                @blur="onBlur('promoCode')"
+                @input="onInput('promoCode')"
                 type="text"
-                class="mt-2 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
+                class="mt-4 w-full rounded-lg bg-zinc-900/70 text-white ring-1 ring-white/10 px-4 py-3 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-red-500/60"
                 placeholder="Напр. IDO10"
               />
+              <p v-if="errors.promoCode" class="text-red-400 text-xs mt-1">
+                {{ errors.promoCode }}
+              </p>
             </div>
-            <!-- Consent -->
-            <div class="mt-6 flex gap-3 items-center">
-              <input id="consent" v-model="form.consent" type="checkbox" class="stop-light" />
-              <label for="consent" class="text-sm text-white/60">
-                Съгласен/на съм да бъда потърсен/а по телефон или имейл относно запитването.
-              </label>
-            </div>
+
             <!-- Actions -->
-            <div class="mt-8 flex flex-col sm:flex-row gap-3">
+            <div class="mt-10 flex flex-col sm:flex-row gap-3">
               <TheButton variant="primary" type="submit">Изпрати запитване</TheButton>
-              <TheButton
-                variant="secondary"
-                type="reset"
-                @click.prevent="
-                  Object.assign(form, {
-                    name: '',
-                    phone: '',
-                    email: '',
-                    carMakeModel: '',
-                    message: '',
-                    folioType: '',
-                    coverage: '',
-                    package: '',
-                    customDetails: '',
-                    promoCode: '',
-                    consent: true,
-                  })
-                "
-              >
+              <TheButton variant="secondary" type="reset" @click.prevent="resetForm()">
                 Изчисти
               </TheButton>
             </div>

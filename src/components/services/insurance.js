@@ -14,7 +14,7 @@ export default {
   },
   cta: {
     primary: { label: 'Консултация', href: '/contact?selectedService=insurance' },
-    secondary: { label: 'Видове застраховки', href: '#types' },
+    secondary: { label: 'Видове застраховки', href: '#insurance-types' },
   },
   benefitsTitle: 'Предимства на професионалното застраховане',
   benefitsSubtitle:
@@ -91,7 +91,7 @@ export default {
       title: 'Защо да изберете професионални застраховки и Каско?',
       subtitle:
         'Осигуряваме професионална консултация и персонализирани застрахователни решения за пълно спокойствие. Нашият фокус е бърза реакция, яснота и защита без излишни усложнения.',
-      image: 'src/assets/insuranceWhyUs.webp',
+      image: 'src/assets/insuranceBrokenWindow.webp',
       imageAlt: 'Застрахователно обслужване и автомобил',
       items: [
         'Защита на автомобила при всички рискове',

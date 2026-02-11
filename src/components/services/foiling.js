@@ -27,7 +27,7 @@ export default {
 
   cta: {
     primary: { label: 'Консултация', href: '/contact?selectedService=ppf' },
-    secondary: { label: 'Видове фолиа', href: '#types' },
+    secondary: { label: 'Видове фолиа', href: '#ppf-types' },
   },
 
   benefitsTitle: 'Предимства на PPF',
