@@ -1,25 +1,13 @@
 <script setup>
 import TheButton from '@/components/global/TheButton.vue'
-import { ChevronDownIcon } from '@heroicons/vue/24/outline'
-import { ref, computed, reactive, onMounted, watch } from 'vue'
+import { computed, reactive, onMounted, watch } from 'vue'
 import mercEQS from '@/assets/detailingMercEqs.webp'
 import { useRoute } from 'vue-router'
 import { useContactValidation } from '@/composables/useContactValidation'
+import DropDown from '@/components/global/DropDown.vue'
 
-// TODO: FIX MOBILE RESPONSIVENESS OF FORM = type of enquiry, t&c agreement
-// TODO: FIX SUBMIT FORM BUTTON OBJECT.ASSIGN
-
-const selectClass =
-  'w-full rounded-lg bg-zinc-900/70 text-white/80 ring-1 ring-white/10 ' +
-  'px-4 py-3 pr-10 text-sm appearance-none ' +
-  'focus:outline-none focus:ring-2 focus:ring-red-500/60'
-
-// For chevron animation focus states
-const folioFocused = ref(false)
-const coverageFocused = ref(false)
-const packageFocused = ref(false)
-const windowDarkenFocused = ref(false)
-const detailingFocused = ref(false)
+// TODO:  t&c agreement
+// TODO: ADD THE CONSENT
 
 const form = reactive({
   name: '',
@@ -37,18 +25,56 @@ const form = reactive({
   // Detailing Type
   detailingType: '',
 
-  // Folirane
+  // PPF
   folioType: '', // 'cveten' | 'bezcveten'
   coverage: '', // 'cqlo' | 'prednica'
   package: '', // 'fenders' | 'hood' | 'hood_fenders' | 'custom'
   customDetails: '',
 
   promoCode: '',
-  // consent: true,
+  consent: true,
   w: '',
 })
+
+// --- For dropdowns ---
+// PPF
+// folioType
+const folioType = [
+  { text: 'цветно', formValue: 'cveten' },
+  { text: 'безцветно', formValue: 'bezcveten' },
+]
+// coverage
+const coverage = [
+  { text: 'цяло', formValue: 'cqlo' },
+  { text: 'предница', formValue: 'prednica' },
+]
+// package
+const pkg = [
+  { text: 'калници', formValue: 'fenders' },
+  { text: 'капак', formValue: 'hood' },
+  { text: 'Капак и Калници', formValue: 'hood_fenders' },
+  { text: 'Персонално', formValue: 'custom' },
+]
+
+// Darkening
+const tint = [
+  { text: '5% - Най-тъмно', formValue: '5' },
+  { text: '30% - Балансирано', formValue: '30' },
+  { text: '50% - Леко', formValue: '50' },
+  { text: '70% - UV защита', formValue: '  70' },
+]
+
+// Detailing
+const detailing = [
+  { text: 'Екстериорен детайлинг', formValue: 'Екстериорен детайлинг' },
+  { text: 'Интериорен детайлинг', formValue: 'Интериорен детайлинг' },
+  { text: 'Керамично покритие', formValue: 'Керамично покритие' },
+]
+
 const needsCustomDetails = computed(() => form.package === 'custom')
-const { errors, validateAll, onBlur, onInput, setService, resetForm } = useContactValidation(form)
+
+const { errors, dirty, validateAll, onBlur, onInput, setService, resetForm } =
+  useContactValidation(form)
 
 async function submit() {
   if (!validateAll()) return
@@ -76,13 +102,23 @@ const route = useRoute()
 function setFromQuery() {
   const q = route.query
 
-  if (q.selectedService && typeof q.selectedService === 'string') {
-    setService(q.selectedService)
+  if (typeof q.selectedService === 'string') {
+    setService(q.selectedService) // sets form.selectedService & dirty.selectedService & validates
   }
 
-  if (q.tint && typeof q.tint === 'string') {
+  if (typeof q.tint === 'string') {
     // only apply tint if service is darkening
-    if (form.selectedService === 'darkening') form.tint = q.tint
+    if (form.selectedService === 'darkening') {
+      const allowed = new Set(['5', '30', '50', '70'])
+
+      if (allowed.has(q.tint)) {
+        form.tint = q.tint
+        onBlur('tint') // marks dirty + validates
+      } else {
+        // if invalid query value  - clears and ignores
+        form.tint = ''
+      }
+    }
   }
 }
 onMounted(() => {
@@ -97,8 +133,13 @@ watch(
 watch(
   () => form.package,
   (p) => {
-    if (p !== 'custom') form.customDetails = ''
-    onBlur('customDetails')
+    if (p !== 'custom') {
+      form.customDetails = ''
+      errors.customDetails = ''
+      dirty.customDetails = false
+      return
+    }
+    if (dirty.customDetails) onInput('customDetails')
   },
 )
 </script>
@@ -113,13 +154,13 @@ watch(
         class="absolute inset-x-0 top-[-8rem] h-[28rem] bg-linear-to-tr from-red-500/20 via-white/5 to-transparent blur-3xl"
       ></div>
     </div>
-    <div class="relative mx-auto max-w-7xl px-6 lg:px-8">
+    <div class="relative mx-auto max-w-7xl px-4 lg:px-8">
       <div
-        class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-start rounded-[2rem] bg-white/5 ring-1 ring-white/10 p-6 sm:p-10 shadow-2xl"
+        class="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12 items-start rounded-4xl bg-white/5 ring-1 ring-white/10 p-4 sm:p-10 shadow-2xl"
       >
         <!-- LEFT: context panel -->
-        <aside class="lg:col-span-5">
-          <p class="text-xs font-semibold tracking-widest text-red-500 uppercase">
+        <aside class="lg:col-span-5 max-w-2xl mx-auto">
+          <p class="text-xs font-semibold tracking-widest text-red-500 uppercase mt-6 sm:mt-0">
             Свържете се с нас
           </p>
 
@@ -135,7 +176,11 @@ watch(
           <div
             class="relative overflow-hidden rounded-2xl sm:rounded-[2rem] bg-white/5 ring-1 ring-white/10 shadow-2xl mt-10"
           >
-            <img :src="mercEQS" alt="Броня на мерцедес" class="w-full aspect-[4/5] object-cover" />
+            <img
+              :src="mercEQS"
+              alt="Броня на мерцедес"
+              class="w-full aspect-[3/3] lg:aspect-[4/5] object-cover"
+            />
 
             <!-- overlay -->
             <div
@@ -144,7 +189,7 @@ watch(
             ></div>
           </div>
 
-          <!-- “trust chips” -->
+          <!-- trust chips -->
           <ul class="mt-8 space-y-3">
             <li class="flex gap-3 rounded-xl bg-black/20 ring-1 ring-white/10 px-4 py-3">
               <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
@@ -164,7 +209,7 @@ watch(
         <div class="lg:col-span-7">
           <form
             @submit.prevent="submit"
-            class="mx-auto max-w-2xl rounded-2xl bg-zinc-950/80 ring-1 ring-white/10 p-6 sm:p-10"
+            class="mx-auto max-w-2xl rounded-2xl bg-zinc-950/80 ring-1 ring-white/10 px-4 py-6 sm:p-10"
           >
             <!-- Contact Info -->
             <h3 class="text-lg font-semibold text-white">Лична информация</h3>
@@ -211,6 +256,7 @@ watch(
                   </p>
                 </div>
               </div>
+              <!-- DropDowns -->
               <div class="sm:col-span-1 mt-6">
                 <label for="email" class="block text-sm font-semibold text-white/80">Имейл</label>
 
@@ -248,14 +294,20 @@ watch(
             </div>
             <!-- Service Types -->
             <div class="mt-10">
-              <h3 class="text-lg font-semibold text-white">Тип на запитване</h3>
-              <p class="mt-1 text-sm text-white/60">
+              <h3 class="text-lg font-semibold text-white text-center sm:text-start">
+                Тип на запитване
+              </h3>
+              <p class="mt-1 text-sm text-white/60 text-center sm:text-start">
                 Опишете допълнителни изисквания в "Съобщение"
               </p>
-              <p v-if="errors.selectedService" class="text-red-400 text-xs mt-2">
+              <p
+                v-if="errors.selectedService"
+                class="text-red-400 text-xs mt-2 text-center sm:text-start"
+              >
                 {{ errors.selectedService }}
               </p>
-              <div class="mt-8 flex justify-between gap-4 w-full">
+              <!-- <div class="mt-8 flex justify-between gap-4 w-full"> -->
+              <div class="mt-8 grid grid-cols-2 gap-3 sm:flex sm:justify-between sm:gap-4">
                 <div class="flex flex-col-reverse items-center">
                   <input
                     id="ppf"
@@ -319,96 +371,34 @@ watch(
             <div class="mt-8" v-if="form.selectedService === 'ppf'">
               <h3 class="text-lg font-semibold text-white">Фолиране</h3>
               <p class="mt-1 text-sm text-white/60">Изберете тип фолиране и покритие.</p>
-              <div class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <!-- Folio type -->
-                <div>
-                  <label for="foilType" class="block text-sm font-semibold text-white/80"
-                    >Тип фолио</label
-                  >
-                  <div class="relative mt-2">
-                    <select
-                      id="foilType"
-                      v-model="form.folioType"
-                      :class="selectClass"
-                      @change="onBlur('folioType')"
-                      @blur="folioFocused = false"
-                      @focus="folioFocused = true"
-                    >
-                      <option value="" disabled>Изберете...</option>
-                      <option value="cveten">Цветен</option>
-                      <option value="bezcveten">Безцветен</option>
-                    </select>
-                    <ChevronDownIcon
-                      class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500 transition-transform duration-300"
-                      :class="{ 'rotate-180': folioFocused }"
-                    />
-                  </div>
-                  <div class="absolute">
-                    <p v-if="errors.folioType" class="text-red-400 text-xs mt-1">
-                      {{ errors.folioType }}
-                    </p>
-                  </div>
-                </div>
+              <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+                <!-- folioType -->
+                <DropDown
+                  brow="Тип Фолио"
+                  :dropdown-values="folioType"
+                  :error-text="errors.folioType"
+                  v-model="form.folioType"
+                  @blur="onBlur('folioType')"
+                />
+
                 <!-- coverage -->
-                <div>
-                  <label for="coverType" class="block text-sm font-semibold text-white/80"
-                    >Покритие</label
-                  >
-                  <div class="relative mt-2">
-                    <select
-                      id="coverType"
-                      v-model="form.coverage"
-                      :class="selectClass"
-                      @change="onBlur('coverage')"
-                      @focus="coverageFocused = true"
-                      @blur="coverageFocused = false"
-                    >
-                      <option value="" disabled>Изберете...</option>
-                      <option value="cqlo">Цялостно</option>
-                      <option value="prednica">Предница</option>
-                    </select>
-                    <ChevronDownIcon
-                      class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500 transition-transform duration-300"
-                      :class="{ 'rotate-180': coverageFocused }"
-                    />
-                  </div>
-                  <div class="absolute">
-                    <p v-if="errors.coverage" class="text-red-400 text-xs mt-1">
-                      {{ errors.coverage }}
-                    </p>
-                  </div>
-                </div>
+                <DropDown
+                  brow="Покритие"
+                  :dropdown-values="coverage"
+                  :error-text="errors.coverage"
+                  v-model="form.coverage"
+                  @blur="onBlur('coverage')"
+                />
+
                 <!-- packages -->
-                <div class="sm:col-span-2 mt-4">
-                  <label for="packageType" class="block text-sm font-semibold text-white/80"
-                    >Пакет</label
-                  >
-                  <div class="relative mt-2">
-                    <select
-                      id="packageType"
-                      v-model="form.package"
-                      :class="selectClass"
-                      @change="onBlur('package')"
-                      @focus="packageFocused = true"
-                      @blur="packageFocused = false"
-                    >
-                      <option value="" disabled>Изберете...</option>
-                      <option value="fenders">Калници</option>
-                      <option value="hood">Капак</option>
-                      <option value="hood_fenders">Капак и Калници</option>
-                      <option value="custom">Персонално</option>
-                    </select>
-                    <ChevronDownIcon
-                      class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500 transition-transform duration-300"
-                      :class="{ 'rotate-180': packageFocused }"
-                    />
-                  </div>
-                  <div class="absolute">
-                    <p v-if="errors.package" class="text-red-400 text-xs mt-1">
-                      {{ errors.package }}
-                    </p>
-                  </div>
-                </div>
+                <DropDown
+                  brow="Пакет"
+                  :dropdown-values="pkg"
+                  :error-text="errors.package"
+                  v-model="form.package"
+                  @blur="onBlur('package')"
+                />
+
                 <!-- custom text -->
                 <div v-if="needsCustomDetails" class="sm:col-span-2">
                   <label for="customDetailType" class="block text-sm font-semibold text-white/80">
@@ -431,62 +421,23 @@ watch(
             </div>
             <!-- WindowDarkening block -->
             <div class="mt-8" v-if="form.selectedService === 'darkening'">
-              <label for="darkeningType" class="block text-sm font-semibold text-white/80"
-                >Тип Затъмняване</label
-              >
-              <div class="relative mt-2">
-                <select
-                  id="darkeningType"
-                  v-model="form.tint"
-                  :class="selectClass"
-                  @change="onBlur('tint')"
-                  @focus="windowDarkenFocused = true"
-                  @blur="windowDarkenFocused = false"
-                >
-                  <option value="" disabled>Изберете...</option>
-                  <option value="5">5% - Най-тъмно</option>
-                  <option value="30">30% - Балансирано</option>
-                  <option value="50">50% - Леко</option>
-                  <option value="70">70%- UV защита</option>
-                </select>
-                <ChevronDownIcon
-                  class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500 transition-transform duration-300"
-                  :class="{ 'rotate-180': windowDarkenFocused }"
-                />
-              </div>
-              <div class="absolute">
-                <p v-if="errors.tint" class="text-red-400 text-xs mt-1">
-                  {{ errors.tint }}
-                </p>
-              </div>
+              <DropDown
+                brow="Тип Затъмняване"
+                :dropdown-values="tint"
+                :error-text="errors.tint"
+                v-model="form.tint"
+                @blur="onBlur('tint')"
+              />
             </div>
             <!-- Detailing -->
             <div class="mt-8" v-if="form.selectedService === 'detailing'">
-              <label for="detailingType" class="block text-sm font-semibold text-white/80"
-                >Тип Детайлинг</label
-              >
-              <div class="relative mt-2">
-                <select
-                  id="detailingType"
-                  v-model="form.detailingType"
-                  :class="selectClass"
-                  @change="onBlur('detailingType')"
-                  @focus="detailingFocused = true"
-                  @blur="detailingFocused = false"
-                >
-                  <option value="" disabled>Изберете...</option>
-                  <option value="Екстериорен детайлинг">Екстериорен детайлинг</option>
-                  <option value="Интериорен детайлинг">Интериорен детайлинг</option>
-                  <option value="Керамично покритие">Керамично покритие</option>
-                </select>
-                <ChevronDownIcon
-                  class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 size-4 text-zinc-500 transition-transform duration-300"
-                  :class="{ 'rotate-180': detailingFocused }"
-                />
-              </div>
-              <p v-if="errors.detailingType" class="text-red-400 text-xs mt-1">
-                {{ errors.detailingType }}
-              </p>
+              <DropDown
+                brow="Тип Детайлинг"
+                :dropdown-values="detailing"
+                :error-text="errors.detailingType"
+                v-model="form.detailingType"
+                @blur="onBlur('detailingType')"
+              />
             </div>
             <!-- Message -->
             <div class="mt-12">
@@ -523,7 +474,26 @@ watch(
                 {{ errors.promoCode }}
               </p>
             </div>
-
+            <!-- Consent -->
+            <div class="mt-8 flex gap-3 items-center">
+              <input
+                id="consent"
+                v-model="form.consent"
+                @blur="onBlur('consent')"
+                @input="onInput('consent')"
+                type="checkbox"
+                class="stop-light shrink-0"
+              />
+              <label for="consent" class="text-sm text-white/60">
+                Давам съгласие да бъда потърсен/а относно запитването ми и приемам
+                <RouterLink to="/privacy" class="underline hover:text-red-400"
+                  >Политиката за поверителност.</RouterLink
+                >.
+              </label>
+              <p v-if="errors.consent" class="text-red-400 text-xs mt-1">
+                {{ errors.consent }}
+              </p>
+            </div>
             <!-- Actions -->
             <div class="mt-10 flex flex-col sm:flex-row gap-3">
               <TheButton variant="primary" type="submit">Изпрати запитване</TheButton>

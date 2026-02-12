@@ -91,17 +91,17 @@ function validate(fd) {
     if (!fd.selectedService) return 'Missing selectedService'
     if (!SERVICES.has(fd.selectedService)) return 'Invalid selectedService'
 
-    // bounds (cheap spam control + safety)
+    // cheap spam control 
     if (fd.name.length < 2 || fd.name.length > 60) return 'Invalid name'
     if (fd.email.length > 120) return 'Invalid email'
     if (fd.message && fd.message.length > 2000) return 'Invalid message'
     if (fd.carMake && fd.carMake.length > 60) return 'Invalid carMake'
     if (fd.promoCode && fd.promoCode.length > 20) return 'Invalid promoCode'
 
-    // email format (light)
+    // email format 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]{1,}$/i.test(fd.email)) return 'Invalid email'
 
-    // phone digits (light)
+    // phone digits 
     const d = digitsOnly(fd.phone)
     if (d.length < 8 || d.length > 15) return 'Invalid phone'
 

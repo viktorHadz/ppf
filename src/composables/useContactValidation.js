@@ -8,6 +8,7 @@ export function useContactValidation(form) {
         carMake: '',
         message: '',
         promoCode: '',
+        consent: '',
 
         selectedService: '',
         tint: '',
@@ -23,6 +24,7 @@ export function useContactValidation(form) {
     const trim = (v) => (v ?? '').toString().trim()
 
     const required = (label, v) => (trim(v) ? '' : `${label} е задължително поле`)
+    const requiredBool = (label, v) => (v === true ? '' : `${label} е задължително поле`)
 
     const len = (label, v, min, max) => {
         const s = trim(v)
@@ -53,7 +55,9 @@ export function useContactValidation(form) {
         OTHER: 'other',
     }
 
-    // ---------- service clearing ---------
+    const ALLOWED = new Set(Object.values(SERVICE))
+
+    // ---------- service clearing ----------
     function clearPPF() {
         form.folioType = ''
         form.coverage = ''
@@ -84,28 +88,13 @@ export function useContactValidation(form) {
     }
 
     function clearServiceSelectionsExcept(nextService) {
-        // Always clear everything not relevant to the next service
         if (nextService !== SERVICE.PPF) clearPPF()
         if (nextService !== SERVICE.DARKENING) clearDarkening()
         if (nextService !== SERVICE.DETAILING) clearDetailing()
-
     }
-    const ALLOWED = new Set(['ppf', 'darkening', 'detailing', 'insurance', 'other'])
 
-    // Clears state when service radios/dropdowns are changed 
     function setService(nextService) {
         if (!ALLOWED.has(nextService)) return
-        if (!nextService) {
-            // clears service entirely
-            clearServiceSelectionsExcept('') // clears all blocks
-            form.selectedService = ''
-            errors.selectedService = ''
-            dirty.selectedService = false
-            return
-        }
-
-        if (!ALLOWED.has(nextService)) return
-
         if (form.selectedService === nextService) return
 
         clearServiceSelectionsExcept(nextService)
@@ -132,7 +121,9 @@ export function useContactValidation(form) {
 
             case 'email':
                 errors.email =
-                    required('Имейлът', form.email) || isEmail(form.email) || len('Имейлът', form.email, 1, 60)
+                    required('Имейлът', form.email) ||
+                    isEmail(form.email) ||
+                    len('Имейлът', form.email, 1, 60)
                 break
 
             case 'carMake':
@@ -140,6 +131,7 @@ export function useContactValidation(form) {
                 break
 
             case 'message':
+                // make it required (your UI basically assumes it is)
                 errors.message = len('Съобщението', form.message, 10, 2000)
                 break
 
@@ -147,12 +139,16 @@ export function useContactValidation(form) {
                 errors.promoCode = len('Промо кодът', form.promoCode, 1, 20)
                 break
 
+            case 'consent':
+                errors.consent = requiredBool('Съгласието', form.consent)
+                break
+
             // service selection
             case 'selectedService':
                 errors.selectedService = required('Тип на запитване', form.selectedService)
                 break
 
-            // service blocks become required when service is selected
+            // service blocks required when service selected
             case 'folioType':
                 errors.folioType =
                     form.selectedService === SERVICE.PPF ? required('Тип фолио', form.folioType) : ''
@@ -164,14 +160,14 @@ export function useContactValidation(form) {
                 break
 
             case 'package':
-                errors.package =
-                    form.selectedService === SERVICE.PPF ? required('Пакет', form.package) : ''
+                errors.package = form.selectedService === SERVICE.PPF ? required('Пакет', form.package) : ''
                 break
 
             case 'customDetails': {
                 const needs = form.selectedService === SERVICE.PPF && trim(form.package) === 'custom'
                 errors.customDetails = needs
-                    ? required('Персонално', form.customDetails) || len('Персонално', form.customDetails, 5, 250)
+                    ? required('Персонално', form.customDetails) ||
+                    len('Персонално', form.customDetails, 5, 250)
                     : ''
                 break
             }
@@ -183,10 +179,9 @@ export function useContactValidation(form) {
 
             case 'detailingType':
                 errors.detailingType =
-                    form.selectedService === SERVICE.DETAILING ? required('Тип детайлинг', form.detailingType) : ''
-                break
-
-            default:
+                    form.selectedService === SERVICE.DETAILING
+                        ? required('Тип детайлинг', form.detailingType)
+                        : ''
                 break
         }
 
@@ -194,7 +189,16 @@ export function useContactValidation(form) {
     }
 
     function validateAll() {
-        const fields = ['name', 'phone', 'email', 'message', 'promoCode', 'carMake', 'selectedService']
+        const fields = [
+            'name',
+            'phone',
+            'email',
+            'message',
+            'promoCode',
+            'carMake',
+            'consent',
+            'selectedService',
+        ]
 
         if (form.selectedService === SERVICE.PPF) {
             fields.push('folioType', 'coverage', 'package')
@@ -213,11 +217,26 @@ export function useContactValidation(form) {
     }
 
     function onBlur(field) {
+        // dirties only if user types something 
+        if (field === 'message') {
+            if (!trim(form.message)) return
+        }
+        if (field === 'promoCode') {
+            if (!trim(form.promoCode)) return
+        }
+
         dirty[field] = true
         validateField(field)
     }
 
     function onInput(field) {
+        if (field === 'message' && trim(form.message) && !dirty.message) {
+            dirty.message = true
+        }
+        if (field === 'promoCode' && trim(form.promoCode) && !dirty.promoCode) {
+            dirty.promoCode = true
+        }
+
         if (dirty[field]) validateField(field)
     }
 
@@ -234,9 +253,8 @@ export function useContactValidation(form) {
         form.message = ''
         form.selectedService = ''
         form.promoCode = ''
-        // form.consent = true // removing for now until they tell me its needed
+        form.consent = true
 
-        // clear all service blocks
         clearPPF()
         clearDarkening()
         clearDetailing()
@@ -253,5 +271,6 @@ export function useContactValidation(form) {
         onInput,
         setService,
         resetForm,
+        SERVICE, // handy for comparisons if you want
     }
 }

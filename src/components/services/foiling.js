@@ -4,7 +4,6 @@ const detScrub = new URL('../../assets/detailingScrub.webp', import.meta.url).hr
 const wetCar = new URL('../../assets/wet-car.webp', import.meta.url).href
 const detTaykanMech = new URL('../../assets/foilingTaykanHands.webp', import.meta.url).href
 
-
 export default {
   eyebrow: 'PPF Защитно фолио',
   eyebrowAnchor: 'ppf-brow',

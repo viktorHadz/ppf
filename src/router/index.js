@@ -40,7 +40,7 @@ const router = createRouter({
     }
 
     return { top: 0 }
-  }
+  },
 })
 
 export default router
