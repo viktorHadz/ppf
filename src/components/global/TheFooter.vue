@@ -1,7 +1,6 @@
 <script setup>
 import { defineComponent, h } from 'vue'
 import TheButton from '@/components/global/TheButton.vue'
-import logo from '@/assets/logo.svg'
 import { PhoneIcon, EnvelopeIcon, MapPinIcon, ClockIcon } from '@heroicons/vue/24/outline'
 
 const navigation = [
