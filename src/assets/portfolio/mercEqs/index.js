@@ -1,5 +1,5 @@
 import cover from './cover.webp'
-import duringFront from './1during.webp'
+import duringFront from './ppf-folirane-sofia-ido-group-mercedes-eqs.webp'
 import duringSide from './1duringSide.webp'
 import duringSideAlt from './1duringSideAlt.webp'
 import duringSideAlt2 from './1duringSideAlt2.webp'

@@ -1,28 +1,23 @@
 <script setup>
-import TheWelcome from '@/components/global/TheWelcome.vue'
-
+import founder1 from '@/assets/founders/founder1.webp'
+import founder2 from '@/assets/founders/founder2.webp'
 const team = [
   {
     name: 'Иван Хинков',
     role: 'Основател и Главен Детайлър',
-    image: '/images/team/ivan.jpg',
+    image: founder1,
     bio: 'Иван изгражда ИДО ГРУП с фокус върху прецизност, иновация и доверие. Отговаря за качествения контрол, процесите и обучението на нови специалисти.',
   },
   {
     name: 'Орлин Йончев',
     role: 'Основател и Главен Детайлър',
-    image: '/images/team/orlin.jpg',
+    image: founder2,
     bio: 'Орлин отговаря за комуникацията с клиентите, организацията на проекти и изграждането на дългосрочни партньорства. Вярва, че успешният проект започва с добро разбиране на нуждите.',
   },
 ]
 </script>
 
 <template>
-  <TheWelcome>
-    <template #title>Екип</template>
-    <template #under-title>Хора, които превръщат идеите в реалност</template>
-  </TheWelcome>
-
   <main class="isolate bg-zinc-900">
     <section class="bg-zinc-950 py-24 sm:py-32 relative isolate overflow-hidden">
       <!-- Decorative Element Dark -->
@@ -53,7 +48,7 @@ const team = [
 
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="max-w-3xl">
-          <p class="text-base/7 font-semibold text-red-500 mb-8gma">Екип</p>
+          <h1 class="text-base/7 font-semibold text-red-500 mb-4">За нас</h1>
           <h2 class="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
             Хората зад ИДО ГРУП
           </h2>

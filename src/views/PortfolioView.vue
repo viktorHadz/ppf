@@ -213,13 +213,12 @@ watch(open, (v) => {
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div class="max-w-2xl">
-            <p class="text-xs font-semibold tracking-widest text-red-500 uppercase">Портфолио</p>
-            <h1 class="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+            <h1 class="text-base/7 font-semibold text-red-500 mb-4">Портфолио</h1>
+            <h2 class="text-4xl font-semibold tracking-tight text-white sm:text-5xl">
               Проекти, които говорят сами
-            </h1>
+            </h2>
             <p class="mt-4 text-sm/7 text-gray-400">
-              Филтрирайте по услуга и разгледайте детайлите по всеки проект - снимки, изпълнение и
-              ключови акценти.
+              Филтрирайте по услуга и разгледайте детайлите по всеки проект.
             </p>
           </div>
         </div>

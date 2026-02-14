@@ -6,9 +6,7 @@ import { useRoute } from 'vue-router'
 import { useContactValidation } from '@/composables/useContactValidation'
 import DropDown from '@/components/global/DropDown.vue'
 
-// TODO:  t&c agreement
-// TODO: ADD THE CONSENT
-
+// TODO: Add contact details in the form
 const form = reactive({
   name: '',
   phone: '',
@@ -32,7 +30,7 @@ const form = reactive({
   customDetails: '',
 
   promoCode: '',
-  consent: true,
+  consent: false,
   w: '',
 })
 
@@ -160,19 +158,34 @@ watch(
       >
         <!-- LEFT: context panel -->
         <aside class="lg:col-span-5 max-w-2xl mx-auto">
-          <p class="text-xs font-semibold tracking-widest text-red-500 uppercase mt-6 sm:mt-0">
-            Свържете се с нас
-          </p>
-
-          <h2 class="mt-3 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+          <h1 class="text-sm font-semibold tracking-widest text-red-500 mt-6 sm:mt-0">
+            Запитване за PPF затъмняване и детайлинг
+          </h1>
+          <h2 class="mt-6 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
             Контакт и консултация
           </h2>
 
           <p class="mt-4 text-sm/7 text-gray-400">
-            Изпратете запитване и ще се върнем към вас възможно най-скоро. Ако не сте сигурни кой
-            пакет е подходящ — кажете ни марка/модел и какъв резултат искате.
+            Изпратете запитване за PPF защитно фолио, затъмняване на стъкла, детайлинг или
+            застраховки в София. Отговаряме бързо.
           </p>
+          <!-- Direct contact: -->
+          <p class="font-semibold text-gray-300 mt-8">За директна връзка:</p>
 
+          <ul class="space-y-3 mt-4">
+            <li class="flex gap-3 rounded-xl px-4 py-3">
+              <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
+              <p class="text-sm/6 text-gray-200">
+                <span class="font-semibold">Телефон:</span> +359 878 988 996
+              </p>
+            </li>
+            <li class="flex gap-3 rounded-xl px-4 py-3">
+              <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
+              <p class="text-sm/6 text-gray-200">
+                <span class="font-semibold">Имейл:</span> info@idogroupbg.com
+              </p>
+            </li>
+          </ul>
           <div
             class="relative overflow-hidden rounded-2xl sm:rounded-[2rem] bg-white/5 ring-1 ring-white/10 shadow-2xl mt-10"
           >
@@ -188,22 +201,6 @@ watch(
               aria-hidden="true"
             ></div>
           </div>
-
-          <!-- trust chips -->
-          <ul class="mt-8 space-y-3">
-            <li class="flex gap-3 rounded-xl bg-black/20 ring-1 ring-white/10 px-4 py-3">
-              <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
-              <p class="text-sm/6 text-gray-200">Отговор в рамките на работния ден</p>
-            </li>
-            <li class="flex gap-3 rounded-xl bg-black/20 ring-1 ring-white/10 px-4 py-3">
-              <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
-              <p class="text-sm/6 text-gray-200">Персонална препоръка според автомобила</p>
-            </li>
-            <li class="flex gap-3 rounded-xl bg-black/20 ring-1 ring-white/10 px-4 py-3">
-              <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
-              <p class="text-sm/6 text-gray-200">Прецизна изработка и премиум материали</p>
-            </li>
-          </ul>
         </aside>
         <!-- RIGHT: form -->
         <div class="lg:col-span-7">
@@ -488,7 +485,7 @@ watch(
                 Давам съгласие да бъда потърсен/а относно запитването ми и приемам
                 <RouterLink to="/privacy" class="underline hover:text-red-400"
                   >Политиката за поверителност.</RouterLink
-                >.
+                >
               </label>
               <p v-if="errors.consent" class="text-red-400 text-xs mt-1">
                 {{ errors.consent }}

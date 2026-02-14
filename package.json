@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite-ssg build",
     "preview": "vite preview",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
@@ -17,6 +17,8 @@
     "@headlessui/vue": "^0.0.0-insiders.589ea90",
     "@heroicons/vue": "^2.2.0",
     "@tailwindcss/vite": "^4.1.14",
+    "@unhead/addons": "^2.1.4",
+    "@unhead/vue": "^2.1.4",
     "@vueuse/core": "^14.2.1",
     "pinia": "^3.0.3",
     "resend": "^6.9.1",
@@ -34,6 +36,7 @@
     "prettier": "3.6.2",
     "vite": "^7.1.7",
     "vite-plugin-vue-devtools": "^8.0.2",
+    "vite-ssg": "^28.3.0",
     "wrangler": "^4.63.0"
   }
 }

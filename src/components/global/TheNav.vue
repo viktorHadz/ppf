@@ -74,9 +74,9 @@ onMounted(() => {
           </DisclosureButton>
         </div>
 
-        <!-- LOGO -->
         <div class="flex flex-1 items-start justify-start sm:items-stretch sm:justify-between">
           <RouterLink to="/" class="flex shrink-0 items-center">
+            <!-- LOGO -->
             <img class="h-14 w-auto" :src="logo" alt="ИДО ГРУП" />
             <div class="ml-4">
               <p class="text-white tracking-widest text-base/tight font-serif uppercase">
@@ -91,7 +91,6 @@ onMounted(() => {
           <!-- DESKTOP NAV -->
           <div class="hidden md:flex md:space-x-1 ml-6 my-auto relative">
             <template v-for="item in navigation" :key="item.name">
-              <!-- ITEMS WITH CHILDREN -->
               <div
                 v-if="item.children"
                 class="relative group"
@@ -100,14 +99,14 @@ onMounted(() => {
               >
                 <button
                   @click="toggleDropdown(item.name)"
-                  class="flex items-center space-x-1.5 px-4 h-20 text-zinc-300 hover:text-white transition-all duration-200 relative border-l border-r border-transparent hover:border-zinc-800/50 hover:bg-zinc-900/30"
+                  class="flex items-center space-x-2 px-4 h-20 text-zinc-300 hover:text-white transition-all duration-200 relative border-l border-r border-transparent hover:border-zinc-800/50 hover:bg-zinc-900/30"
                   :class="{
                     'text-red-500 border-zinc-800/50': isParentActive(item),
                   }"
                 >
                   <span class="text-sm font-medium tracking-wide uppercase">{{ item.name }}</span>
                   <ChevronDownIcon
-                    class="size-4 text-zinc-500 transition-transform duration-300 group-hover:text-white"
+                    class="size-4 text-zinc-400 transition-transform duration-300 group-hover:text-white"
                     :class="{ 'rotate-180': openStates[item.name] }"
                   />
                   <span
@@ -155,7 +154,6 @@ onMounted(() => {
                 </transition>
               </div>
 
-              <!-- ITEMS WITHOUT CHILDREN -->
               <div v-else class="relative group">
                 <RouterLink :to="item.href" custom v-slot="{ href, navigate, isExactActive }">
                   <a
@@ -186,7 +184,6 @@ onMounted(() => {
     <DisclosurePanel class="md:hidden">
       <div class="space-y-0 px-4 pt-3 pb-4 border-t border-zinc-800/50 bg-zinc-950">
         <div v-for="item in navigation" :key="item.name">
-          <!-- MOBILE WITH CHILDREN -->
           <div v-if="item.children">
             <button
               @click="toggleDropdown(item.name)"
@@ -230,7 +227,6 @@ onMounted(() => {
             </transition>
           </div>
 
-          <!-- MOBILE WITHOUT CHILDREN -->
           <RouterLink
             v-else
             :to="item.href"

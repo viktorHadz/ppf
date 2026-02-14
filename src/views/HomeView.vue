@@ -10,6 +10,8 @@ import CtaFoil from '@/components/CtaFoil.vue'
 import CtaDetailing from '@/components/CtaDetailing.vue'
 import DecorDiagSheen from '@/components/global/DecorDiagSheen.vue'
 
+// TODO: add banner with contact
+
 const heroFeatures = [
   {
     name: 'Премиум Автофолиране',
@@ -55,6 +57,7 @@ const heroFeatures = [
       Елитна визия <br />
       премиум защита
     </template>
+    <template #under-title> PPF фолиране затъмняване и детайлинг </template>
     <template #primary>запитване</template>
     <template #secondary>портфолио</template>
   </TheWelcome>
@@ -67,7 +70,7 @@ const heroFeatures = [
 
     <div class="mx-auto px-6 lg:px-8 z-10 relative">
       <div class="mx-auto max-w-2xl lg:text-center">
-        <h2 class="text-base/7 font-semibold text-red-500 mb-8">Професионални Авто Услуги</h2>
+        <h2 class="text-base/7 font-semibold text-red-500 mb-8">Професионални Авто Услуги София</h2>
         <p
           class="text-4xl font-semibold tracking-tight text-pretty text-white sm:text-5xl lg:text-balance mb-12"
         >
