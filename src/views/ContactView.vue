@@ -1,12 +1,12 @@
 <script setup>
 import TheButton from '@/components/global/TheButton.vue'
-import { computed, reactive, onMounted, watch } from 'vue'
+import { computed, reactive, onMounted, watch, ref } from 'vue'
 import mercEQS from '@/assets/detailingMercEqs.webp'
 import { useRoute } from 'vue-router'
 import { useContactValidation } from '@/composables/useContactValidation'
 import DropDown from '@/components/global/DropDown.vue'
+import TheToast from '@/components/global/TheToast.vue'
 
-// TODO: Add contact details in the form
 const form = reactive({
   name: '',
   phone: '',
@@ -68,6 +68,12 @@ const detailing = [
   { text: 'Интериорен детайлинг', formValue: 'Интериорен детайлинг' },
   { text: 'Керамично покритие', formValue: 'Керамично покритие' },
 ]
+const isSending = ref(false)
+
+const toastOpen = ref(false)
+const toastVariant = ref('success')
+const toastTitle = ref('')
+const toastMessage = ref('')
 
 const needsCustomDetails = computed(() => form.package === 'custom')
 
@@ -75,24 +81,45 @@ const { errors, dirty, validateAll, onBlur, onInput, setService, resetForm } =
   useContactValidation(form)
 
 async function submit() {
-  if (!validateAll()) return
-
-  const res = await fetch('/api/contact', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(form),
-  })
-
-  const data = await res.json().catch(() => ({}))
-
-  if (!res.ok) {
-    console.error('Contact submit failed:', data)
-    // TODO: show UI error here
+  if (isSending.value) return
+  if (!validateAll()) {
+    showToast('error', 'Проверете полетата', 'Има липсващи или невалидни данни във формата.')
     return
   }
 
-  console.log('Sent:', data)
-  // TODO: show UI success here
+  isSending.value = true
+  toastOpen.value = false
+
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form),
+    })
+
+    const data = await res.json().catch(() => ({}))
+
+    if (!res.ok) {
+      const msg =
+        data?.error ||
+        data?.message ||
+        'Неуспешно изпращане. Моля опитайте отново или ни пишете директно.'
+      showToast('error', 'Неуспешно изпращане', msg)
+      return
+    }
+
+    showToast('success', 'Изпратено!', 'Ще се свържем с вас възможно най-скоро.')
+    resetForm()
+  } catch (err) {
+    console.error(err)
+    showToast(
+      'error',
+      'Проблем с връзката',
+      'Няма връзка със сървъра. Проверете интернет и опитайте отново.',
+    )
+  } finally {
+    isSending.value = false
+  }
 }
 
 const route = useRoute()
@@ -140,6 +167,13 @@ watch(
     if (dirty.customDetails) onInput('customDetails')
   },
 )
+
+function showToast(variant, title, message = '') {
+  toastVariant.value = variant
+  toastTitle.value = title
+  toastMessage.value = message
+  toastOpen.value = true
+}
 </script>
 
 <template>
@@ -158,9 +192,7 @@ watch(
       >
         <!-- LEFT: context panel -->
         <aside class="lg:col-span-5 max-w-2xl mx-auto">
-          <h1 class="text-sm font-semibold tracking-widest text-red-500 mt-6 sm:mt-0">
-            Запитване за PPF затъмняване и детайлинг
-          </h1>
+          <h1 class="text-sm font-semibold tracking-widest text-red-500 mt-6 sm:mt-0">Формуляр</h1>
           <h2 class="mt-6 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
             Контакт и консултация
           </h2>
@@ -493,8 +525,45 @@ watch(
             </div>
             <!-- Actions -->
             <div class="mt-10 flex flex-col sm:flex-row gap-3">
-              <TheButton variant="primary" type="submit">Изпрати запитване</TheButton>
-              <TheButton variant="secondary" type="reset" @click.prevent="resetForm()">
+              <TheButton
+                variant="primary"
+                type="submit"
+                :disabled="isSending"
+                :class="isSending ? 'opacity-70 pointer-events-none' : ''"
+              >
+                <span class="inline-flex items-center gap-2">
+                  <svg
+                    v-if="isSending"
+                    class="size-4 animate-spin"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    aria-hidden="true"
+                  >
+                    <circle
+                      class="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      stroke-width="4"
+                    />
+                    <path
+                      class="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 0 1 8-8v3a5 5 0 0 0-5 5H4z"
+                    />
+                  </svg>
+
+                  <span>{{ isSending ? 'Изпращане…' : 'Изпрати запитване' }}</span>
+                </span>
+              </TheButton>
+              <TheButton
+                variant="secondary"
+                type="reset"
+                @click.prevent="resetForm()"
+                :disabled="isSending"
+                :class="isSending ? 'opacity-70 pointer-events-none' : ''"
+              >
                 Изчисти
               </TheButton>
             </div>
@@ -503,6 +572,12 @@ watch(
       </div>
     </div>
   </div>
+  <TheToast
+    v-model="toastOpen"
+    :variant="toastVariant"
+    :title="toastTitle"
+    :message="toastMessage"
+  />
 </template>
 <style scoped>
 .stop-light {

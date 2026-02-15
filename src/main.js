@@ -4,5 +4,5 @@ import App from './App.vue'
 import { routes, scrollBehavior } from './router'
 
 export const createApp = ViteSSG(App, { routes }, ({ router }) => {
-    router.options.scrollBehavior = scrollBehavior
+  router.options.scrollBehavior = scrollBehavior
 })

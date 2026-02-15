@@ -10,8 +10,6 @@ import CtaFoil from '@/components/CtaFoil.vue'
 import CtaDetailing from '@/components/CtaDetailing.vue'
 import DecorDiagSheen from '@/components/global/DecorDiagSheen.vue'
 
-// TODO: add banner with contact
-
 const heroFeatures = [
   {
     name: 'Премиум Автофолиране',

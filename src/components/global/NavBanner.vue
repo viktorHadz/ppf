@@ -1,7 +1,6 @@
 <script setup>
 import { XMarkIcon } from '@heroicons/vue/20/solid'
 import { ref } from 'vue'
-// TODO: IMPLEMENT IF REQUIRED
 // Potentially use sessionStorage
 const closed = ref(false)
 
