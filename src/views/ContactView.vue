@@ -68,7 +68,7 @@ const tint = [
   { text: '5% - Най-тъмно', formValue: '5' },
   { text: '30% - Балансирано', formValue: '30' },
   { text: '50% - Леко', formValue: '50' },
-  { text: '70% - UV защита', formValue: '  70' },
+  { text: '70% - UV защита', formValue: '70' },
 ]
 
 // Detailing
@@ -111,10 +111,11 @@ async function submit() {
 
     if (!res.ok) {
       const msg =
-        data?.error ||
-        data?.message ||
+        (typeof data?.message === 'string' && data.message.trim()) ||
         'Неуспешно изпращане. Моля опитайте отново или ни пишете директно.'
+
       showToast('error', 'Неуспешно изпращане', msg)
+
       analytics?.event('form_submit_error', { form_id: 'contact_form' })
       return
     }

@@ -141,7 +141,16 @@ export async function onRequestPost({ request, env }) {
         if (errMsg) return json({ error: errMsg }, 400)
 
         const apiKey = env.RESEND_API_KEY
-        if (!apiKey) return json({ error: 'Missing RESEND_API_KEY' }, 500)
+        if (!apiKey) {
+            // never leak infra details
+            return json(
+                {
+                    error: 'Грешка',
+                    message: 'Временно не можем да обработим запитването. Моля опитайте по-късно или се свържете с нас директно.',
+                },
+                500,
+            )
+        }
 
         const from = 'IDO Elite Protection <no-reply@idogroupbg.com>' // swap after domain verification
         const ownerTo = 'ivanhinkov@idogroupbg.com'
@@ -400,6 +409,12 @@ PPF фолио • Детайлинг • Затъмняване • Застр�
         return json({ ok: true })
     } catch (err) {
         console.error(err)
-        return json({ error: 'Server error' }, 500)
+        return json(
+            {
+                error: 'Грешка',
+                message: 'Възникна проблем. Моля опитайте отново. Или се свържете с нас директно.',
+            },
+            500
+        )
     }
 }
