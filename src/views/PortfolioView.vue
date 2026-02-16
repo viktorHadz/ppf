@@ -12,46 +12,13 @@ import mercEqs from '@/assets/portfolio/mercEqs'
 import pTaykan from '@/assets/portfolio/pTaykan'
 import pCayenne from '@/assets/portfolio/pCayenne'
 import rollsRoyce from '@/assets/portfolio/rRoyceRS'
-
+import { useAnalytics } from '@/composables/useAnalytics'
 const categories = [
   { key: 'all', label: 'Всички' },
   { key: 'ppf', label: 'PPF' },
   { key: 'tinting', label: 'Затъмняване' },
   { key: 'detailing', label: 'Детайлинг' },
 ]
-
-/*
-TODO: 
-folirane - ppf 
-folirane - vinyl 
-folirane - chrome delete 
-
-Rolls royce 
-foliurane - cqlostno 
-
-mercedes EQS 
-folirane - chastichno 
-tinting - 70 
-
-Porsche Taykan 
-folirane - chastichno - prednica
-
-Porsche Cayenne 
-Folirane - prednica 
-
-MercSclass 
-Folirane - Chrome Delete 
-
-BmwX7 
-Folirane - podmqna - chastichno/podmqna matte  
-
-BmwX5 
-Folirane - chastichno - prednica 
-
-Merc GClass
-Folirane - chastichno/podmqna - matte 
-
-*/
 
 const projects = [
   {
@@ -151,6 +118,7 @@ const activeProject = computed(() => {
 })
 
 function openProject(p, startIndex = 0) {
+  analytics?.portfolio(p.id, p.title)
   activeProjectId.value = p.id
   activeImageIndex.value = startIndex
   open.value = true
@@ -178,6 +146,21 @@ watch(open, (v) => {
     activeImageIndex.value = 0
   }
 })
+
+const analytics = useAnalytics()
+
+function onPortfolioInquiryClick() {
+  analytics?.cta('portfolio_bottom_inquiry', 'portfolio_page', 'Запитване')
+}
+
+function onModalConsultationClick() {
+  const p = activeProject.value
+  analytics?.cta(
+    'portfolio_modal_consultation',
+    'portfolio_modal',
+    p?.id ? `${p.id} • ${p.title}` : 'Консултация',
+  )
+}
 </script>
 
 <template>
@@ -358,6 +341,7 @@ watch(open, (v) => {
 
           <RouterLink
             to="/contact"
+            @click="onPortfolioInquiryClick"
             class="inline-flex items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
           >
             Запитване
@@ -491,6 +475,7 @@ watch(open, (v) => {
 
                       <RouterLink
                         to="/contact"
+                        @click="onModalConsultationClick"
                         class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
                       >
                         Консултация

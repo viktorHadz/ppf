@@ -13,6 +13,26 @@ import whiteCarTintElement from '@/assets/whiteCarWhiteBg.webp'
 
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'vue'
 import DecorDiagSheen from './global/DecorDiagSheen.vue'
+import { useAnalytics } from '@/composables/useAnalytics'
+const analytics = useAnalytics()
+
+const ctaPlacementTinting = 'home_tinting_section'
+const ctaLearnMoreTintingId = 'home_tinting_click_learn_more'
+const ctaInquiryTintingId = 'home_tinting_click_inquiry'
+
+function onTintingLearnMoreClick() {
+  analytics?.cta(ctaLearnMoreTintingId, ctaPlacementTinting, 'Научи повече')
+  analytics?.service('tinting', 'Затъмняване на стъклата', ctaPlacementTinting)
+}
+
+function onTintingInquiryClick(shade) {
+  analytics?.cta(
+    `${ctaInquiryTintingId}_shade_${shade}`,
+    ctaPlacementTinting,
+    `Запитване • ${shade}%`,
+  )
+  analytics?.service('tinting', 'Затъмняване на стъклата', ctaPlacementTinting)
+}
 
 let onResize
 onMounted(async () => {
@@ -157,6 +177,7 @@ const whyUs = [
             <div class="mt-8 lg:mt-auto flex flex-col gap-3 sm:flex-row">
               <RouterLink
                 to="/tinting#tinting-brow"
+                @click="onTintingLearnMoreClick"
                 class="inline-flex items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
               >
                 Научи повече
@@ -285,6 +306,7 @@ const whyUs = [
                       tint: stat.shade,
                     },
                   }"
+                  @click="onTintingInquiryClick(stat.shade)"
                   class="group text-base font-semibold text-red-500 inline-flex items-center self-center mt-2"
                 >
                   запитване
@@ -332,6 +354,7 @@ const whyUs = [
                       tint: stat.shade,
                     },
                   }"
+                  @click="onTintingInquiryClick(stat.shade)"
                   class="group text-base font-semibold text-red-500 inline-flex items-center self-center mt-2"
                 >
                   запитване

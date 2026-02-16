@@ -1,6 +1,23 @@
 <script setup>
 import { SparklesIcon, ShieldCheckIcon, BeakerIcon } from '@heroicons/vue/20/solid'
 import detailingRollsRoyce from '@/assets/detailingRollsRoyce.webp'
+import { useAnalytics } from '@/composables/useAnalytics'
+const analytics = useAnalytics()
+
+const ctaPlacementDetailing = 'home_detailing_section'
+const ctaDetailingInquiryId = 'home_detailing_click_inquiry'
+const ctaDetailingViewServiceId = 'home_detailing_click_view_service'
+
+function onDetailingInquiryClick() {
+  analytics?.cta(ctaDetailingInquiryId, ctaPlacementDetailing, 'Запитване')
+  analytics?.service('detailing', 'Детайлинг', ctaPlacementDetailing)
+}
+
+function onDetailingViewServiceClick() {
+  analytics?.cta(ctaDetailingViewServiceId, ctaPlacementDetailing, 'Виж услугата')
+  analytics?.service('detailing', 'Детайлинг', ctaPlacementDetailing)
+}
+
 const benefits = [
   {
     name: 'Перфектна визия',
@@ -81,12 +98,14 @@ const types = [
                   selectedService: 'detailing',
                 },
               }"
+              @click="onDetailingInquiryClick"
               class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
             >
               Запитване
             </RouterLink>
             <RouterLink
               to="/detailing#detailing-brow"
+              @click="onDetailingViewServiceClick"
               class="inline-flex items-center justify-center rounded-xl bg-white/5 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
             >
               Виж услугата

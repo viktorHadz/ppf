@@ -1,6 +1,7 @@
 <script setup>
 import founder1 from '@/assets/founders/founder1.webp'
 import founder2 from '@/assets/founders/founder2.webp'
+import { useAnalytics } from '@/composables/useAnalytics'
 const team = [
   {
     name: 'Иван Хинков',
@@ -15,6 +16,15 @@ const team = [
     bio: 'Орлин отговаря за комуникацията с клиентите, организацията на проекти и изграждането на дългосрочни партньорства. Вярва, че успешният проект започва с добро разбиране на нуждите.',
   },
 ]
+
+const analytics = useAnalytics()
+function onTeamCtaClick(personName, actionLabel, to) {
+  analytics?.cta(
+    `about_${actionLabel === 'Консултация' ? 'consultation' : 'portfolio'}_${personName}`,
+    'about_team_card',
+    `${personName} • ${actionLabel} • ${to}`,
+  )
+}
 </script>
 
 <template>
@@ -118,6 +128,7 @@ const team = [
               >
                 <RouterLink
                   to="/contact"
+                  @click="onTeamCtaClick(person.name, 'Консултация', '/contact')"
                   class="inline-flex items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
                 >
                   Консултация
@@ -125,6 +136,7 @@ const team = [
 
                 <RouterLink
                   to="/portfolio"
+                  @click="onTeamCtaClick(person.name, 'Виж проекти', '/portfolio')"
                   class="inline-flex items-center justify-center rounded-xl bg-white/5 px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
                 >
                   Виж проекти

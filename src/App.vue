@@ -1,33 +1,16 @@
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { RouterView } from 'vue-router'
 import TheNav from './components/global/TheNav.vue'
 import TheFooter from './components/global/TheFooter.vue'
 import { useGlobalHead } from './composables/useGlobalHead'
-import { useGoogleAnalytics } from './composables/useAnalytics.js'
 import PrivacyBanner from './components/global/PrivacyBanner.vue'
 import { usePrivacyConsent } from './composables/usePrivacyConsent'
+import { initAnalytics } from '@/composables/useAnalytics'
+useGlobalHead()
 
 const consent = usePrivacyConsent()
-useGlobalHead()
-useGoogleAnalytics(consent.accepted)
-
-// --- ANALYTICS ---
-watch(
-  () => consent.accepted.value,
-  (value) => {
-    console.log(value)
-    console.log(typeof value)
-    if (value === true) {
-      console.log(`Analytics consent given: ${consent.accepted.value}`)
-    } else if (value === false) {
-      console.log('Analytics consent refused')
-    } else {
-      console.log('Awaiting consent')
-    }
-  },
-  { immediate: true },
-)
+initAnalytics(consent.accepted)
 
 const menuOpen = ref(false)
 const isHidden = ref(false)

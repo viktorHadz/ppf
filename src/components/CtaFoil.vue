@@ -11,7 +11,22 @@ import foilingBmw from '@/assets/foilingBmw.webp'
 import foilingTaykan from '@/assets/foilingPorscheTaykan.webp'
 import foilingRR from '@/assets/decorRollsRoyceSmall.webp'
 import foilingRRFront from '@/assets/foilingRollsRoyceFront.webp'
+import { useAnalytics } from '@/composables/useAnalytics'
 
+const analytics = useAnalytics()
+
+const ctaViewPackagesId = 'home_ppf_click_view_packages'
+const ctaInquiryId = 'home_ppf_click_inquiry'
+const ctaPlacement = 'home_ppf_section'
+function onViewPackagesClick() {
+  analytics?.cta(ctaViewPackagesId, ctaPlacement, 'Виж пакети')
+  analytics?.service('ppf', 'Фолиране', ctaPlacement)
+}
+
+function onInquiryClick() {
+  analytics?.cta(ctaInquiryId, ctaPlacement, 'Запитване')
+  analytics?.service('ppf', 'Фолиране', ctaPlacement)
+}
 const benefits = [
   {
     name: 'Максимална защита',
@@ -125,6 +140,7 @@ const whyUs = [
             <div class="mt-12 flex flex-col gap-4 sm:flex-row">
               <RouterLink
                 to="ppf#ppf-types"
+                @click="onViewPackagesClick"
                 class="inline-flex items-center justify-center rounded-xl bg-red-500 px-7 py-3.5 text-sm font-semibold text-white hover:bg-red-400 transition"
               >
                 Виж пакети
@@ -132,10 +148,9 @@ const whyUs = [
               <RouterLink
                 :to="{
                   path: '/contact',
-                  query: {
-                    selectedService: 'ppf',
-                  },
+                  query: { selectedService: 'ppf' },
                 }"
+                @click="onInquiryClick"
                 class="inline-flex items-center justify-center rounded-xl bg-white/5 px-7 py-3.5 text-sm font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition"
               >
                 Запитване

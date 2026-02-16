@@ -1,6 +1,6 @@
 <script setup>
+import { onMounted, onBeforeUnmount } from 'vue'
 import TheWelcome from '@/components/global/TheWelcome.vue'
-
 import IconFoil from '@/components/icons/IconFoil.vue'
 import IconDarkening from '@/components/icons/IconDarkening.vue'
 import IconDetailing from '@/components/icons/IconDetailing.vue'
@@ -9,6 +9,9 @@ import CtaDarkening from '@/components/CtaDarkening.vue'
 import CtaFoil from '@/components/CtaFoil.vue'
 import CtaDetailing from '@/components/CtaDetailing.vue'
 import DecorDiagSheen from '@/components/global/DecorDiagSheen.vue'
+import { useAnalytics } from '@/composables/useAnalytics'
+
+const analytics = useAnalytics()
 
 const heroFeatures = [
   {
@@ -40,7 +43,50 @@ const heroFeatures = [
     icon: IconInsurance,
   },
 ]
+
+// scroll depth (25/50/75/100 once)
+const __scrollSent = new Set()
+const __scrollMarks = [25, 50, 75, 100]
+let __scrollTicking = false
+
+function __scrollPercent() {
+  const el = document.documentElement
+  const top = el.scrollTop || document.body.scrollTop
+  const height = el.scrollHeight || document.body.scrollHeight
+  const vh = el.clientHeight || window.innerHeight
+  const max = Math.max(1, height - vh)
+  return Math.min(100, Math.max(0, Math.round((top / max) * 100)))
+}
+
+function __trackScroll() {
+  const p = __scrollPercent()
+  for (const m of __scrollMarks) {
+    if (p >= m && !__scrollSent.has(m)) {
+      __scrollSent.add(m)
+      analytics?.scroll(m)
+    }
+  }
+}
+
+function __onScroll() {
+  if (__scrollTicking) return
+  __scrollTicking = true
+  requestAnimationFrame(() => {
+    __scrollTicking = false
+    __trackScroll()
+  })
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', __onScroll, { passive: true })
+  __trackScroll()
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', __onScroll)
+})
 </script>
+
 <template>
   <TheWelcome
     :show-buttons="true"
@@ -80,6 +126,7 @@ const heroFeatures = [
           изпълнява с внимание към детайла и гарантирано качество.
         </p>
       </div>
+
       <div class="mx-auto my-24 lg:mt-28 max-w-2xl lg:max-w-7xl">
         <dl class="grid grid-cols-1 gap-x-16 gap-y-16 lg:max-w-none md:grid-cols-2 2xl:grid-cols-4">
           <div v-for="feature in heroFeatures" :key="feature.name" class="flex flex-col">
@@ -95,6 +142,7 @@ const heroFeatures = [
               <p class="flex-auto">{{ feature.description }}</p>
               <p class="mt-6">
                 <RouterLink
+                  @click="analytics?.service(feature.href, feature.name, 'home_services_grid')"
                   :to="`/${feature.href}#${feature.href}-brow`"
                   class="group text-sm/6 font-semibold text-red-500 inline-flex items-center"
                 >
@@ -113,7 +161,8 @@ const heroFeatures = [
       </div>
     </div>
   </div>
-  <CtaFoil></CtaFoil>
-  <CtaDarkening></CtaDarkening>
-  <CtaDetailing></CtaDetailing>
+
+  <CtaFoil />
+  <CtaDarkening />
+  <CtaDetailing />
 </template>

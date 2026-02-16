@@ -261,8 +261,7 @@ ${escapeHtml(formData.message || '—')}
         // 2) auto-reply to customer
         await resendSend(apiKey, {
             from,
-            // to: formData.email, // TODO: Replace in prod 
-            to: 'ivanhinkov@idogroupbg.com',
+            to: formData.email,
             subject: 'Получихме вашето запитване',
             html: `
 <!DOCTYPE html>

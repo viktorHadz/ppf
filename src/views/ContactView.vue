@@ -6,6 +6,15 @@ import { useRoute } from 'vue-router'
 import { useContactValidation } from '@/composables/useContactValidation'
 import DropDown from '@/components/global/DropDown.vue'
 import TheToast from '@/components/global/TheToast.vue'
+import { useAnalytics } from '@/composables/useAnalytics'
+
+const analytics = useAnalytics()
+let started = false
+function markFormStart() {
+  if (started) return
+  started = true
+  analytics?.event('form_start', { form_id: 'contact_form' })
+}
 
 const form = reactive({
   name: '',
@@ -83,6 +92,7 @@ const { errors, dirty, validateAll, onBlur, onInput, setService, resetForm } =
 async function submit() {
   if (isSending.value) return
   if (!validateAll()) {
+    analytics?.event('form_submit_failed', { form_id: 'contact_form' })
     showToast('error', 'Проверете полетата', 'Има липсващи или невалидни данни във формата.')
     return
   }
@@ -105,10 +115,12 @@ async function submit() {
         data?.message ||
         'Неуспешно изпращане. Моля опитайте отново или ни пишете директно.'
       showToast('error', 'Неуспешно изпращане', msg)
+      analytics?.event('form_submit_error', { form_id: 'contact_form' })
       return
     }
 
     showToast('success', 'Изпратено!', 'Ще се свържем с вас възможно най-скоро.')
+    analytics?.lead(form.selectedService, '', 'contact_form')
     resetForm()
   } catch (err) {
     console.error(err)
@@ -173,6 +185,7 @@ function showToast(variant, title, message = '') {
   toastTitle.value = title
   toastMessage.value = message
   toastOpen.value = true
+  window.scrollTo({ top: 150, behavior: 'smooth' })
 }
 </script>
 
@@ -238,6 +251,8 @@ function showToast(variant, title, message = '') {
         <div class="lg:col-span-7">
           <form
             @submit.prevent="submit"
+            @focusin="markFormStart"
+            :class="{ 'pointer-events-none': isSending }"
             class="mx-auto max-w-2xl rounded-2xl bg-zinc-950/80 ring-1 ring-white/10 px-4 py-6 sm:p-10"
           >
             <!-- Contact Info -->
@@ -268,7 +283,9 @@ function showToast(variant, title, message = '') {
                 </div>
               </div>
               <div class="sm:col-span-1">
-                <label for="phone" class="block text-sm font-semibold text-white/80">Телефон</label>
+                <label for="phone" class="block text-sm font-semibold text-white/80 mt-6 sm:mt-0"
+                  >Телефон</label
+                >
                 <input
                   autocomplete="phone"
                   id="phone"
@@ -285,7 +302,6 @@ function showToast(variant, title, message = '') {
                   </p>
                 </div>
               </div>
-              <!-- DropDowns -->
               <div class="sm:col-span-1 mt-6">
                 <label for="email" class="block text-sm font-semibold text-white/80">Имейл</label>
 
@@ -504,7 +520,7 @@ function showToast(variant, title, message = '') {
               </p>
             </div>
             <!-- Consent -->
-            <div class="mt-8 flex gap-3 items-center">
+            <div class="mt-8 sm:flex gap-3 items-center">
               <input
                 id="consent"
                 v-model="form.consent"
