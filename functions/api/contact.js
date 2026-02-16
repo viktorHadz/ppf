@@ -230,7 +230,17 @@ ${escapeHtml(formData.email)}
 </table>
 </td>
 </tr>
-${serviceLines.join('')}
+
+<!-- Service summary -->
+<tr>
+  <td style="padding:0 22px 20px 22px;">
+    <div style="font-size:13px;color:#6b7280;margin-bottom:6px;">УСЛУГА</div>
+    <div style="font-size:14px;line-height:1.7;color:#111827;">
+      ${serviceLines.join('')}
+    </div>
+  </td>
+</tr>
+
 <!-- Message -->
 <tr>
 <td style="padding:0 22px 20px 22px;">
