@@ -141,6 +141,7 @@ export async function onRequestPost({ request, env }) {
         if (errMsg) return json({ error: errMsg }, 400)
 
         const apiKey = env.RESEND_API_KEY
+
         if (!apiKey) {
             // never leak infra details
             return json(
