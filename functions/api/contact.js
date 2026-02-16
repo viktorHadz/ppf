@@ -143,7 +143,7 @@ export async function onRequestPost({ request, env }) {
         const apiKey = env.RESEND_API_KEY
         if (!apiKey) return json({ error: 'Missing RESEND_API_KEY' }, 500)
 
-        const from = 'IDO Elite Protection <onboarding@resend.dev>' // swap after domain verification
+        const from = 'IDO Elite Protection <no-reply@idogroupbg.com>' // swap after domain verification
         const ownerTo = 'ivanhinkov@idogroupbg.com'
 
         // Build a service summary 
@@ -170,6 +170,7 @@ export async function onRequestPost({ request, env }) {
             from,
             to: ownerTo,
             reply_to: formData.email,
+            replyTo: formData.email,
             subject: `New enquiry - ${formData.name}`,
             html: `
 <!DOCTYPE html>
@@ -229,7 +230,7 @@ ${escapeHtml(formData.email)}
 </table>
 </td>
 </tr>
-
+${serviceLines.join('')}
 <!-- Message -->
 <tr>
 <td style="padding:0 22px 20px 22px;">
@@ -243,7 +244,7 @@ ${escapeHtml(formData.message || '—')}
 <!-- Footer -->
 <tr>
 <td style="padding:14px 22px;border-top:1px solid #e5e7eb;font-size:12px;color:#6b7280;">
-Отговорете директно на този имейл, за да пишете на клиента.
+Цъкни върху имейла на клиента за да пишеш директно на клиента. 
 <p> П.С. Поздрави от бай Вик :–)</p>
 </td>
 </tr>
