@@ -32,7 +32,7 @@ function onTeamCtaClick(personName, actionLabel, to) {
     <section class="bg-zinc-950 py-24 sm:py-32 relative isolate overflow-hidden">
       <!-- Decorative Element Dark -->
       <svg
-        class="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
+        class="absolute inset-x-0 top-0 -z-10 h-256 w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 mask-[radial-gradient(32rem_32rem_at_center,white,transparent)]"
         aria-hidden="true"
       >
         <defs>
@@ -80,17 +80,17 @@ function onTeamCtaClick(personName, actionLabel, to) {
               <div class="relative">
                 <!-- glow -->
                 <div
-                  class="absolute -inset-6 rounded-[2rem] bg-linear-to-tr from-red-500/15 via-white/5 to-transparent blur-2xl"
+                  class="absolute -inset-6 rounded-4xl bg-linear-to-tr from-red-500/15 via-white/5 to-transparent blur-2xl"
                   aria-hidden="true"
                 ></div>
 
                 <div
-                  class="relative overflow-hidden rounded-[2rem] bg-white/5 ring-1 ring-white/10 shadow-2xl"
+                  class="relative overflow-hidden rounded-4xl bg-white/5 ring-1 ring-white/10 shadow-2xl"
                 >
                   <img
                     :src="person.image"
                     :alt="person.name"
-                    class="w-full aspect-[4/5] object-cover"
+                    class="w-full aspect-4/5 object-cover"
                     loading="lazy"
                   />
                   <!-- overlay fade -->

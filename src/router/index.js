@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createMemoryHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 
 const BRAND = 'IDO Elite Protection'
@@ -134,6 +134,9 @@ export const routes = [
 ]
 
 export async function scrollBehavior(to, from, savedPosition) {
+  // SSG/SSR safety: no DOM APIs
+  if (import.meta.env.SSR) return { top: 0 }
+
   if (savedPosition) return savedPosition
 
   if (to.hash) {
@@ -148,7 +151,9 @@ export async function scrollBehavior(to, from, savedPosition) {
 }
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: import.meta.env.SSR
+    ? createMemoryHistory(import.meta.env.BASE_URL)
+    : createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior,
 })

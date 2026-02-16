@@ -192,11 +192,11 @@ function showToast(variant, title, message = '') {
 <template>
   <div class="relative bg-zinc-950 py-14 sm:py-20 overflow-hidden">
     <div
-      class="pointer-events-none absolute inset-0 [mask-image:radial-gradient(40rem_40rem_at_center,white,transparent)]"
+      class="pointer-events-none absolute inset-0 mask-[radial-gradient(40rem_40rem_at_center,white,transparent)]"
       aria-hidden="true"
     >
       <div
-        class="absolute inset-x-0 top-[-8rem] h-[28rem] bg-linear-to-tr from-red-500/20 via-white/5 to-transparent blur-3xl"
+        class="absolute inset-x-0 -top-32 h-112 bg-linear-to-tr from-red-500/20 via-white/5 to-transparent blur-3xl"
       ></div>
     </div>
     <div class="relative mx-auto max-w-7xl px-4 lg:px-8">
@@ -232,12 +232,12 @@ function showToast(variant, title, message = '') {
             </li>
           </ul>
           <div
-            class="relative overflow-hidden rounded-2xl sm:rounded-[2rem] bg-white/5 ring-1 ring-white/10 shadow-2xl mt-10"
+            class="relative overflow-hidden rounded-2xl sm:rounded-4xl bg-white/5 ring-1 ring-white/10 shadow-2xl mt-10"
           >
             <img
               :src="mercEQS"
               alt="Броня на мерцедес"
-              class="w-full aspect-[3/3] lg:aspect-[4/5] object-cover"
+              class="w-full aspect-3/3 lg:aspect-4/5 object-cover"
             />
 
             <!-- overlay -->

@@ -72,7 +72,7 @@ function onFinalCtaClick() {
     <div>
       <!-- Decorative Element Dark -->
       <svg
-        class="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
+        class="absolute inset-x-0 top-0 -z-10 h-256 w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 mask-[radial-gradient(32rem_32rem_at_center,white,transparent)]"
         aria-hidden="true"
       >
         <defs>
@@ -149,12 +149,12 @@ function onFinalCtaClick() {
                   <img
                     :src="page.hero?.tiles?.[0]?.src"
                     :alt="page.hero?.tiles?.[0]?.alt || ''"
-                    class="aspect-7/5 w-[37rem] max-w-none rounded-2xl bg-gray-50 object-cover"
+                    class="aspect-7/5 w-148 max-w-none rounded-2xl bg-gray-50 object-cover"
                   />
                 </div>
 
                 <div
-                  class="contents lg:col-span-2 lg:col-end-2 lg:ml-auto lg:flex lg:w-[37rem] lg:items-start lg:justify-end lg:gap-x-8"
+                  class="contents lg:col-span-2 lg:col-end-2 lg:ml-auto lg:flex lg:w-148 lg:items-start lg:justify-end lg:gap-x-8"
                 >
                   <div class="order-first flex w-64 flex-none justify-end self-end lg:w-auto">
                     <img
@@ -168,7 +168,7 @@ function onFinalCtaClick() {
                     <img
                       :src="page.hero?.tiles?.[2]?.src"
                       :alt="page.hero?.tiles?.[2]?.alt || ''"
-                      class="aspect-7/5 w-[37rem] max-w-none flex-none rounded-2xl bg-gray-50 object-cover"
+                      class="aspect-7/5 w-148 max-w-none flex-none rounded-2xl bg-gray-50 object-cover"
                     />
                   </div>
 
@@ -237,7 +237,7 @@ function onFinalCtaClick() {
                 <img
                   :src="page.heroImage.src"
                   :alt="page.heroImage.alt || ''"
-                  class="w-full object-cover aspect-[16/7]"
+                  class="w-full object-cover aspect-16/7"
                 />
                 <!-- fade -->
                 <div
@@ -292,17 +292,17 @@ function onFinalCtaClick() {
               <div class="relative">
                 <!-- glow behind image -->
                 <div
-                  class="absolute -inset-6 rounded-[2rem] bg-linear-to-tr from-red-500/15 via-white/5 to-transparent blur-2xl"
+                  class="absolute -inset-6 rounded-4xl bg-linear-to-tr from-red-500/15 via-white/5 to-transparent blur-2xl"
                   aria-hidden="true"
                 ></div>
 
                 <div
-                  class="relative overflow-hidden rounded-[2rem] bg-white/5 ring-1 ring-white/10 shadow-2xl"
+                  class="relative overflow-hidden rounded-4xl bg-white/5 ring-1 ring-white/10 shadow-2xl"
                 >
                   <img
                     :src="page.heroImage.src"
                     :alt="page.heroImage.alt || ''"
-                    class="w-full aspect-[4/5] object-cover"
+                    class="w-full aspect-4/5 object-cover"
                   />
 
                   <!-- overlay -->
@@ -381,17 +381,17 @@ function onFinalCtaClick() {
               <div v-if="why.image" class="lg:col-span-5">
                 <div class="relative">
                   <div
-                    class="absolute -inset-6 rounded-[2rem] bg-linear-to-tr from-red-500/15 via-white/5 to-transparent blur-2xl"
+                    class="absolute -inset-6 rounded-4xl bg-linear-to-tr from-red-500/15 via-white/5 to-transparent blur-2xl"
                     aria-hidden="true"
                   ></div>
 
                   <div
-                    class="relative overflow-hidden rounded-[2rem] bg-white/5 ring-1 ring-white/10 shadow-2xl"
+                    class="relative overflow-hidden rounded-4xl bg-white/5 ring-1 ring-white/10 shadow-2xl"
                   >
                     <img
                       :src="why.image"
                       :alt="why.imageAlt || ''"
-                      class="w-full aspect-[4/3] object-cover"
+                      class="w-full aspect-4/3 object-cover"
                     />
                     <div
                       class="absolute inset-0 bg-linear-to-t from-zinc-950/70 via-zinc-950/15 to-transparent"

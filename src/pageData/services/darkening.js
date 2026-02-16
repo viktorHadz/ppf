@@ -1,5 +1,5 @@
-const tintDoorVertSmall = new URL('../../assets/tintingDoorVertSmall.webp', import.meta.url).href
-const tintDoorHoz = new URL('../../assets/tintingDoorHoz.webp', import.meta.url).href
+import tintDoorVertSmall from '@/assets/tintingDoorVertSmall.webp'
+import tintDoorHoz from '@/assets/tintingDoorHoz.webp'
 
 export default {
   eyebrow: 'Затъмняване на стъклата',

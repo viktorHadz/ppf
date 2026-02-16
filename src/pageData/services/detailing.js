@@ -1,5 +1,5 @@
-const detTaykanMech = new URL('../../assets/detailingTaykanMachine.webp', import.meta.url).href
-const foilManPolSm = new URL('../../assets/foilingManPolishSmall.webp', import.meta.url).href
+import detTaykanMech from '@/assets/detailingTaykanMachine.webp'
+import foilManPolSm from '@/assets/foilingManPolishSmall.webp'
 
 export default {
   eyebrow: 'Автомобилен детайлинг',

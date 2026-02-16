@@ -1,5 +1,5 @@
-const insuranceHero = new URL('../../assets/insuranceHero.webp', import.meta.url).href
-const insuranceBrokenWin = new URL('../../assets/insuranceBrokenWindow.webp', import.meta.url).href
+import insuranceHero from '@/assets/insuranceHero.webp'
+import insuranceBrokenWin from '@/assets/insuranceBrokenWindow.webp'
 
 export default {
   eyebrow: 'Застраховки и Каско',

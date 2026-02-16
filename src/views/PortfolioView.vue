@@ -167,7 +167,7 @@ function onModalConsultationClick() {
   <main class="bg-zinc-950 relative isolate overflow-hidden">
     <!-- Decorative Element Dark -->
     <svg
-      class="absolute inset-x-0 top-0 -z-10 h-[64rem] w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 [mask-image:radial-gradient(32rem_32rem_at_center,white,transparent)]"
+      class="absolute inset-x-0 top-0 -z-10 h-256 w-full stroke-zinc-800/30 sm:stroke-zinc-800/20 mask-[radial-gradient(32rem_32rem_at_center,white,transparent)]"
       aria-hidden="true"
     >
       <defs>
@@ -404,7 +404,7 @@ function onModalConsultationClick() {
                           v-if="activeProject"
                           :src="activeProject.images[activeImageIndex]"
                           :alt="activeProject.title"
-                          class="w-full aspect-[16/11] object-cover"
+                          class="w-full aspect-16/11 object-cover"
                         />
                         <div
                           class="absolute inset-0 bg-linear-to-t from-zinc-950/60 via-transparent to-transparent"

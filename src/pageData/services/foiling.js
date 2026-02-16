@@ -1,8 +1,8 @@
-const foilRR = new URL('../../assets/foilingRollsRoyce.webp', import.meta.url).href
-const ppfGreenBtlSm = new URL('../../assets/ppfGreenBottleSmall.webp', import.meta.url).href
-const detScrub = new URL('../../assets/detailingScrub.webp', import.meta.url).href
-const wetCar = new URL('../../assets/wet-car.webp', import.meta.url).href
-const detTaykanMech = new URL('../../assets/foilingTaykanHands.webp', import.meta.url).href
+import foilRR from '@/assets/foilingRollsRoyce.webp'
+import ppfGreenBtlSm from '@/assets/ppfGreenBottleSmall.webp'
+import detScrub from '@/assets/detailingScrub.webp'
+import wetCar from '@/assets/wet-car.webp'
+import detTaykanMech from '@/assets/foilingTaykanHands.webp'
 
 export default {
   eyebrow: 'PPF Защитно фолио',
