@@ -5,13 +5,13 @@ import { useAnalytics } from '@/composables/useAnalytics'
 const team = [
   {
     name: 'Иван Хинков',
-    role: 'Основател и Главен Детайлър',
+    role: 'Основател',
     image: founder1,
     bio: 'Иван изгражда ИДО ГРУП с фокус върху прецизност, иновация и доверие. Отговаря за качествения контрол, процесите и обучението на нови специалисти.',
   },
   {
     name: 'Орлин Йончев',
-    role: 'Основател и Главен Детайлър',
+    role: 'Основател',
     image: founder2,
     bio: 'Орлин отговаря за комуникацията с клиентите, организацията на проекти и изграждането на дългосрочни партньорства. Вярва, че успешният проект започва с добро разбиране на нуждите.',
   },
@@ -131,7 +131,7 @@ function onTeamCtaClick(personName, actionLabel, to) {
                   @click="onTeamCtaClick(person.name, 'Консултация', '/contact')"
                   class="inline-flex items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
                 >
-                  Консултация
+                  Контакт
                 </RouterLink>
 
                 <RouterLink

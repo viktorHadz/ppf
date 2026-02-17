@@ -86,7 +86,7 @@ const projects = [
   },
 ]
 
-// optional “featured” picks (top row big cards)
+// featured picks
 const featuredIds = ['rr', 'eqs', 'taycan']
 
 const activeCategory = ref('all')
@@ -118,10 +118,14 @@ const activeProject = computed(() => {
 })
 
 function openProject(p, startIndex = 0) {
-  analytics?.portfolio(p.id, p.title)
+  analytics?.openItem(p.title, p.service)
   activeProjectId.value = p.id
   activeImageIndex.value = startIndex
   open.value = true
+}
+
+function onClose(title, service) {
+  analytics?.closeItem(title, service)
 }
 
 function closeProject() {
@@ -389,7 +393,12 @@ function onModalConsultationClick() {
 
                     <button
                       type="button"
-                      @click="closeProject"
+                      @click="
+                        () => {
+                          closeProject
+                          onClose(p.title, p.service)
+                        }
+                      "
                       class="inline-flex items-center justify-center rounded-xl bg-white/5 p-2 ring-1 ring-white/10 hover:bg-white/10 transition"
                     >
                       <XMarkIcon class="size-5 text-white" />

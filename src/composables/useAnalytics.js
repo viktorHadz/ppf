@@ -6,7 +6,8 @@ import { watch } from 'vue'
  * @property {(ctaName: string, ctaLocation: string, humanLabel?: string) => void} cta
  * @property {(serviceSlug: string, serviceName?: string, source?: string) => void} service
  * @property {(serviceSlug: string, serviceName?: string, formId?: string) => void} lead
- * @property {(portfolioId: string, portfolioName?: string) => void} portfolio
+ * @property {(portfolioId: string, portfolioName?: string) => void} openItem
+ * @property {(portfolioId: string, portfolioName?: string) => void} closeItem
  * @property {(percent: number) => void} scroll
  */
 
@@ -19,7 +20,6 @@ function isBrowser() {
 
 function ensureGtagStub() {
   if (!isBrowser()) return false
-
   // Create a stub even if gtag.js is slow
   window.dataLayer = window.dataLayer || []
   window.gtag =
@@ -78,16 +78,12 @@ function hookRouterPageViews(router, canTrack) {
 export function initAnalytics(consent, router) {
   if (analyticsInstance) return analyticsInstance
   if (initStarted) return analyticsInstance
-
   if (!isBrowser()) return null
 
   const GA_ID = import.meta.env.VITE_GA_ID
   if (!GA_ID) return null
 
   initStarted = true
-
-  // Ensures stub exists early
-  // allows consent updates to queue and avoids crashes if gtag.js is blocked
   ensureGtagStub()
 
   const canTrack = makeCanTrack(consent)
@@ -98,7 +94,8 @@ export function initAnalytics(consent, router) {
     cta: () => { },
     service: () => { },
     lead: () => { },
-    portfolio: () => { },
+    openItem: () => { },
+    closeItem: () => { },
     scroll: () => { },
   }
 
@@ -126,30 +123,62 @@ export function initAnalytics(consent, router) {
       service_name: serviceName,
     })
 
-  api.portfolio = (portfolioId, portfolioName = '') =>
-    sendEvent(canTrack, 'view_item', {
+  // --- portfolio open/close with duration ---
+  const openStarts = new Map() // portfolioId -> performance.now()
+
+  api.openItem = (portfolioId, portfolioName = '') => {
+    openStarts.set(portfolioId, performance.now())
+    sendEvent(canTrack, 'view_item_open', {
       item_category: 'portfolio',
       item_id: portfolioId,
       item_name: portfolioName,
     })
+  }
+
+  api.closeItem = (portfolioId, portfolioName = '') => {
+    const start = openStarts.get(portfolioId)
+    const durationMs =
+      typeof start === 'number' ? Math.max(0, Math.round(performance.now() - start)) : undefined
+    openStarts.delete(portfolioId)
+
+    sendEvent(canTrack, 'view_item_close', {
+      item_category: 'portfolio',
+      item_id: portfolioId,
+      item_name: portfolioName,
+      ...(typeof durationMs === 'number' ? { open_duration_ms: durationMs } : {}),
+    })
+  }
 
   api.scroll = (percent) =>
     sendEvent(canTrack, 'scroll', { percent_scrolled: percent })
 
+
   analyticsInstance = api
 
   let routerHooked = false
+  let sentPvAfterGrant = false
 
   // Watch consent:
   watch(
     () => consent?.value,
-    (value) => {
-      updateConsentMode(value === true)
+    (value, prev) => {
+      const granted = value === true
+      updateConsentMode(granted)
 
-      // Pass to router
+      // Hook router once 
       if (!routerHooked) {
         routerHooked = true
         hookRouterPageViews(router, canTrack)
+      }
+
+      // Send page_view immediately once consent flips to granted
+      if (granted && !sentPvAfterGrant && prev !== true) {
+        sentPvAfterGrant = true
+        sendPageView(canTrack, router?.currentRoute?.value)
+      }
+
+      if (!granted) {
+        sentPvAfterGrant = false
       }
     },
     { immediate: true },
