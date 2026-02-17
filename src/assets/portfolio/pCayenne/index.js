@@ -1,18 +1,16 @@
 import cover from './cover.webp'
-import during from './0duringAlt.webp'
-import after from './0afterAlt.webp'
-import beforeSideMirror from './1beforeSideMirror.webp'
-import afterSideMirror from './1afterSideMirror.webp'
-import beforeFront from './2beforeFront.webp'
-import duringFront from './ppf-folirane-detailing-ido-group-porsche-sofia.webp'
-import afterFront from './2afterFront.webp'
-import beforeHeadlights from './3beforeHeadlights.webp'
-import afterHeadlights from './3afterHeadlights.webp'
-import beforeFrontClose from './4beforeCloseFront.webp'
-import duringFrontClose from './4duringCloseFront.webp'
-import afterFrontClose from './4afterCloseFront.webp'
-import afterFrontCloseAlt from './4afterCloseFrontAlt.webp'
-import afterTires from './5afterTires.webp'
+import during from './1-porsche-cayenne.webp'
+import after from './2-porsche-cayenne-sofia-ppf.webp'
+import beforeSideMirror from './3-porsche-cayenne-sofia.webp'
+import afterSideMirror from './4-ppf-folirane-sofia.webp'
+import beforeFront from './5-ido-group-folirane-ppf-sofia.webp'
+import duringFront from './6-porsche-cayenne-face.webp'
+import afterFront from './6-porsche-cayenne-face.webp'
+import beforeHeadlights from './7-porsche-cayenne-side.webp'
+import afterHeadlights from './8-porsche-cayenne-ppf.webp'
+import beforeFrontClose from './9-porsche-cayenne-ido-group.webp'
+import duringFrontClose from './10-porsche-cayenne-folirane.webp'
+import afterFrontClose from './11-porsche-cayenne-ppf.webp'
 
 export default {
   cover,
@@ -28,6 +26,4 @@ export default {
   beforeFrontClose,
   duringFrontClose,
   afterFrontClose,
-  afterFrontCloseAlt,
-  afterTires,
 }

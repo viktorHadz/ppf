@@ -395,8 +395,8 @@ function onModalConsultationClick() {
                       type="button"
                       @click="
                         () => {
-                          closeProject
-                          onClose(p.title, p.service)
+                          closeProject()
+                          onClose(activeProject?.title, activeProject?.service)
                         }
                       "
                       class="inline-flex items-center justify-center rounded-xl bg-white/5 p-2 ring-1 ring-white/10 hover:bg-white/10 transition"
