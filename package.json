@@ -10,6 +10,7 @@
     "dev": "vite",
     "build": "vite-ssg build",
     "preview": "vite preview",
+    "pipe": "vite-ssg build && npx wrangler pages deploy dist --project-name idoeliteprotection --branch main",
     "lint": "eslint . --fix",
     "format": "prettier --write src/"
   },

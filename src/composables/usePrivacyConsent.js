@@ -48,6 +48,25 @@ function init() {
   })
 }
 
+// Allow/Deny GA 
+function updateGAConsent(granted) {
+  if (typeof window === 'undefined') return
+  window.dataLayer = window.dataLayer || []
+  window.gtag =
+    window.gtag ||
+    function gtag() {
+      window.dataLayer.push(arguments)
+    }
+
+
+  window.gtag('consent', 'update', {
+    analytics_storage: granted ? 'granted' : 'denied',
+    ad_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+  })
+}
+
 /**
  * Initialises consent storage by calling, and returns controls
  * @init initialises store and sets up event listeners for visibility changes 
@@ -58,11 +77,13 @@ export function usePrivacyConsent() {
   const accept = () => {
     localStorage.setItem('privacy-consent', 'true')
     accepted.value = true
+    updateGAConsent(true)
   }
 
   const decline = () => {
     localStorage.setItem('privacy-consent', 'false')
     accepted.value = false
+    updateGAConsent(false)
   }
 
   return { accepted, accept, decline }
