@@ -223,6 +223,11 @@ function showToast(variant, title, message = '') {
               <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
               <p class="text-sm/6 text-gray-200">
                 <span class="font-semibold">Телефон:</span> +359 878 988 996
+              </p>
+            </li>
+            <li class="flex gap-3 rounded-xl px-4 py-3">
+              <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
+              <p class="text-sm/6 text-gray-200">
                 <span class="font-semibold">Телефон:</span> +359 887 404 287
               </p>
             </li>
