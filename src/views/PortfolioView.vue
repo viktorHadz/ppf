@@ -13,6 +13,9 @@ import pTaykan from '@/assets/portfolio/pTaykan'
 import pCayenne from '@/assets/portfolio/pCayenne'
 import rollsRoyce from '@/assets/portfolio/rRoyceRS'
 import { useAnalytics } from '@/composables/useAnalytics'
+import pPanamera from '@/assets/portfolio/pPanamera'
+import mercGClass from '@/assets/portfolio/mercGClass'
+
 const categories = [
   { key: 'all', label: 'Всички' },
   { key: 'ppf', label: 'PPF' },
@@ -54,7 +57,7 @@ const projects = [
     service: 'Фолиране',
     category: 'ppf',
     cover: pCayenne.cover,
-    highlights: ['Фолиране - предница'],
+    highlights: ['Подмяна на фолио - предница'],
     images: Object.values(pCayenne),
   },
   {
@@ -83,6 +86,24 @@ const projects = [
     cover: bmwX5.cover,
     highlights: ['Фолиране - частично', 'предница'],
     images: Object.values(bmwX5),
+  },
+  {
+    id: 'pPan',
+    title: 'Порше Панамера',
+    service: 'Фолиране',
+    category: 'ppf',
+    cover: pPanamera.cover,
+    highlights: ['Фолиране - частично', 'предница'],
+    images: Object.values(pPanamera),
+  },
+  {
+    id: 'GClass',
+    title: 'Мерцедес Г Класа',
+    service: 'Фолиране',
+    category: 'ppf',
+    cover: mercGClass.cover,
+    highlights: ['Фолиране - Мат', 'Матово фолио'],
+    images: Object.values(mercGClass),
   },
 ]
 
@@ -118,10 +139,10 @@ const activeProject = computed(() => {
 })
 
 function openProject(p, startIndex = 0) {
-  analytics?.openItem(p.title, p.service)
   activeProjectId.value = p.id
   activeImageIndex.value = startIndex
   open.value = true
+  analytics?.openItem(p.title, p.service)
 }
 
 function onClose(title, service) {
@@ -356,7 +377,7 @@ function onModalConsultationClick() {
 
     <!-- Project Viewer -->
     <TransitionRoot as="template" :show="open">
-      <Dialog as="div" class="relative z-50" @close="closeProject">
+      <Dialog as="div" class="relative z-[999]" @close="closeProject">
         <TransitionChild
           as="template"
           enter="ease-out duration-200"
@@ -369,132 +390,128 @@ function onModalConsultationClick() {
           <div class="fixed inset-0 bg-black/80 backdrop-blur-sm" />
         </TransitionChild>
 
-        <div class="fixed inset-0 overflow-y-auto">
-          <div class="flex min-h-full items-center justify-center p-4 sm:p-8">
-            <TransitionChild
-              enter="ease-out duration-200"
-              enter-from="opacity-0 translate-y-2 scale-[0.98]"
-              enter-to="opacity-100 translate-y-0 scale-100"
-              leave="ease-in duration-150"
-              leave-from="opacity-100 translate-y-0 scale-100"
-              leave-to="opacity-0 translate-y-2 scale-[0.98]"
+        <!-- IMPORTANT: use grid + dvh -->
+        <div class="fixed inset-0 grid place-items-center p-4 sm:p-8">
+          <TransitionChild
+            enter="ease-out duration-200"
+            enter-from="opacity-0 translate-y-2 scale-[0.98]"
+            enter-to="opacity-100 translate-y-0 scale-100"
+            leave="ease-in duration-150"
+            leave-from="opacity-100 translate-y-0 scale-100"
+            leave-to="opacity-0 translate-y-2 scale-[0.98]"
+          >
+            <DialogPanel
+              v-if="activeProject"
+              class="w-full max-w-5xl overflow-hidden rounded-2xl bg-zinc-950 ring-1 ring-white/10 shadow-2xl max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-4rem)] flex flex-col min-h-0"
             >
-              <div class="w-full max-w-5xl transform-gpu will-change-transform">
-                <DialogPanel
-                  class="w-full overflow-hidden rounded-2xl bg-zinc-950 ring-1 ring-white/10 shadow-2xl"
-                >
-                  <div class="flex items-center justify-between px-6 py-4 border-b border-white/10">
-                    <div>
-                      <DialogTitle class="text-base font-semibold text-white">
-                        {{ activeProject?.title }}
-                      </DialogTitle>
-                      <p class="mt-1 text-sm text-gray-400">{{ activeProject?.service }}</p>
-                    </div>
+              <div
+                class="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0"
+              >
+                <div>
+                  <DialogTitle class="text-base font-semibold text-white">
+                    {{ activeProject?.title }}
+                  </DialogTitle>
+                  <p class="mt-1 text-sm text-gray-400">{{ activeProject?.service }}</p>
+                </div>
 
-                    <button
-                      type="button"
-                      @click="
-                        () => {
-                          closeProject()
-                          onClose(activeProject?.title, activeProject?.service)
-                        }
-                      "
-                      class="inline-flex items-center justify-center rounded-xl bg-white/5 p-2 ring-1 ring-white/10 hover:bg-white/10 transition"
+                <button
+                  type="button"
+                  @click="
+                    () => {
+                      closeProject()
+                      onClose(activeProject?.title, activeProject?.service)
+                    }
+                  "
+                  class="inline-flex items-center justify-center rounded-xl bg-white/5 p-2 ring-1 ring-white/10 hover:bg-white/10 transition"
+                >
+                  <XMarkIcon class="size-5 text-white" />
+                </button>
+              </div>
+
+              <div class="grid grid-cols-1 lg:grid-cols-12 min-h-0 flex-1">
+                <!-- Main image -->
+                <div class="lg:col-span-8 relative min-h-0 bg-black/20">
+                  <div class="h-full min-h-0">
+                    <img
+                      v-show="activeProject"
+                      :src="activeProject.images[activeImageIndex]"
+                      :alt="activeProject.title"
+                      class="w-full h-full object-cover"
+                    />
+                    <div
+                      class="absolute inset-0 bg-linear-to-t from-zinc-950/60 via-transparent to-transparent"
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    @click="prevImage"
+                    class="absolute left-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-xl bg-black/40 p-2 ring-1 ring-white/10 hover:bg-black/55 transition"
+                  >
+                    <ChevronLeftIcon class="size-5 text-white" />
+                  </button>
+
+                  <button
+                    type="button"
+                    @click="nextImage"
+                    class="absolute right-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-xl bg-black/40 p-2 ring-1 ring-white/10 hover:bg-black/55 transition"
+                  >
+                    <ChevronRightIcon class="size-5 text-white" />
+                  </button>
+                </div>
+
+                <!-- Details -->
+                <div class="lg:col-span-4 p-6 overflow-y-auto min-h-0">
+                  <div class="flex flex-wrap gap-2">
+                    <span
+                      class="inline-flex items-center rounded-full bg-red-500/15 px-3 py-1 text-xs font-semibold text-red-200 ring-1 ring-red-500/25"
                     >
-                      <XMarkIcon class="size-5 text-white" />
+                      {{ categories.find((x) => x.key === activeProject?.category)?.label }}
+                    </span>
+                  </div>
+                  <h3 class="mt-6 text-sm font-semibold text-white">Ключови акценти</h3>
+
+                  <ul class="mt-4 space-y-3 text-sm text-gray-200/90">
+                    <li v-for="h in activeProject?.highlights || []" :key="h" class="flex gap-3">
+                      <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
+                      <span>{{ h }}</span>
+                    </li>
+                  </ul>
+
+                  <h3 class="mt-8 text-sm font-semibold text-white">Снимки</h3>
+                  <div class="mt-4 grid grid-cols-3 gap-3">
+                    <button
+                      v-for="(img, idx) in activeProject?.images || []"
+                      :key="img + idx"
+                      type="button"
+                      @click="activeImageIndex = idx"
+                      class="relative overflow-hidden rounded-xl ring-1 transition"
+                      :class="
+                        idx === activeImageIndex
+                          ? 'ring-red-500/40'
+                          : 'ring-white/10 hover:ring-white/20'
+                      "
+                    >
+                      <img :src="img" alt="" class="h-20 w-full object-cover" />
+                      <div
+                        v-if="idx === activeImageIndex"
+                        class="absolute inset-0 bg-red-500/10"
+                        aria-hidden="true"
+                      />
                     </button>
                   </div>
 
-                  <div class="grid grid-cols-1 lg:grid-cols-12">
-                    <!-- Main image -->
-                    <div class="lg:col-span-8 relative place-self-center">
-                      <div class="relative">
-                        <img
-                          v-if="activeProject"
-                          :src="activeProject.images[activeImageIndex]"
-                          :alt="activeProject.title"
-                          class="w-full aspect-16/11 object-cover"
-                        />
-                        <div
-                          class="absolute inset-0 bg-linear-to-t from-zinc-950/60 via-transparent to-transparent"
-                        />
-                      </div>
-
-                      <button
-                        type="button"
-                        @click="prevImage"
-                        class="absolute left-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-xl bg-black/40 p-2 ring-1 ring-white/10 hover:bg-black/55 transition"
-                      >
-                        <ChevronLeftIcon class="size-5 text-white" />
-                      </button>
-
-                      <button
-                        type="button"
-                        @click="nextImage"
-                        class="absolute right-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-xl bg-black/40 p-2 ring-1 ring-white/10 hover:bg-black/55 transition"
-                      >
-                        <ChevronRightIcon class="size-5 text-white" />
-                      </button>
-                    </div>
-
-                    <!-- Details -->
-                    <div class="lg:col-span-4 p-6">
-                      <div class="flex flex-wrap gap-2">
-                        <span
-                          class="inline-flex items-center rounded-full bg-red-500/15 px-3 py-1 text-xs font-semibold text-red-200 ring-1 ring-red-500/25"
-                        >
-                          {{ categories.find((x) => x.key === activeProject?.category)?.label }}
-                        </span>
-                      </div>
-                      <h3 class="mt-6 text-sm font-semibold text-white">Ключови акценти</h3>
-
-                      <ul class="mt-4 space-y-3 text-sm text-gray-200/90">
-                        <li
-                          v-for="h in activeProject?.highlights || []"
-                          :key="h"
-                          class="flex gap-3"
-                        >
-                          <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
-                          <span>{{ h }}</span>
-                        </li>
-                      </ul>
-
-                      <h3 class="mt-8 text-sm font-semibold text-white">Снимки</h3>
-                      <div class="mt-4 grid grid-cols-3 gap-3">
-                        <button
-                          v-for="(img, idx) in activeProject?.images || []"
-                          :key="img + idx"
-                          type="button"
-                          @click="activeImageIndex = idx"
-                          class="relative overflow-hidden rounded-xl ring-1 transition"
-                          :class="
-                            idx === activeImageIndex
-                              ? 'ring-red-500/40'
-                              : 'ring-white/10 hover:ring-white/20'
-                          "
-                        >
-                          <img :src="img" alt="" class="h-20 w-full object-cover" />
-                          <div
-                            v-if="idx === activeImageIndex"
-                            class="absolute inset-0 bg-red-500/10"
-                            aria-hidden="true"
-                          />
-                        </button>
-                      </div>
-
-                      <RouterLink
-                        to="/contact"
-                        @click="onModalConsultationClick"
-                        class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
-                      >
-                        Консултация
-                      </RouterLink>
-                    </div>
-                  </div>
-                </DialogPanel>
+                  <RouterLink
+                    to="/contact"
+                    @click="onModalConsultationClick"
+                    class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
+                  >
+                    Консултация
+                  </RouterLink>
+                </div>
               </div>
-            </TransitionChild>
-          </div>
+            </DialogPanel>
+          </TransitionChild>
         </div>
       </Dialog>
     </TransitionRoot>

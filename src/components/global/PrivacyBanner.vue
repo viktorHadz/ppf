@@ -1,14 +1,20 @@
 <script setup>
+import { ref, onMounted } from 'vue'
 import { usePrivacyConsent } from '@/composables/usePrivacyConsent'
 import TheButton from './TheButton.vue'
 
 const { accepted, accept, decline } = usePrivacyConsent()
+const ready = ref(false)
+
+onMounted(() => {
+  ready.value = true
+})
 </script>
 
 <template>
-  <Transition name="cookie" appear>
+  <Transition name="cookie">
     <div
-      v-if="accepted === null"
+      v-if="ready && accepted === null"
       class="fixed inset-x-0 bottom-0 flex flex-col justify-between gap-x-8 gap-y-4 bg-zinc-950/90 p-4 ring-1 ring-gray-400/20 md:flex-row md:items-center lg:px-8 z-[200] backdrop-blur-2xl"
     >
       <p class="max-w-4xl text-sm/6 text-gray-400">

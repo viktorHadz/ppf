@@ -63,7 +63,7 @@ const isParentActive = (item) => {
 }
 let mq
 onMounted(() => {
-  mq = window.matchMedia('(min-width: 768px)') // tailwind md
+  mq = window.matchMedia('(min-width: 768px)') // tw md
   const handler = () => {
     openStates.value = {} // close dropdown/accordions
     emit('update:navOpen', false) // force unlock header
