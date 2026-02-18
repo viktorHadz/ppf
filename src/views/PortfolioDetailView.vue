@@ -120,6 +120,39 @@ function onKey(e) {
   else if (e.key === 'Escape') closeViewer()
 }
 
+const projectIndex = computed(() => projectsList.findIndex((p) => p.id === projectId.value))
+
+const hasPrevProject = computed(() => projectIndex.value > 0)
+const hasNextProject = computed(
+  () => projectIndex.value >= 0 && projectIndex.value < projectsList.length - 1,
+)
+
+const prevProjectMeta = computed(() =>
+  hasPrevProject.value ? projectsList[projectIndex.value - 1] : null,
+)
+const nextProjectMeta = computed(() =>
+  hasNextProject.value ? projectsList[projectIndex.value + 1] : null,
+)
+
+function goToProject(p, startIndex = 0) {
+  if (!p?.id) return
+  router.push({
+    name: 'Проект',
+    params: { id: p.id },
+    query: { i: String(startIndex) },
+  })
+}
+
+function prevProject() {
+  if (!hasPrevProject.value) return
+  goToProject(prevProjectMeta.value, 0)
+}
+
+function nextProject() {
+  if (!hasNextProject.value) return
+  goToProject(nextProjectMeta.value, 0)
+}
+
 onMounted(() => {
   if (import.meta.env.SSR) return
   window.addEventListener('keydown', onKey)
@@ -141,7 +174,7 @@ onUnmounted(() => {
 
 <template>
   <main class="bg-zinc-950 relative isolate min-h-[100dvh]">
-    <div class="relative isolate">
+    <div class="relative isolate -z-10">
       <DecorDark />
     </div>
 
@@ -268,7 +301,28 @@ onUnmounted(() => {
             </button>
           </div>
         </section>
+        <!-- Project Navigation -->
+        <section class="flex items-center justify-between gap-3">
+          <button
+            type="button"
+            @click="prevProject()"
+            :disabled="!hasPrevProject"
+            class="inline-flex items-center gap-2 rounded-lg bg-white/5 p-3 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <ChevronLeftIcon class="size-3" />
+            <span class="truncate">{{ prevProjectMeta?.title || 'Предишен' }}</span>
+          </button>
 
+          <button
+            type="button"
+            @click="nextProject()"
+            :disabled="!hasNextProject"
+            class="inline-flex items-center gap-2 rounded-lg bg-white/5 p-3 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/10 transition disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            <span class="truncate">{{ nextProjectMeta?.title || 'Следващ' }}</span>
+            <ChevronRightIcon class="size-3" />
+          </button>
+        </section>
         <!-- Project Accents -->
         <section class="rounded-2xl bg-white/5 ring-1 ring-white/10 p-4 sm:p-5">
           <div class="flex flex-wrap gap-2">

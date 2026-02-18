@@ -60,7 +60,7 @@ const socials = [
       <div class="mx-auto max-w-2xl text-center">
         <hgroup>
           <h2 class="text-base/7 font-semibold text-red-500">Свържи се с нас</h2>
-          <p class="mt-6 text-4xl font-semibold tracking-tight text-balance text-white sm:text-5xl">
+          <p class="mt-6 text-2xl font-semibold tracking-tight text-balance text-white sm:text-4xl">
             Професионално затъмняване, съобразено с вашия автомобил
           </p>
         </hgroup>
