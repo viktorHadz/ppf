@@ -1,128 +1,22 @@
 <script setup>
-import { computed, ref, watch } from 'vue'
-import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { XMarkIcon, ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline'
-import { RouterLink } from 'vue-router'
-
-import DecorDiagSheen from '@/components/global/DecorDiagSheen.vue'
-import bmwX5 from '@/assets/portfolio/bmwX5'
-import bmwX7 from '@/assets/portfolio/bmwX7'
-import mercSClass from '@/assets/portfolio/mercSClass'
-import mercEqs from '@/assets/portfolio/mercEqs'
-import pTaykan from '@/assets/portfolio/pTaykan'
-import pCayenne from '@/assets/portfolio/pCayenne'
-import rollsRoyce from '@/assets/portfolio/rRoyceRS'
+import { computed, ref } from 'vue'
+import { useRouter, RouterLink } from 'vue-router'
 import { useAnalytics } from '@/composables/useAnalytics'
-import pPanamera from '@/assets/portfolio/pPanamera'
-import mercGClass from '@/assets/portfolio/mercGClass'
+import DecorDiagSheen from '@/components/global/DecorDiagSheen.vue'
+import { projectsList, categories } from '@/pageData/portfolio/portfolioProjectList'
 
-const categories = [
-  { key: 'all', label: 'Всички' },
-  { key: 'ppf', label: 'PPF' },
-  { key: 'tinting', label: 'Затъмняване' },
-  { key: 'detailing', label: 'Детайлинг' },
-]
+const router = useRouter()
+const analytics = useAnalytics()
 
-const projects = [
-  {
-    id: 'rr',
-    title: 'Ролс Ройс РС',
-    service: 'Цялостно Фолиране',
-    category: 'ppf',
-    cover: rollsRoyce.cover,
-    highlights: ['Максимална защита', 'Самовъзстановащо Фолио'],
-    images: Object.values(rollsRoyce),
-  },
-  {
-    id: 'eqs',
-    title: 'Мерцедес EQS',
-    service: 'Фолиране • Затъмняване',
-    category: 'tinting',
-    cover: mercEqs.cover,
-    highlights: ['Фолиране - частично', 'Затъмняване - 70%'],
-    images: Object.values(mercEqs),
-  },
-  {
-    id: 'sclass',
-    title: 'Мерцедес S Class',
-    service: 'Фолиране',
-    category: 'ppf',
-    cover: mercSClass.cover,
-    highlights: ['Фолиране - Chrome Delete'],
-    images: Object.values(mercSClass),
-  },
-  {
-    id: 'cayenne',
-    title: 'Порше Кайен',
-    service: 'Фолиране',
-    category: 'ppf',
-    cover: pCayenne.cover,
-    highlights: ['Подмяна на фолио - предница'],
-    images: Object.values(pCayenne),
-  },
-  {
-    id: 'taycan',
-    title: 'Порше Тайкан',
-    service: 'Фолиране',
-    category: 'ppf',
-    cover: pTaykan.cover,
-    highlights: ['Фолиране - предница'],
-    images: Object.values(pTaykan),
-  },
-  {
-    id: 'x7',
-    title: 'БМВ Х7',
-    service: 'Фолиране',
-    category: 'ppf',
-    cover: bmwX7.cover,
-    highlights: ['Фолиране - подмяна', 'Chrome Matte'],
-    images: Object.values(bmwX7),
-  },
-  {
-    id: 'x5',
-    title: 'БМВ Х5',
-    service: 'Фолиране',
-    category: 'ppf',
-    cover: bmwX5.cover,
-    highlights: ['Фолиране - частично', 'предница'],
-    images: Object.values(bmwX5),
-  },
-  {
-    id: 'pPan',
-    title: 'Порше Панамера',
-    service: 'Фолиране',
-    category: 'ppf',
-    cover: pPanamera.cover,
-    highlights: ['Фолиране - частично', 'предница'],
-    images: Object.values(pPanamera),
-  },
-  {
-    id: 'GClass',
-    title: 'Мерцедес Г Класа',
-    service: 'Фолиране',
-    category: 'ppf',
-    cover: mercGClass.cover,
-    highlights: ['Фолиране - Мат', 'Матово фолио'],
-    images: Object.values(mercGClass),
-  },
-]
-
-// featured picks
 const featuredIds = ['rr', 'eqs', 'taycan']
-
 const activeCategory = ref('all')
 const query = ref('')
 
-// Lightbox state
-const open = ref(false)
-const activeProjectId = ref(null)
-const activeImageIndex = ref(0)
-
-const featured = computed(() => projects.filter((p) => featuredIds.includes(p.id)))
+const featured = computed(() => projectsList.filter((p) => featuredIds.includes(p.id)))
 
 const filtered = computed(() => {
   const q = query.value.trim().toLowerCase()
-  return projects.filter((p) => {
+  return projectsList.filter((p) => {
     const matchCat = activeCategory.value === 'all' || p.category === activeCategory.value
     const matchQ =
       !q ||
@@ -133,58 +27,16 @@ const filtered = computed(() => {
   })
 })
 
-const activeProject = computed(() => {
-  if (!activeProjectId.value) return null
-  return projects.find((p) => p.id === activeProjectId.value) || null
-})
-
 function openProject(p, startIndex = 0) {
-  activeProjectId.value = p.id
-  activeImageIndex.value = startIndex
-  open.value = true
-  analytics?.openItem(p.title, p.service)
+  router.push({
+    name: 'Проект',
+    params: { id: p.id },
+    query: { i: String(startIndex) },
+  })
 }
-
-function onClose(title, service) {
-  analytics?.closeItem(title, service)
-}
-
-function closeProject() {
-  open.value = false
-}
-
-function nextImage() {
-  const p = activeProject.value
-  if (!p) return
-  activeImageIndex.value = (activeImageIndex.value + 1) % p.images.length
-}
-
-function prevImage() {
-  const p = activeProject.value
-  if (!p) return
-  activeImageIndex.value = (activeImageIndex.value - 1 + p.images.length) % p.images.length
-}
-
-watch(open, (v) => {
-  if (!v) {
-    activeProjectId.value = null
-    activeImageIndex.value = 0
-  }
-})
-
-const analytics = useAnalytics()
 
 function onPortfolioInquiryClick() {
   analytics?.cta('portfolio_bottom_inquiry', 'portfolio_page', 'Запитване')
-}
-
-function onModalConsultationClick() {
-  const p = activeProject.value
-  analytics?.cta(
-    'portfolio_modal_consultation',
-    'portfolio_modal',
-    p?.id ? `${p.id} • ${p.title}` : 'Консултация',
-  )
 }
 </script>
 
@@ -228,6 +80,16 @@ function onModalConsultationClick() {
             <p class="mt-4 text-sm/7 text-gray-400">
               Филтрирайте по услуга и разгледайте детайлите по всеки проект.
             </p>
+          </div>
+
+          <div class="max-w-sm w-full">
+            <input
+              id="projects-search"
+              v-model="query"
+              type="search"
+              placeholder="Търсене…"
+              class="w-full rounded-2xl bg-white/5 px-4 py-3 text-sm text-white ring-1 ring-white/10 placeholder:text-gray-500 focus:outline-none focus:ring-red-500/40"
+            />
           </div>
         </div>
 
@@ -312,7 +174,7 @@ function onModalConsultationClick() {
           </div>
         </div>
 
-        <!-- Project Cards Outside -->
+        <!-- Project Cards -->
         <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           <button
             v-for="p in filtered"
@@ -374,146 +236,5 @@ function onModalConsultationClick() {
         </div>
       </div>
     </section>
-
-    <!-- Project Viewer -->
-    <TransitionRoot as="template" :show="open">
-      <Dialog as="div" class="relative z-[999]" @close="closeProject">
-        <TransitionChild
-          as="template"
-          enter="ease-out duration-200"
-          enter-from="opacity-0"
-          enter-to="opacity-100"
-          leave="ease-in duration-150"
-          leave-from="opacity-100"
-          leave-to="opacity-0"
-        >
-          <div class="fixed inset-0 bg-black/80 backdrop-blur-sm" />
-        </TransitionChild>
-
-        <!-- IMPORTANT: use grid + dvh -->
-        <div class="fixed inset-0 grid place-items-center p-4 sm:p-8">
-          <TransitionChild
-            enter="ease-out duration-200"
-            enter-from="opacity-0 translate-y-2 scale-[0.98]"
-            enter-to="opacity-100 translate-y-0 scale-100"
-            leave="ease-in duration-150"
-            leave-from="opacity-100 translate-y-0 scale-100"
-            leave-to="opacity-0 translate-y-2 scale-[0.98]"
-          >
-            <DialogPanel
-              v-if="activeProject"
-              class="w-full max-w-5xl overflow-hidden rounded-2xl bg-zinc-950 ring-1 ring-white/10 shadow-2xl max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-4rem)] flex flex-col min-h-0"
-            >
-              <div
-                class="flex items-center justify-between px-6 py-4 border-b border-white/10 shrink-0"
-              >
-                <div>
-                  <DialogTitle class="text-base font-semibold text-white">
-                    {{ activeProject?.title }}
-                  </DialogTitle>
-                  <p class="mt-1 text-sm text-gray-400">{{ activeProject?.service }}</p>
-                </div>
-
-                <button
-                  type="button"
-                  @click="
-                    () => {
-                      closeProject()
-                      onClose(activeProject?.title, activeProject?.service)
-                    }
-                  "
-                  class="inline-flex items-center justify-center rounded-xl bg-white/5 p-2 ring-1 ring-white/10 hover:bg-white/10 transition"
-                >
-                  <XMarkIcon class="size-5 text-white" />
-                </button>
-              </div>
-
-              <div class="grid grid-cols-1 lg:grid-cols-12 min-h-0 flex-1">
-                <!-- Main image -->
-                <div class="lg:col-span-8 relative min-h-0 bg-black/20">
-                  <div class="h-full min-h-0">
-                    <img
-                      v-show="activeProject"
-                      :src="activeProject.images[activeImageIndex]"
-                      :alt="activeProject.title"
-                      class="w-full h-full object-cover"
-                    />
-                    <div
-                      class="absolute inset-0 bg-linear-to-t from-zinc-950/60 via-transparent to-transparent"
-                    />
-                  </div>
-
-                  <button
-                    type="button"
-                    @click="prevImage"
-                    class="absolute left-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-xl bg-black/40 p-2 ring-1 ring-white/10 hover:bg-black/55 transition"
-                  >
-                    <ChevronLeftIcon class="size-5 text-white" />
-                  </button>
-
-                  <button
-                    type="button"
-                    @click="nextImage"
-                    class="absolute right-4 top-1/2 -translate-y-1/2 inline-flex items-center justify-center rounded-xl bg-black/40 p-2 ring-1 ring-white/10 hover:bg-black/55 transition"
-                  >
-                    <ChevronRightIcon class="size-5 text-white" />
-                  </button>
-                </div>
-
-                <!-- Details -->
-                <div class="lg:col-span-4 p-6 overflow-y-auto min-h-0">
-                  <div class="flex flex-wrap gap-2">
-                    <span
-                      class="inline-flex items-center rounded-full bg-red-500/15 px-3 py-1 text-xs font-semibold text-red-200 ring-1 ring-red-500/25"
-                    >
-                      {{ categories.find((x) => x.key === activeProject?.category)?.label }}
-                    </span>
-                  </div>
-                  <h3 class="mt-6 text-sm font-semibold text-white">Ключови акценти</h3>
-
-                  <ul class="mt-4 space-y-3 text-sm text-gray-200/90">
-                    <li v-for="h in activeProject?.highlights || []" :key="h" class="flex gap-3">
-                      <span class="mt-2 h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></span>
-                      <span>{{ h }}</span>
-                    </li>
-                  </ul>
-
-                  <h3 class="mt-8 text-sm font-semibold text-white">Снимки</h3>
-                  <div class="mt-4 grid grid-cols-3 gap-3">
-                    <button
-                      v-for="(img, idx) in activeProject?.images || []"
-                      :key="img + idx"
-                      type="button"
-                      @click="activeImageIndex = idx"
-                      class="relative overflow-hidden rounded-xl ring-1 transition"
-                      :class="
-                        idx === activeImageIndex
-                          ? 'ring-red-500/40'
-                          : 'ring-white/10 hover:ring-white/20'
-                      "
-                    >
-                      <img :src="img" alt="" class="h-20 w-full object-cover" />
-                      <div
-                        v-if="idx === activeImageIndex"
-                        class="absolute inset-0 bg-red-500/10"
-                        aria-hidden="true"
-                      />
-                    </button>
-                  </div>
-
-                  <RouterLink
-                    to="/contact"
-                    @click="onModalConsultationClick"
-                    class="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-red-500 px-6 py-3 text-sm font-semibold text-white hover:bg-red-400 transition"
-                  >
-                    Консултация
-                  </RouterLink>
-                </div>
-              </div>
-            </DialogPanel>
-          </TransitionChild>
-        </div>
-      </Dialog>
-    </TransitionRoot>
   </main>
 </template>

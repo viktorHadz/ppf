@@ -147,7 +147,7 @@ onMounted(() => {
                 >
                   <div
                     v-show="openStates[item.name]"
-                    class="absolute left-0 top-full w-56 bg-zinc-950/80 border border-zinc-800/50 shadow-2xl backdrop-blur-md"
+                    class="absolute left-0 top-full w-56 bg-zinc-950/90 border border-zinc-800/60 shadow-2xl backdrop-blur-md"
                   >
                     <RouterLink
                       v-for="child in item.children"

@@ -60,3 +60,47 @@
   aspect-ratio: cos(30deg);
   clip-path: polygon(-50% 50%, 50% 100%, 150% 50%, 50% 0);
 }
+
+/* width = thickness */
+.thumb-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+/* track (background bar) */
+.thumb-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* draggable part */
+.thumb-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+}
+
+/* hover feedback */
+.thumb-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
+.thumb-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.25) transparent;
+}
+.thumb-scroll {
+  overscroll-behavior-x: contain;
+}
+.scroll-fade {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 24px,
+    black calc(100% - 24px),
+    transparent
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 24px,
+    black calc(100% - 24px),
+    transparent
+  );
+}
